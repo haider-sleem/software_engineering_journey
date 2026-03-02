@@ -50,3 +50,4 @@ Scientific Notation (الصيغة العلمية): طريقة لتمثيل ال�
 
 عملي: for item in my_list[:3]: print(item) (يطبع أول 3 فقط).
 
+# Notes updated on: 2026-03-03
