@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "src/learn_to_code"
+		},
+		{
+			"path": "src/python_crash_course"
+		}
+	],
+	"settings": {}
+}

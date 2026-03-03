@@ -1,8 +1,4 @@
-1- (src) يتم حفظ أكواد و تمارين كل فصل في ملف في ملف بإسم الفصل 
-2- (docs) يتم شرح نقاط مهمة بشكل نظري لكل فصل في ملف في ملف بإسم الفصل
-3- (test)  يتم إختبار تمرين أو أكثر لكل فصل داخل ملف في ملف بإسم الفصل 
-  (How to run)
-لتشغيل اختبارات الفصل الثاني، استخدم الأمر التالي:
-`python "tests/Python crash course/test_chapter_02.py"`
-
-4 - (bugs) يتم تسجيل الأخطاء التي تحدث داخل ملف للرجوع إليه إذا تكررت لاحقا
+# Python Phase One: Learning Journey
+This project includes my progress in:
+1. Python Crash Course.
+2. Learn to Code by Solving Problems.
