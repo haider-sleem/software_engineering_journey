@@ -33,3 +33,6 @@
 ######################################
 
 # Chapter Exercises page 57
+
+تم حل مسائل الفصل الأول 
+ "Complete Chapter 1 problem solving exercises"
