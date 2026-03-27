@@ -159,16 +159,25 @@
 #     print("We need to find some users!")
 
 
-# # 5-10
-# current_users = ["yasser","adel","hytham","alia","tamara"]
-# new_users = ["khaled","marawan","adel","alia","tamara"]
-# current_users_lower = [user.lower() for user in current_users]
+# 5-10 تم تحويل التمرين لدالة لسهولة الإختبار
 
-# for user in new_users:
-#     if user.lower() in current_users_lower:
-#         print("the person will need to enter a new username.")
-#     else:
-#         print("the username is available.")
+
+def is_username_available(new_user, current_users):
+    current_users_lower = [user.lower() for user in current_users]
+    if new_user.lower() in current_users_lower:
+        return False  # يعني الاسم محجوز
+    else:
+        return True  # يعني الاسم متاح
+
+
+current_users = ["yasser", "adel", "hytham", "alia", "tamara"]
+new_users = ["khaled", "marawan", "adel", "alia", "tamara"]
+
+for user in new_users:
+    if is_username_available(user, current_users):
+        print(f"The username '{user}' is available.")
+    else:
+        print(f"The person '{user}' will need to enter a new username.")
 
 # # 5-11
 # ordinal_Numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -183,5 +192,3 @@
 #         print(f"{num}th")
 
 # -----------------------------------------
-
-
