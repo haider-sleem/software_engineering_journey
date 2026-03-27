@@ -60,3 +60,128 @@
 
 # print("\nIs 'haider' in banned_users? I predict False.")
 # print('haider' in banned_users)
+
+# ------------------------------------------
+# TRY IT YOURSELF page 122
+
+# # 5-3
+# alien_color = 'green'
+
+# if alien_color == 'green':
+#     print("You just earned 5 points!") # نسخة ناجحة
+
+
+# alien_color = 'yellow'
+
+# if alien_color == 'green':
+#     print("You just earned 5 points!") # نسخة فاشلة
+
+
+# # 5-4
+# alien_color = 'green'
+
+# if alien_color == "green":
+#     print("the player just earned 5 points for shooting the alien.")
+# else :
+#     print("the player just earned 10 points.")
+
+
+# # 5-5
+# alien_color = "green" # "yellow" or "red"
+
+# if alien_color == "green":
+#     print("the player earned 5 points.")
+# elif alien_color == "yellow":
+#     print("the player earned 10 points.")
+# else:
+#     print("the player earned 15 points.")
+
+
+# # 5-6
+# age = 41
+
+# if age < 2:
+#     person = "a baby"
+# elif age < 4:
+#     person = "a toddler"
+# elif age < 13:
+#     person = "a kid"
+# elif age < 20:
+#     person = "a teenager"
+# elif age < 65:
+#     person = "an adult"
+# else:
+#     person = "an elder"
+
+# print(f"The person is {person}.")
+
+# 5-7
+# favorite_fruits = ["banana", "apple", "mango"]
+
+# if "banana" in favorite_fruits:
+#     print("You really like bananas!")
+
+# if "apple" in favorite_fruits:
+#     print("You really like apples!")
+
+# if "mango" in favorite_fruits:
+#     print("You really like mangoes!")
+
+# if "orange" in favorite_fruits:
+#     print("You really like oranges!")
+
+# if "strawberry" in favorite_fruits:
+#     print("You really like strawberries!")
+
+
+# --------------------------------------------
+
+# TRY IT YOURSELF page 126
+
+# 5-8
+# user_names = ["admin","ali","ahmed","omar","khaled"]
+# for user_name in user_names:
+#     if user_name.lower() == "admin":
+#         print(f"Hello {user_name.capitalize()}, would you like to see a status report?")
+#     else:
+#         print(f"Hello {user_name.capitalize()}, thank you for logging in again.")
+
+
+# # 5-9
+# user_names = []
+# if user_names:
+#     for user_name in user_names:
+#         if user_name.lower() == "admin":
+#             print(f"Hello {user_name.capitalize()}, would you like to see a status report?")
+#         else:
+#             print(f"Hello {user_name.capitalize()}, thank you for logging in again.")
+# else:
+#     print("We need to find some users!")
+
+
+# # 5-10
+# current_users = ["yasser","adel","hytham","alia","tamara"]
+# new_users = ["khaled","marawan","adel","alia","tamara"]
+# current_users_lower = [user.lower() for user in current_users]
+
+# for user in new_users:
+#     if user.lower() in current_users_lower:
+#         print("the person will need to enter a new username.")
+#     else:
+#         print("the username is available.")
+
+# # 5-11
+# ordinal_Numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+# for num in ordinal_Numbers:
+#     if num == 1:
+#         print(f"{num}st")
+#     elif num == 2:
+#         print(f"{num}nd")
+#     elif num == 3:
+#         print(f"{num}rd")
+#     else:
+#         print(f"{num}th")
+
+# -----------------------------------------
+
+
