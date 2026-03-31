@@ -1,15 +1,20 @@
 # Problem #3: Winning Team (DMOJ problem ccc19j1.) page 58
 
-# طريقة حل المسألة في الكتاب أنظر ملف راجع ملف إم دي للطريقة الإحترافية و تحليلها
+# طريقة حل المسألة في الكتاب راجع ملف إم دي للطريقة الإحترافية و تحليلها
 
+# # Entering results
 # apple_three = int(input())
 # apple_two = int(input())
 # apple_one = int(input())
 # banana_three = int(input())
 # banana_two = int(input())
 # banana_one = int(input())
+
+# # Compilation of results
 # apple_total = apple_three * 3 + apple_two * 2 + apple_one
 # banana_total = banana_three * 3 + banana_two * 2 + banana_one
+
+# # Determine the winner
 # if apple_total < banana_total:
 #     print("B")
 # elif apple_total > banana_total:
@@ -20,11 +25,12 @@
 
 # ------------ حل تمرين مشابه بطريقة الدوال -------------
 
+# # إنشاء دالة منفصلة للمعالجة أولا
 # def quality_delivery_of_orders(fast_delivery, standard_delivery, slow_delivery):
 
 #     return (fast_delivery * 10) + (standard_delivery * 5) + (slow_delivery * 1 )
 
-
+# # ثم إنشاء دالة إدخال للبيانات التي سيتم معالجتها بالدالة السابقة
 # def numbers_of_orders(the_employee_number):
 
 #     print()
@@ -52,6 +58,33 @@
 # else:
 #     print("\nThe two employees are equal")
 
+# ----------------------------------------------------
+
+# Problem #4: Telemarketer or not ( DMOJ problem ccc18j1.) page 72
+
+num1 = int(input())
+num2 = int(input())
+num3 = int(input())
+num4 = int(input())
+
+if (num1 == 8 or num1 == 9) and (num4 == 8 or num4 == 9) and (num2 == num3):
+    print("ignore")
+else:
+    print("answer")
+
+"""
+# صياغة إحترافية أكثر لنفس الإسلوب
+
+num1 = int(input()) 
+num2 = int(input()) 
+num3 = int(input()) 
+num4 = int(input())
+
+if num1 in (8, 9) and num4 in (8, 9) and num2 == num3:
+    print('ignore')
+else:
+    print('answer')
+"""
 
 
-
+# -------------  Chapter 02 Exercises page 81 -------

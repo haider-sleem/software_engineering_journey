@@ -143,7 +143,7 @@ else:
 
 **مسألة:** حساب درجات اختبار الطلاب في 3 مواد ومعرفة الأعلى.
 
-```python
+python
 def calculate_total(math, physics, chemistry):
     return math + physics + chemistry
 
@@ -162,7 +162,7 @@ elif bob > alice:
     print("Bob")
 else:
     print("Tie")
-```
+
 
 ✅ نفس الأسلوب: دوال منفصلة، إعادة استخدام، نظافة الكود، قابلية التوسع
 
@@ -170,4 +170,28 @@ else:
 
 
 '''
+
+# ---------------------------------------
+
+# Problem #4: Telemarketer or not ( DMOJ problem ccc18j1.) page 72
+
+# Chapter 02: Making Decisions
+
+## 🎯 Key Concepts
+- **Membership Testing:** Using `in` with `Tuples` for cleaner conditions.
+- **Boolean Logic:** Mastering `and`, `or`, and `not`.
+
+## 🛠 Pro Tools
+### Input Redirection
+To run code with automated inputs:
+`python file.py < input.txt` (CMD/Bash)
+`Get-Content input.txt | python file.py` (PowerShell)
+((((Problem: RedirectionNotSupported error in PowerShell when using <.
+Cause: PowerShell handles input redirection differently than standard shells.
+Solution: Switch the terminal to Command Prompt (CMD) or use the piping command: Get-Content file.txt | python code.py.))))
+
+## 💡 Senior Tip
+Always keep your logic **Positive & Direct**. Avoid double negatives to reduce cognitive load.
+
+
 
