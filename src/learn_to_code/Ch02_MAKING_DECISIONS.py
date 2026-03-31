@@ -60,24 +60,24 @@
 
 # ----------------------------------------------------
 
-# Problem #4: Telemarketer or not ( DMOJ problem ccc18j1.) page 72
+# # Problem #4: Telemarketer or not ( DMOJ problem ccc18j1.) page 72
 
-num1 = int(input())
-num2 = int(input())
-num3 = int(input())
-num4 = int(input())
+# num1 = int(input())
+# num2 = int(input())
+# num3 = int(input())
+# num4 = int(input())
 
-if (num1 == 8 or num1 == 9) and (num4 == 8 or num4 == 9) and (num2 == num3):
-    print("ignore")
-else:
-    print("answer")
+# if (num1 == 8 or num1 == 9) and (num4 == 8 or num4 == 9) and (num2 == num3):
+#     print("ignore")
+# else:
+#     print("answer")
 
 """
 # صياغة إحترافية أكثر لنفس الإسلوب
 
-num1 = int(input()) 
-num2 = int(input()) 
-num3 = int(input()) 
+num1 = int(input())
+num2 = int(input())
+num3 = int(input())
 num4 = int(input())
 
 if num1 in (8, 9) and num4 in (8, 9) and num2 == num3:
@@ -85,6 +85,76 @@ if num1 in (8, 9) and num4 in (8, 9) and num2 == num3:
 else:
     print('answer')
 """
+
+"""
+حل آخر إحترافي أكثر 
+
+# Read all 4 inputs at once using a list comprehension
+# This is faster and cleaner than 4 separate lines
+
+tele = [int(input()) for _ in range(4)] # تستخدم ( _ )كتعبير عن متغير لا حاجة لتسميته عندما لن يستخدم
+
+# Professional logic check
+is_telemarketer = (
+    tele[0] in (8, 9) and 
+    tele[3] in (8, 9) and 
+    tele[1] == tele[2]
+)
+
+# Output based on the result
+print("ignore" if is_telemarketer else "answer")
+
+"""
+
+"""
+The best practice solution on the  DMOJ site 
+
+telemarketer = True
+for i in range(4):
+    number = int(input())
+    if telemarketer:
+        if i == 0 or i == 3:
+            if number == 8 or number == 9:
+                telemarketer = True
+            else:
+                telemarketer = False
+        elif i == 1:
+            secondDigit = number
+        elif i == 2:
+            if number == secondDigit:
+                telemarketer = True
+            else:
+                telemarketer = False
+if telemarketer:
+    print('ignore')
+else:
+    print('answer')
+
+
+المميزات (الاحترافية التقنية) للكود ثم عيوبه :
+
+كفاءة الذاكرة (Memory Efficiency): تخزين رقم واحد فقط كل مرة.
+
+الخروج المبكر (Early Exit): إيقاف الفحص فور فشل الشرط.
+
+أداء عالٍ (High Performance): مثالي لمعالجة ملايين البيانات الضخمة.
+
+توفير العمليات (Low Operations): تقليل مقارنات المعالج غير الضرورية.
+
+العيوب (منظور الكود النظيف):
+
+تعقيد القراءة (High Complexity): كثرة الشروط المتداخلة تُشتت المبرمج.
+
+صعوبة الصيانة (Hard Maintainability): تعديل أي شرط يتطلب حذراً شديداً.
+
+عدم الاختصار (Too Verbose): كتابة أسطر كثيرة لمهمة بسيطة.
+
+عرضة للأخطاء (Error Prone): تداخل الـ if يسهل نسيان حالة.
+
+
+
+"""
+
 
 
 # -------------  Chapter 02 Exercises page 81 -------
