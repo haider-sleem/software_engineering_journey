@@ -156,5 +156,172 @@ else:
 """
 
 
-
 # -------------  Chapter 02 Exercises page 81 -------
+
+####### 1. DMOJ problem ccc06j1, Canadian Calorie Counting ###########
+
+
+# ------------------ الحل ب الجملة الشرطية فقط -----------------
+
+# burger_choices = int(input())
+# if burger_choices == 1:
+#     burger_calories = 461
+# elif burger_choices == 2:
+#     burger_calories = 431
+# elif burger_choices == 3:
+#     burger_calories = 420
+# else:
+#     burger_calories = 0
+
+
+# side_order_choices = int(input())
+# if side_order_choices == 1:
+#     side_order_calories = 100
+# elif side_order_choices == 2:
+#     side_order_calories = 57
+# elif side_order_choices == 3:
+#     side_order_calories = 70
+# else:
+#     side_order_calories = 0
+
+# drink_choices = int(input())
+# if drink_choices == 1:
+#     drink_calories = 130
+# elif drink_choices == 2:
+#     drink_calories = 160
+# elif drink_choices == 3:
+#     drink_calories = 118
+# else:
+#     drink_calories = 0
+
+
+# dessert_choices = int(input())
+# if dessert_choices == 1:
+#     dessert_calories = 167
+# elif dessert_choices == 2:
+#     dessert_calories = 266
+# elif dessert_choices == 3:
+#     dessert_calories = 75
+# else:
+#     dessert_calories = 0
+
+# total_calories = ( burger_calories + drink_calories
+# + side_order_calories + dessert_calories )
+
+# print(f"Your total Calorie count is {total_calories}.")
+
+
+# ------------------------- الحل بالدوال------------------------
+
+# def Calorie_count(burger_calories, drink_calories, side_order_calories, dessert_calories):
+#     return (burger_calories + drink_calories + side_order_calories + dessert_calories)
+
+
+# def calculate_total_calories():
+
+#     burger_choices = int(input())
+#     drink_choices = int(input())
+#     side_order_choices = int(input())
+#     dessert_choices = int(input())
+
+
+#     if burger_choices == 1:
+#         burger_calories = 461
+#     elif burger_choices == 2:
+#         burger_calories = 431
+#     elif burger_choices == 3:
+#         burger_calories = 420
+#     else:
+#         burger_calories = 0
+
+
+#     if side_order_choices == 1:
+#         side_order_calories = 100
+#     elif side_order_choices == 2:
+#         side_order_calories = 57
+#     elif side_order_choices == 3:
+#         side_order_calories = 70
+#     else:
+#         side_order_calories = 0
+
+
+#     if drink_choices == 1:
+#         drink_calories = 130
+#     elif drink_choices == 2:
+#         drink_calories = 160
+#     elif drink_choices == 3:
+#         drink_calories = 118
+#     else:
+#         drink_calories = 0
+
+
+#     if dessert_choices == 1:
+#         dessert_calories = 167
+#     elif dessert_choices == 2:
+#         dessert_calories = 266
+#     elif dessert_choices == 3:
+#         dessert_calories = 75
+#     else:
+#         dessert_calories = 0
+
+#     total = Calorie_count(burger_calories,  side_order_calories,drink_calories, dessert_calories)
+#     print(f"Your total Calorie count is {total}.")
+
+# calculate_total_calories():
+
+
+# ---------------------- الحل بإستخدام القواميس --------------------------
+
+
+# # 1. تخزين البيانات في قواميس (مفاتيح وقيم)
+# # الميزة هنا أننا نحدد "الاختيار" و "سعراته" بوضوح
+
+# burgers = {1: 461, 2: 431, 3: 420, 4: 0}
+# sides =   {1: 100, 2: 57, 3: 70, 4: 0}
+# drinks =  {1: 130, 2: 160, 3: 118, 4: 0}
+# desserts = {1: 167, 2: 266, 3: 75, 4: 0}
+
+# # 2. استقبال الاختيارات
+# b = int(input())
+# s = int(input())
+# d = int(input())
+# ds = int(input())
+
+# # 3. استخدام دالة .get(key, default)
+# # هذه الدالة تبحث عن الرقم، وإذا لم تجده (مثلاً أدخل 5) تعطي قيمة 0 تلقائياً ولا ينهار البرنامج
+# total = (burgers.get(b, 0) +
+#          sides.get(s, 0) +
+#          drinks.get(d, 0) +
+#          desserts.get(ds, 0))
+
+# print(f"Your total Calorie count is {total}.")
+
+# -------------------------  حل إحترافي بالدوال-تتميز بال"المسؤولية الواحدة" (Single Responsibility Principle). لكل دالة-------------------
+
+
+def get_calories(menu, item_name):
+    try:
+        user_input = input(f"Enter your choice for {item_name} (1-4): ")
+        choice = int(user_input)
+        return menu[choice - 1]
+    except (IndexError, ValueError):
+        return 0
+
+
+def main():
+    burgers  = [461, 431, 420, 0]
+    sides    = [100, 57, 70, 0]
+    drinks   = [130, 160, 118, 0]
+    desserts = [167, 266, 75, 0]
+
+    total = (
+        get_calories(burgers, "burger") +
+        get_calories(sides, "side") +
+        get_calories(drinks, "drink") +
+        get_calories(desserts, "dessert")
+    )
+
+    print(f"\nYour total Calorie count is {total}.")
+
+
+main()
