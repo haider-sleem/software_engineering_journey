@@ -299,29 +299,112 @@ else:
 # -------------------------  حل إحترافي بالدوال-تتميز بال"المسؤولية الواحدة" (Single Responsibility Principle). لكل دالة-------------------
 
 
-def get_calories(menu, item_name):
-    try:
-        user_input = input(f"Enter your choice for {item_name} (1-4): ")
-        choice = int(user_input)
-        return menu[choice - 1]
-    except (IndexError, ValueError):
-        return 0
+# def get_calories(menu, item_name):
+#     try:
+#         user_input = input(f"Enter your choice for {item_name} (1-4): ")
+#         choice = int(user_input)
+#         return menu[choice - 1]
+#     except (IndexError, ValueError):
+#         return 0
 
 
-def main():
-    burgers  = [461, 431, 420, 0]
-    sides    = [100, 57, 70, 0]
-    drinks   = [130, 160, 118, 0]
-    desserts = [167, 266, 75, 0]
+# def main():
+#     burgers  = [461, 431, 420, 0]
+#     sides    = [100, 57, 70, 0]
+#     drinks   = [130, 160, 118, 0]
+#     desserts = [167, 266, 75, 0]
 
-    total = (
-        get_calories(burgers, "burger") +
-        get_calories(sides, "side") +
-        get_calories(drinks, "drink") +
-        get_calories(desserts, "dessert")
-    )
+#     total = (
+#         get_calories(burgers, "burger") +
+#         get_calories(sides, "side") +
+#         get_calories(drinks, "drink") +
+#         get_calories(desserts, "dessert")
+#     )
 
-    print(f"\nYour total Calorie count is {total}.")
+#     print(f"\nYour total Calorie count is {total}.")
 
 
-main()
+# main()
+
+
+# ###############################################################
+
+# # 2. DMOJ problem ccc15j1, Special Day page 81
+
+# month_input = int(input())
+# day_input = int(input())
+
+# if month_input < 2:
+#     print("Before")
+# elif month_input > 2:
+#     print("After")
+# else:
+#     if day_input < 18:
+#         print("Before")
+#     elif day_input > 18:
+#         print("After")
+#     else:
+#         print("Special")
+
+# ---------------  حل تاني للمسألة السابقة  بإفتراض  ------
+# أخطاء نوع البيانات (Data Type Errors) 
+# أخطاء النطاق والقيم (Range & Logic Errors)
+
+
+
+# year = 2015
+# while True: # إدخال الشهر 
+#     val1 = input("Enter Month (1-12): ").strip()
+    
+#     if val1.isdigit():
+#         month_input = int(val1)
+#         if 1 <= month_input <= 12:
+#             break
+#         else:
+#             print("Error: Number must be between 1 and 12")
+#     else:
+#         print("Error: Please enter digits only (0-9)")
+
+# while True: # إدخال اليوم 
+
+#     val2 = input("Enter Day (1-31): ").strip()
+
+#     if val2.isdigit():
+#         day_input = int(val2)
+        
+#         # تحديد max_days حسب الشهر
+#         if month_input in (1, 3, 5, 7, 8, 10, 12):
+#             max_days = 31
+#         elif month_input in (4, 6, 9, 11):
+#             max_days = 30
+#         elif month_input == 2:
+#             if (year % 400 == 0) or (year % 4 == 0 and year % 100 != 0):
+#                 max_days = 29
+#                 print("Info: Leap year detected (29 days in February)")
+#             else:
+#                 max_days = 28
+#         else:
+#             print("Error: Invalid month")  # للأمان بس
+#             continue
+        
+#         # ✅ شيك واحد على اليوم في الآخر
+#         if 1 <= day_input <= max_days:
+#             break
+#         else:
+#             print(f"Error: This month has {max_days} days (1-{max_days})")
+            
+#     else:
+#         print("Error: Please enter digits only (0-9)")
+
+# print(f"\n✅ Valid date: {month_input}/{day_input}/{year}")
+
+# # منطق المسألة الأساسي بعد التأكد من صحة المدخلات
+# date_input = (month_input, day_input)
+# special_date = (2, 18)
+
+# if date_input < special_date:
+#     print("Before")
+# elif date_input > special_date:
+#     print("After")
+# else:
+#     print("Special")
