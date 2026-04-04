@@ -347,15 +347,14 @@ else:
 #         print("Special")
 
 # ---------------  حل تاني للمسألة السابقة  بإفتراض  ------
-# أخطاء نوع البيانات (Data Type Errors) 
+# أخطاء نوع البيانات (Data Type Errors)
 # أخطاء النطاق والقيم (Range & Logic Errors)
 
 
-
 # year = 2015
-# while True: # إدخال الشهر 
+# while True: # إدخال الشهر
 #     val1 = input("Enter Month (1-12): ").strip()
-    
+
 #     if val1.isdigit():
 #         month_input = int(val1)
 #         if 1 <= month_input <= 12:
@@ -365,13 +364,13 @@ else:
 #     else:
 #         print("Error: Please enter digits only (0-9)")
 
-# while True: # إدخال اليوم 
+# while True: # إدخال اليوم
 
 #     val2 = input("Enter Day (1-31): ").strip()
 
 #     if val2.isdigit():
 #         day_input = int(val2)
-        
+
 #         # تحديد max_days حسب الشهر
 #         if month_input in (1, 3, 5, 7, 8, 10, 12):
 #             max_days = 31
@@ -384,15 +383,15 @@ else:
 #             else:
 #                 max_days = 28
 #         else:
-#             print("Error: Invalid month")  # للأمان بس
+#             print("Error: Invalid day")  # للأمان بس
 #             continue
-        
+
 #         # ✅ شيك واحد على اليوم في الآخر
 #         if 1 <= day_input <= max_days:
 #             break
 #         else:
-#             print(f"Error: This month has {max_days} days (1-{max_days})")
-            
+#             print(f"Error: This month has {max_days} days,from (1-{max_days})")
+
 #     else:
 #         print("Error: Please enter digits only (0-9)")
 
@@ -408,3 +407,56 @@ else:
 #     print("After")
 # else:
 #     print("Special")
+
+
+# ############## 3. DMOJ problem ccc15j2, Happy or Sad page 81 ########
+
+# message = input("")
+
+# happy_count = message.count(":-)")
+# sad_count = message.count(":-(")
+
+# if happy_count > sad_count:
+#     print("happy")
+# elif sad_count > happy_count:
+#     print("sad")
+# elif happy_count == 0:
+#     print("none")
+# else:
+#     print("unsure")
+
+
+# ######### 4. DMOJ problem dmopc16c1p0, C.C. and Cheese-kun page 81 ########
+
+# # قراءة المدخلات
+# width = int(input())
+# cheese = int(input())
+
+# # تحديد مستوى الرضا
+# if width == 3 and cheese >= 95:
+#     satisfaction = "absolutely"
+# elif width == 1 and cheese <= 50:
+#     satisfaction = "fairly"
+# else:
+#     satisfaction = "very"
+
+# # طباعة الناتج بنفس التنسيق المطلوب
+# print(f"C.C. is {satisfaction} satisfied with her pizza.")
+
+
+# ######### 5. DMOJ problem ccc07j1, Who is in the Middle page 81 ########
+
+# # قراءة الأوزان الثلاثة
+# weight1 = int(input())
+# weight2 = int(input())
+# weight3 = int(input())
+
+# # إيجاد الوزن الأوسط
+# # طريقة 1: استخدام دالة sorted
+# weights = sorted([weight1, weight2, weight3])
+# print(weights[1])
+
+# أو بطريقة أخرى بدون sorted:
+
+# middle = weight1 + weight2 + weight3 - max(weight1, weight2, weight3) - min(weight1, weight2, weight3)
+# print(middle)
