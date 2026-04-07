@@ -221,32 +221,32 @@ for name, number in favorite_number.items():
 # -----------------------------------------------------------
 
 # 6-11
-# cities = {
-#     "cairo": {
-#         "country": "egypt",
-#         "population": 10_000_000, # استخدمنا الـ underscore لجعل الرقم مقروءاً
-#         "fact": "It is known as the city of a thousand minarets.",
-#     },
-#     "tokyo": {
-#         "country": "japan",
-#         "population": 37_000_000,
-#         "fact": "It is the most populated metropolitan area in the world.",
-#     },
-#     "paris": {
-#         "country": "france",
-#         "population": 2_100_000,
-#         "fact": "It is famous for the Eiffel Tower.",
-#     },
-# }
+cities = {
+    "cairo": {
+        "country": "egypt",
+        "population": 10_000_000, # استخدمنا الـ underscore لجعل الرقم مقروءاً
+        "fact": "It is known as the city of a thousand minarets.",
+    },
+    "tokyo": {
+        "country": "japan",
+        "population": 37_000_000,
+        "fact": "It is the most populated metropolitan area in the world.",
+    },
+    "paris": {
+        "country": "france",
+        "population": 2_100_000,
+        "fact": "It is famous for the Eiffel Tower.",
+    },
+}
 
-# for city, info in cities.items():
-#     print(f"\nCity: {city.title()}")
+for city, info in cities.items():
+    print(f"\nCity: {city.title()}")
     
-#     country = info['country'].title()
-#     pop = info['population']
-#     fact = info['fact']
+    country = info['country'].title()
+    pop = info['population']
+    fact = info['fact']
     
-#     print(f"\tCountry: {country}")
-#     print(f"\tApproximate population: {pop:,}") # الـ :, تضع فواصل آلاف تلقائياً عند الطباعة
-#     print(f"\tFact: {fact}")
+    print(f"\tCountry: {country}")
+    print(f"\tApproximate population: {pop:,}") # الـ :, تضع فواصل آلاف تلقائياً عند الطباعة
+    print(f"\tFact: {fact}")
 
