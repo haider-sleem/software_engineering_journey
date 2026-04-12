@@ -20,11 +20,16 @@ A CLI-based prototype for managing warehouse inventory and sales operations.
    - Mac/Linux: `source .venv/bin/activate`
 
 ## Features (Current Version)
-- Add new products (name, price, stock)
-- View all products with current stock levels
-- Sell products with automatic stock deduction
-- Stock availability validation before sale
-- Error handling for insufficient stock
+
+### Product Management
+- ✅ Add new products with name, price, and quantity
+- ✅ Update existing product prices with confirmation
+- ✅ Add stock quantity to existing products
+- ✅ Product search by name (partial match)
+- ✅ Product selection via numbered list
+- ✅ Input validation for all user inputs
+- ✅ Product active/inactive status based on price and quantity
+- ✅ Continue/exit flow after each operation
 
 ## Usage
 Run the main script:
