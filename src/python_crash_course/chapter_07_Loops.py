@@ -70,4 +70,78 @@
 #         print("Your ticket cost is $15.")
 
 
-# # 7-6  page 161
+# # 7-6  from 7-4
+prompt = "enter a pizza toppings and"
+prompt += "\nenter 'quit' when you finish, please: "
+
+# # 7-6-1
+# while True:
+#     topping = input(prompt).lower()
+#     if topping == 'quit':
+#         break
+#     else:
+#         print(f"We'll add {topping} to your pizza.")
+
+# # # 7-6-2
+# active = True
+# while active:
+#     topping = input(prompt)
+#     if topping.lower() == 'quit':
+#         active = False
+#     else:
+#         print(f"We'll add {topping} to your pizza.")
+
+# # 7-6-3
+# topping = ""
+# while not topping.lower().startswith("q"):
+#     topping = input(prompt)
+#     if not topping.lower().startswith("q"):
+#         print(f"We'll add {topping} to your pizza.")
+
+
+# -----------------------------------------------------------
+
+# # TRY IT YOURSELF page 165
+
+# # 7-8 & 7-9
+# sandwich_orders = ["tuna", "pastrami", "grilled cheese", "pastrami", "turkey", "roast beef", "pastrami"]
+# finished_sandwiches = []
+
+# while "pastrami" in sandwich_orders:
+#     sandwich_orders.remove("pastrami")
+
+
+# print("deli has run out of pastrami")
+
+
+# while sandwich_orders:
+#     being_prepared = sandwich_orders.pop()
+#     print(f"I made your {being_prepared} sandwich.")
+#     finished_sandwiches.append(being_prepared)
+
+
+# print("\n**** Finished Sandwiches ****".center(100))
+# for sandwich in finished_sandwiches :
+#     print(f"- {sandwich.title()}")
+
+
+# # 7-10
+responses = {}
+
+polling_active = True
+
+while polling_active:
+    name = input("\nWhat is your name? ")
+    place = input("If you could visit one place in the world, where would you go? ")
+
+    # تخزين الإجابة في القاموس
+    responses[name] = place
+
+    repeat = input("Would you like to let another person respond? (yes/ no) ")
+    if repeat.lower() == "no":
+        polling_active = False
+print(responses)
+
+print("\n--- Poll Results ---")
+for name, place in responses.items():
+    print(f"{name.title()} would like to visit {place.title()}.")
