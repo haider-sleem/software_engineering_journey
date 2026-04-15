@@ -37,39 +37,10 @@ products = {"product_name": {"price": 1000, "quantity": 20}}
 
 # دالة رئيسية بتحدد هل المنتج موجود ولا لأ
 # عاوزين يكون في خاصية برضه يفحص بالباركود هل المنتج موجود ولا لاء ولو موجود يطلع كل بياناته تلقائي
-def adding_product():
-    while True:
-        product_name = input("Is the product already available? : (Yes / No): ").strip()
-
-        # لو المنتج موجود → تحديث
-        if product_name.lower() == "yes":
-            update_existing_product()
-
-        # لو المنتج جديد → إضافة
-        elif product_name.lower() == "no":
-            add_new_product()
-
-        # إدخال غلط
-        else:
-            print("Please enter Yes or No only!! ")
-            continue
-
-        while True:
-            choice = input("Do you want to continue? (Yes/No): ").strip()
-
-            if choice.lower() == "yes":
-                break  # يرجع لأول اللوب ويبدأ من جديد
-            elif choice.lower() == "no":
-                print("Exiting system...")
-                return  # يخرج من الدالة نهائيًا
-            else:
-                print("Please enter Yes or No only!! ")
 
 
 # دالة مسؤولة عن البحث عن المنتج واختياره
 # دالة منفصلة علشان لما نستخدمها تاني في البيع
-
-
 def select_product():
     search = input("Enter product name  (or press Enter for all): ").strip()
 
@@ -102,20 +73,8 @@ def select_product():
             print("Invalid choice, try again")
 
 
-# دالة أساسية لتحديث منتج موجود
-
-
-def update_existing_product():
-    selected_name = select_product()  # اختيار المنتج
-
-    if selected_name:
-        update_price(selected_name)  # تحديث السعر
-        update_quantity(selected_name)  # تحديث الكمية
-
 
 # دالة لتحديث السعر فقط
-
-
 def update_price(product):
     while True:
         edit_price = input(
@@ -151,10 +110,9 @@ def update_price(product):
             print("Please enter Yes or No only!! ")
 
 
+
 # دالة لتحديث الكمية (إضافة كمية جديدة)
 # هل محتاجين تفريعة لتحديد وحدة الكمية قطعة كرتونة كونتنر مثلا ؟
-
-
 def update_quantity(product):  # المشتراة
     while True:
         new_quantity = input("Enter additional quantity: ")
@@ -171,7 +129,19 @@ def update_quantity(product):  # المشتراة
     #  ممكن هنا مستقبلاً نسأله: هل عاوز يحدث منتج تاني ؟
 
 
-################################3333333333333333333333333333333###############################################33333333333333333333333333333333333##############
+
+
+# دالة أساسية لتحديث منتج موجود
+def update_existing_product():
+    selected_name = select_product()  # اختيار المنتج
+
+    if selected_name:
+        update_price(selected_name)  # تحديث السعر
+        update_quantity(selected_name)  # تحديث الكمية
+
+
+
+
 # # دالة لإضافة منتج جديد
 def add_new_product():
 
@@ -209,6 +179,37 @@ def add_new_product():
             print("Product name cannot be empty")
             continue
 
+
+
+
+# الدالة الرئيسية 
+def adding_product():
+    while True:
+        product_name = input("Is the product already available? : (Yes / No): ").strip()
+
+        # لو المنتج موجود → تحديث
+        if product_name.lower() == "yes":
+            update_existing_product()
+
+        # لو المنتج جديد → إضافة
+        elif product_name.lower() == "no":
+            add_new_product()
+
+        # إدخال غلط
+        else:
+            print("Please enter Yes or No only!! ")
+            continue
+
+        while True:
+            choice = input("Do you want to continue? (Yes/No): ").strip()
+
+            if choice.lower() == "yes":
+                break  # يرجع لأول اللوب ويبدأ من جديد
+            elif choice.lower() == "no":
+                print("Exiting system...")
+                return  # يخرج من الدالة نهائيًا
+            else:
+                print("Please enter Yes or No only!! ")
 
 # نقطة بداية البرنامج
 if __name__ == "__main__":
