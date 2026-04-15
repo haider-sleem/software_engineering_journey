@@ -4,15 +4,26 @@
 
  --------------------------------------------
 
-قاموس البيانات (Data) → products = {...} 
+# 1) DATA
+products = {...}
 
-دوال الأدوات (Helpers) → select_product() 
+# 2) HELPERS (أدوات مساعدة)
+def select_product(): ...
 
-دوال التحديث الأساسية (Actions) → update_price(), update_quantity() 
+# 3) VIEW (عرض)
+def view_products(): ...
 
-دوال العمليات الكبيرة (Coordinators) → update_existing_product(), add_new_product()
+# 4) UPDATE LOGIC
+def update_price(): ...
+def update_quantity(): ...
+def update_existing_product(): ...
 
-الدالة الرئيسية (Main Coordinator) → adding_product() --> بيطلع منها ياأما يضيف منتج جديد أو يحدث منتج موجود بعد البحث عن المنتج ومعرفة هل موجود ولا لاء 
+# 5) CREATE
+def add_new_product(): ...
 
-نقطة الانطلاق → if __name__ == "__main__"
+# 6) MAIN FLOW
+def adding_product(): ...
 
+# 7) ENTRY POINT
+if __name__ == "__main__":
+    adding_product()
