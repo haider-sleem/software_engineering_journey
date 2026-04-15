@@ -32,7 +32,7 @@
 
 
 # # # 2- إنشاع دوال للمنتجات
-products = {"product_name": {"price": 1000, "quantity": 20}}
+products = {"product_name": {"price": 1000, "quantity": 20, "is_active": True}}
 
 
 # دالة رئيسية بتحدد هل المنتج موجود ولا لأ
@@ -73,6 +73,25 @@ def select_product():
             print("Invalid choice, try again")
 
 
+# دالة عرض المنتجات
+def view_products():
+
+    if not products:
+        print("No products available..!, add products first to display.")
+        return
+
+    print("\n" + "=" * 30)
+    print("      CURRENT INVENTORY      ")
+    print("=" * 30)
+
+    for idx, (name, data) in enumerate(products.items(), 1):
+        status = "ACTIVE" if data.get("is_active", False) else "INACTIVE"
+        print(f"{idx}- {name}:")
+        print(f"\tPrice:  {data['price']:<10.2f} EGP")
+        print(f"\tStock:  {data['quantity']:<10} Units")
+        print(f"\tStatus: {status:<10}")
+        print("-" * 20)
+
 
 # دالة لتحديث السعر فقط
 def update_price(product):
@@ -110,7 +129,6 @@ def update_price(product):
             print("Please enter Yes or No only!! ")
 
 
-
 # دالة لتحديث الكمية (إضافة كمية جديدة)
 # هل محتاجين تفريعة لتحديد وحدة الكمية قطعة كرتونة كونتنر مثلا ؟
 def update_quantity(product):  # المشتراة
@@ -129,8 +147,6 @@ def update_quantity(product):  # المشتراة
     #  ممكن هنا مستقبلاً نسأله: هل عاوز يحدث منتج تاني ؟
 
 
-
-
 # دالة أساسية لتحديث منتج موجود
 def update_existing_product():
     selected_name = select_product()  # اختيار المنتج
@@ -139,7 +155,13 @@ def update_existing_product():
         update_price(selected_name)  # تحديث السعر
         update_quantity(selected_name)  # تحديث الكمية
 
-
+        # تحديث ديناميكي لحالة المنتج هل هو نشط ولا لاء
+        products[selected_name]["is_active"] = (
+            products[selected_name]["price"] > 0
+            and products[selected_name]["quantity"] > 0
+        )
+        status = "ACTIVE" if products[selected_name]["is_active"] else "INACTIVE"
+        print(f"Update complete. Product is now {status}.")
 
 
 # # دالة لإضافة منتج جديد
@@ -166,12 +188,26 @@ def add_new_product():
                 update_price(new_product_name)
                 update_quantity(new_product_name)
 
-                if (
-                    products[new_product_name]["price"] > 0
-                    and products[new_product_name]["quantity"] > 0
-                ):
+                # بنحدد هنا هل تم تنشيط المنتج ولا لاء وليه وبنعرض النتيجة ؟
+                reasons = []
+
+                if products[new_product_name]["price"] <= 0:
+                    reasons.append("Price")
+
+                if products[new_product_name]["quantity"] <= 0:
+                    reasons.append("Quantity")
+
+                if not reasons:
                     products[new_product_name]["is_active"] = True
+                    print("\n✅ Product added successfully!")
+                    print(f"\tName: {new_product_name:<10}")
+                    print(f"\tPrice: {products[new_product_name]['price']:<10.2f}")
+                    print(f"\tQuantity: {products[new_product_name]['quantity']:<10}")
+                    print(f"\tStatus: {'ACTIVE':<10}")
+                else:
+                    print(f"⚠️ Product added as INACTIVE. Missing: {', '.join(reasons)}")
                 break
+
             else:
                 print("Ok, enter the correct name please")
                 continue
@@ -180,9 +216,7 @@ def add_new_product():
             continue
 
 
-
-
-# الدالة الرئيسية 
+# الدالة الرئيسية
 def adding_product():
     while True:
         product_name = input("Is the product already available? : (Yes / No): ").strip()
@@ -210,6 +244,7 @@ def adding_product():
                 return  # يخرج من الدالة نهائيًا
             else:
                 print("Please enter Yes or No only!! ")
+
 
 # نقطة بداية البرنامج
 if __name__ == "__main__":
