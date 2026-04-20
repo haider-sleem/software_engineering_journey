@@ -32,7 +32,7 @@
 
 
 # # # 2- إنشاع دوال للمنتجات
-products = {"product_name": {"price": 1000, "quantity": 20, "is_active": True}}
+products = {}
 
 
 # دالة رئيسية بتحدد هل المنتج موجود ولا لأ
@@ -88,162 +88,203 @@ def view_products():
         status = "ACTIVE" if data.get("is_active", False) else "INACTIVE"
         print(f"{idx}- {name}:")
         print(f"\tPrice:  {data['price']:<10.2f} EGP")
-        print(f"\tStock:  {data['quantity']:<10} Units")
+        print(f"\tStock:  {data['stock']:<10} Units")
         print(f"\tStatus: {status:<10}")
         print("-" * 20)
 
 
 # دالة لتحديث السعر فقط
-def update_price(product):
+def update_price(product_name, is_new=False):
     while True:
-        edit_price = input(
-            f"Do you need to change the price (current price: {products[product]['price']})? (Yes/No): "
-        ).strip()
+        old_price = products[product_name].get("price", 0) if not is_new else None
 
-        if edit_price.lower() == "yes":
-            new_price = input("Enter new price: ").strip()
+        if not is_new:
+            choice = (
+                input(
+                    f"Change price? (current: {products[product_name]['price']}) (Yes/No): "
+                )
+                .strip()
+                .lower()
+            )
 
-            # التحقق من صحة السعر
-            try:
-                new_price = float(new_price)
-            except ValueError:
-                print("Invalid price")
+            if choice == "no":
+                return False
+            elif choice != "yes":
+                print("Please enter Yes or No only!")
                 continue
 
-            # تأكيد التعديل
-            confirmation = input(
-                f"Are you sure you want to change the price to {new_price} ? (Yes/No): "
-            ).strip()
+        prompt = (
+            f"Enter starting price for new item '{product_name}': "
+            if is_new
+            else f"Enter new price for '{product_name}': "
+        )
+        price_input = input(prompt).strip()
 
-            if confirmation.lower() == "yes":
-                products[product]["price"] = new_price  # تحديث السعر
-                break
-            elif confirmation.lower() == "no":
+        try:
+            new_price = float(price_input)
+            if new_price <= 0:
+                print("Price must be greater than 0")
                 continue
-            else:
-                print("Please enter Yes or No only!! ")
+        except ValueError:
+            print("❌ Invalid number!")
+            continue
 
-        elif edit_price.lower() == "no":
-            break
+        msg = (
+            f"Set initial price to {new_price}?"
+            if is_new
+            else f"Confirm new price {new_price}?"
+        )
+
+        confirm = input(f"{msg} (Yes/No): ").strip().lower()
+
+        if confirm == "yes":
+            if not is_new and new_price == old_price:
+                print("⚠️ Price unchanged. No update made.")
+                return False
+            products[product_name]["price"] = new_price
+            return True
+        elif confirm == "no":
+            continue
         else:
-            print("Please enter Yes or No only!! ")
+            print("Please enter Yes or No only!")
+            continue
 
 
 # دالة لتحديث الكمية (إضافة كمية جديدة)
 # هل محتاجين تفريعة لتحديد وحدة الكمية قطعة كرتونة كونتنر مثلا ؟
-def update_quantity(product):  # المشتراة
+# لسه هنعدلها زي أبديت برايس
+def update_quantity(product_name):  # المشتراة
     while True:
         new_quantity = input("Enter additional quantity: ")
 
         # التحقق إن المدخل رقم
         if new_quantity.isdigit():
-            products[product]["quantity"] += int(new_quantity)  # إضافة الكمية
-            break
+            products[product_name]["stock"] += int(new_quantity)  # إضافة الكمية
+            return True
+
         else:
             print("Enter digit only")
             continue  # سايبها للتوضيح
-    print(f"Product {product} updated successfully")
 
-    #  ممكن هنا مستقبلاً نسأله: هل عاوز يحدث منتج تاني ؟
+# دالة لتحديث حالة المنتج
+def update_product_status(product_name):
+    # تحديث ديناميكي لحالة المنتج هل هو نشط ولا لاء
+    reasons = []
+
+    if products[product_name]["price"] <= 0:
+        reasons.append("Price")
+
+    if products[product_name]["stock"] <= 0:
+        reasons.append("Stock")
+
+    is_active = len(reasons) == 0
+    products[product_name]["is_active"] = is_active
+
+    return is_active, reasons
 
 
 # دالة أساسية لتحديث منتج موجود
-def update_existing_product():
-    selected_name = select_product()  # اختيار المنتج
+def update_existing_product(product_name):
 
-    if selected_name:
-        update_price(selected_name)  # تحديث السعر
-        update_quantity(selected_name)  # تحديث الكمية
+    price_changed = update_price(product_name)
+    quantity_changed = update_quantity(product_name)
 
-        # تحديث ديناميكي لحالة المنتج هل هو نشط ولا لاء
-        products[selected_name]["is_active"] = (
-            products[selected_name]["price"] > 0
-            and products[selected_name]["quantity"] > 0
-        )
-        status = "ACTIVE" if products[selected_name]["is_active"] else "INACTIVE"
-        print(f"Update complete. Product is now {status}.")
+    if price_changed:
+        print(f"Price for '{product_name}' updated successfully")
+
+    if quantity_changed:
+        print(f"Quantity for '{product_name}' updated successfully")
+
+    is_active, reasons = update_product_status(product_name)
+
+    if is_active:
+        print(f"\n✅ Product '{product_name}' is ACTIVE")
+    else:
+        print(f"⚠️ Product '{product_name}' is INACTIVE. Missing: {', '.join(reasons)}")
 
 
 # # دالة لإضافة منتج جديد
-def add_new_product():
+def add_new_product(product_name, is_new=True):
+    # إنشاء المنتج
+    products[product_name] = {
+        "price": 0,
+        "stock": 0,
+        "is_active": False,
+    }
 
-    while True:
-        new_product_name = input("Enter the new product name : ").strip()
+    price_changed = update_price(product_name, is_new=True)
+    quantity_changed = update_quantity(product_name)
 
-        if new_product_name in products:
-            print("Product already exists")
-            continue
+    if price_changed:
+        print(f"Price for '{product_name}' updated successfully")
 
-        if new_product_name:  # هل ممكن يدخل بالبار كود
-            name_confirmition = input(
-                f"Are you sure the name {new_product_name} is correct ? (Yes/No):"
-            ).strip()
-            if name_confirmition.lower() == "yes":
-                products[new_product_name] = {
-                    "price": 0,
-                    "quantity": 0,
-                    "is_active": False,
-                }
+    if quantity_changed:
+        print(f"Quantity for '{product_name}' updated successfully")
 
-                update_price(new_product_name)
-                update_quantity(new_product_name)
+    is_active, reasons = update_product_status(product_name)
 
-                # بنحدد هنا هل تم تنشيط المنتج ولا لاء وليه وبنعرض النتيجة ؟
-                reasons = []
-
-                if products[new_product_name]["price"] <= 0:
-                    reasons.append("Price")
-
-                if products[new_product_name]["quantity"] <= 0:
-                    reasons.append("Quantity")
-
-                if not reasons:
-                    products[new_product_name]["is_active"] = True
-                    print("\n✅ Product added successfully!")
-                    print(f"\tName: {new_product_name:<10}")
-                    print(f"\tPrice: {products[new_product_name]['price']:<10.2f}")
-                    print(f"\tQuantity: {products[new_product_name]['quantity']:<10}")
-                    print(f"\tStatus: {'ACTIVE':<10}")
-                else:
-                    print(f"⚠️ Product added as INACTIVE. Missing: {', '.join(reasons)}")
-                break
-
-            else:
-                print("Ok, enter the correct name please")
-                continue
-        else:
-            print("Product name cannot be empty")
-            continue
+    if is_active:
+        print(f"\n✅ Product '{product_name}' is ACTIVE")
+    else:
+        print(f"⚠️ Product '{product_name}' is INACTIVE. Missing: {', '.join(reasons)}")
 
 
 # الدالة الرئيسية
 def adding_product():
     while True:
-        product_name = input("Is the product already available? : (Yes / No): ").strip()
+        # 1. اسأل عن الاسم مباشرة (ده قلب التطوير)
+        product_name = input(
+            "Enter product name or barcode  (or press Enter for all): "
+        ).strip()
 
-        # لو المنتج موجود → تحديث
-        if product_name.lower() == "yes":
-            update_existing_product()
-
-        # لو المنتج جديد → إضافة
-        elif product_name.lower() == "no":
-            add_new_product()
-
-        # إدخال غلط
-        else:
-            print("Please enter Yes or No only!! ")
+        if not product_name:
+            print("Name cannot be empty!")
             continue
+        # 2. البرنامج هو اللي بيشيك (مش اليوزر اللي بيقرر)
+        existing_name = next(
+            (name for name in products if name.lower() == product_name.lower()), None
+        )
+        if existing_name:
+            print(f"--- Product '{existing_name}' found! Switching to Update mode ---")
+            update_existing_product(existing_name)
 
-        while True:
-            choice = input("Do you want to continue? (Yes/No): ").strip()
+        else:
+            print(
+                f"--- Product '{product_name}' isn't found! Switching to Add new mode ---"
+            )
 
-            if choice.lower() == "yes":
-                break  # يرجع لأول اللوب ويبدأ من جديد
-            elif choice.lower() == "no":
-                print("Exiting system...")
-                return  # يخرج من الدالة نهائيًا
+            name_confirmition = (
+                input(
+                    f"Are you sure you want to creat a new product named ''{product_name}!'' ? (Yes/No):"
+                )
+                .strip()
+                .lower()
+            )
+
+            if name_confirmition == "yes":
+                add_new_product(product_name)
+
+            elif name_confirmition == "no":
+                print("Ok, please enter the correct name.")
+                continue
             else:
-                print("Please enter Yes or No only!! ")
+                print("Invalaid entire! , please choosse Yes or No.")
+                continue
+
+        # 3. سؤال الاستمرار (زي ما هو عندك)
+        while True:
+            continue_choice = (
+                input("\nDo you want to manage another product? (Yes/No): ")
+                .strip()
+                .lower()
+            )
+            if continue_choice == "yes":
+                break
+            elif continue_choice == "no":
+                print("Exiting system...")
+                return
+            else:
+                print("Please enter Yes or No only!!")
 
 
 # نقطة بداية البرنامج
