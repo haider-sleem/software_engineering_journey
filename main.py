@@ -114,7 +114,7 @@ def update_price(product_name, is_new=False):
                 continue
 
         prompt = (
-            f"Enter starting price for new item '{product_name}': "
+            f"Enter price for new item '{product_name}': "
             if is_new
             else f"Enter new price for '{product_name}': "
         )
@@ -152,19 +152,62 @@ def update_price(product_name, is_new=False):
 
 # دالة لتحديث الكمية (إضافة كمية جديدة)
 # هل محتاجين تفريعة لتحديد وحدة الكمية قطعة كرتونة كونتنر مثلا ؟
-# لسه هنعدلها زي أبديت برايس
-def update_quantity(product_name):  # المشتراة
+def update_quantity(product_name, is_new=False):  # المشتراة
     while True:
-        new_quantity = input("Enter additional quantity: ")
+        if not is_new:
+            choice = (
+                input(
+                    f"Do you want to add additional quantity for '{product_name}': (Yes/No) "
+                )
+                .strip()
+                .lower()
+            )
 
-        # التحقق إن المدخل رقم
-        if new_quantity.isdigit():
-            products[product_name]["stock"] += int(new_quantity)  # إضافة الكمية
-            return True
+            if choice == "no":
+                return False
+            elif choice != "yes":
+                print("❌ Please enter Yes or No only")
+                continue
 
-        else:
-            print("Enter digit only")
-            continue  # سايبها للتوضيح
+        while True:
+            prompt = (
+                f"Set quantity for the new added item '{product_name}': "
+                if is_new
+                else f"Enter additional quantity for '{product_name}': "
+            )
+            new_quantity = input(prompt)
+
+            # التحقق إن المدخل رقم
+            if new_quantity.isdigit():
+                quantity_confirmation = (
+                    input(
+                        f"Are you sure you want to add '{new_quantity}' to stock ? (Yes/No)"
+                    )
+                    .strip()
+                    .lower()
+                )
+                if quantity_confirmation == "yes":
+                    amount = int(new_quantity)
+                    if is_new:
+                        products[product_name]["stock"] = amount
+                    else:
+                        products[product_name]["stock"] += amount
+                    return True
+                    """
+                    ممكن تستخدم الـ 👆Ternary Operator
+                    products[product_name]["stock"] = int(new_quantity) if is_new else products[product_name]["stock"] + int(new_quantity)
+                    return True
+                    """
+                elif quantity_confirmation == "no":
+                    print("Ok, Reenter the correct amount please.")
+
+                else:
+                    print("❌ Please enter Yes or No only")
+
+            else:
+                print("Enter digit only")
+                continue  # سايبها للتوضيح
+
 
 # دالة لتحديث حالة المنتج
 def update_product_status(product_name):
@@ -179,6 +222,17 @@ def update_product_status(product_name):
 
     is_active = len(reasons) == 0
     products[product_name]["is_active"] = is_active
+    # السطر السابق بطريقة أوضح
+    """
+    # لو قائمة الأسباب فاضية (يعني مفيش مشاكل)
+    if len(reasons) == 0:
+    is_active = True
+    else:
+        is_active = False
+
+    # بعدين نخزن النتيجة في بيانات المنتج
+    products[product_name]["is_active"] = is_active
+    """
 
     return is_active, reasons
 
@@ -213,7 +267,7 @@ def add_new_product(product_name, is_new=True):
     }
 
     price_changed = update_price(product_name, is_new=True)
-    quantity_changed = update_quantity(product_name)
+    quantity_changed = update_quantity(product_name, is_new=True)
 
     if price_changed:
         print(f"Price for '{product_name}' updated successfully")
@@ -252,23 +306,28 @@ def adding_product():
             print(
                 f"--- Product '{product_name}' isn't found! Switching to Add new mode ---"
             )
-
-            name_confirmition = (
-                input(
-                    f"Are you sure you want to creat a new product named ''{product_name}!'' ? (Yes/No):"
+            while True:
+                name_confirmition = (
+                    input(
+                        f"Are you sure you want to creat a new product named ''{product_name}!'' ? (Yes/No):"
+                    )
+                    .strip()
+                    .lower()
                 )
-                .strip()
-                .lower()
-            )
 
-            if name_confirmition == "yes":
-                add_new_product(product_name)
+                if name_confirmition == "yes":
+                    add_new_product(product_name)
+                    break
 
-            elif name_confirmition == "no":
-                print("Ok, please enter the correct name.")
-                continue
-            else:
-                print("Invalaid entire! , please choosse Yes or No.")
+                elif name_confirmition == "no":
+                    print("Ok, please enter the correct name.")
+                    break
+                else:
+                    print("Invalaid entire! , please choosse Yes or No.")
+                    continue
+            if (
+                name_confirmition == "no"
+            ):  # لو العلم مرفوع، اعمل continue للوب الكبيرة (خانة الاسم)
                 continue
 
         # 3. سؤال الاستمرار (زي ما هو عندك)
