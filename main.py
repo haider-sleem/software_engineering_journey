@@ -42,6 +42,7 @@ products = {}
 # دالة مسؤولة عن البحث عن المنتج واختياره
 # دالة منفصلة علشان لما نستخدمها تاني في البيع
 def select_product():
+    """Search for products by name and return the user's selected product name."""
     search = input("Enter product name  (or press Enter for all): ").strip()
 
     # فلترة المنتجات بناءً على البحث
@@ -73,28 +74,9 @@ def select_product():
             print("Invalid choice, try again")
 
 
-# دالة عرض المنتجات
-def view_products():
-
-    if not products:
-        print("No products available..!, add products first to display.")
-        return
-
-    print("\n" + "=" * 30)
-    print("      CURRENT INVENTORY      ")
-    print("=" * 30)
-
-    for idx, (name, data) in enumerate(products.items(), 1):
-        status = "ACTIVE" if data.get("is_active", False) else "INACTIVE"
-        print(f"{idx}- {name}:")
-        print(f"\tPrice:  {data['price']:<10.2f} EGP")
-        print(f"\tStock:  {data['stock']:<10} Units")
-        print(f"\tStatus: {status:<10}")
-        print("-" * 20)
-
-
 # دالة لتحديث السعر فقط
 def update_price(product_name, is_new=False):
+    """Update or set the price for a specific product with validation and confirmation."""
     while True:
         old_price = products[product_name].get("price", 0) if not is_new else None
 
@@ -153,6 +135,7 @@ def update_price(product_name, is_new=False):
 # دالة لتحديث الكمية (إضافة كمية جديدة)
 # هل محتاجين تفريعة لتحديد وحدة الكمية قطعة كرتونة كونتنر مثلا ؟
 def update_quantity(product_name, is_new=False):  # المشتراة
+    """Handle inventory restocking by setting initial amounts or adding to existing supplies."""
     while True:
         if not is_new:
             choice = (
@@ -211,7 +194,7 @@ def update_quantity(product_name, is_new=False):  # المشتراة
 
 # دالة لتحديث حالة المنتج
 def update_product_status(product_name):
-    # تحديث ديناميكي لحالة المنتج هل هو نشط ولا لاء
+    """Check and update product active status based on price and stock availability."""
     reasons = []
 
     if products[product_name]["price"] <= 0:
@@ -239,6 +222,7 @@ def update_product_status(product_name):
 
 # دالة أساسية لتحديث منتج موجود
 def update_existing_product(product_name):
+    """Update price, quantity, and status for an already existing product in inventory."""
 
     price_changed = update_price(product_name)
     quantity_changed = update_quantity(product_name)
@@ -259,7 +243,7 @@ def update_existing_product(product_name):
 
 # # دالة لإضافة منتج جديد
 def add_new_product(product_name, is_new=True):
-    # إنشاء المنتج
+    """Create a new product entry and initialize its price and stock levels."""
     products[product_name] = {
         "price": 0,
         "stock": 0,
@@ -283,8 +267,114 @@ def add_new_product(product_name, is_new=True):
         print(f"⚠️ Product '{product_name}' is INACTIVE. Missing: {', '.join(reasons)}")
 
 
+def sell_product():
+    """
+    Process a sale by checking product availability, validating stock, and updating inventory levels.
+    """
+    while True:
+        product_to_be_sold = input(
+            "\nEnter product name or barcode (or 'exit' to stop): "
+        ).strip()
+
+        if not product_to_be_sold:
+            continue
+
+        if product_to_be_sold.lower() == "exit":
+            return
+        # HACK: Searching via next() is fine for small inventory,
+        # but needs optimization (O(1) lookup) as the database grows.
+        product_name = next(
+            (name for name in products if name.lower() == product_to_be_sold.lower()),
+            None,
+        )
+
+        if product_name is None:
+            print(f"❌ Product '{product_to_be_sold}' not found in inventory.")
+            continue
+        product = products[product_name]
+        #  If product isn't active
+        if not product["is_active"]:
+            print(f"⚠️ Product '{product_name}' is inactive and cannot be sold.")
+            continue
+
+        while True:
+            quantity_input = input(f"\nEnter quantity for {product_name}: ").strip()
+
+            try:
+                quantity_to_be_sold = int(quantity_input)
+                if quantity_to_be_sold <= 0:
+                    print("❌ Quantity must be greater than 0.")
+                    continue
+
+            except ValueError:
+                print("❌ Please enter valid numbers only.")
+                continue
+
+            stock = product["stock"]
+
+            #  If product is active
+            if quantity_to_be_sold <= stock:
+                product["stock"] -= quantity_to_be_sold
+                total_price = quantity_to_be_sold * product["price"]
+                print(f"✅ Sale completed,Total: {total_price} EGP")
+                update_product_status(product_name)
+                print(f"📦 Remaining stock: {product['stock']}")
+                return  # Exit after single sale (Single Responsibility)
+                # NOTE: later we may add dual mode (Cashier Mode: loop / Admin Mode: single action)
+
+            # 🔴 المخزون مش كفاية
+            else:
+                print("❌ Not enough stock!")
+                print(f"Available: {stock}")
+
+                # 🔥 (هنا مكان ميزة التصنيع اللي انت عايز تضيفها بعدين)
+                # مثال مستقبلي:
+                # allow = input(f"Allow sale with production? Note:[Stock is {stock}] (Yes/No): ").strip().lower()
+
+                while True:
+                    modify = (
+                        input("Do you want to modify the quantity? (Yes/No): ")
+                        .strip()
+                        .lower()
+                    )
+
+                    if modify == "yes":
+                        break
+                    elif modify == "no":
+                        # خروج من عملية البيع للمنتج ده
+                        print("❌ Sale cancelled.")
+                        return
+                    else:
+                        print("Please enter Yes or No only.")
+                        continue
+
+                continue  # مش هيخرج إلا في حالة طلب التعديل علشان يعيد إدخال الكمية
+
+
+# دالة عرض المنتجات
+def view_products():
+    """Display all products in inventory with their price, stock, and status."""
+
+    if not products:
+        print("No products available..!, add products first to display.")
+        return
+
+    print("\n" + "=" * 30)
+    print("      CURRENT INVENTORY      ")
+    print("=" * 30)
+
+    for idx, (name, data) in enumerate(products.items(), 1):
+        status = "ACTIVE" if data.get("is_active", False) else "INACTIVE"
+        print(f"{idx}- {name}:")
+        print(f"\tPrice:  {data['price']:<10.2f} EGP")
+        print(f"\tStock:  {data['stock']:<10} Units")
+        print(f"\tStatus: {status:<10}")
+        print("-" * 20)
+
+
 # الدالة الرئيسية
 def adding_product():
+    """Entry point to manage products; automatically toggles between Add and Update modes based on existence."""
     while True:
         # 1. اسأل عن الاسم مباشرة (ده قلب التطوير)
         product_name = input(
