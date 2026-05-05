@@ -261,24 +261,24 @@ def sell_product():
     Process a sale by checking product availability, validating stock, and updating inventory levels.
     """
     while True:
-        product_to_be_sold = input(
+        raw_input = input(
             "\nEnter product name or barcode (or 'exit' to stop): "
         ).strip()
-
-        if not product_to_be_sold:
+        user_input = raw_input.lower()
+        if not user_input:
             continue
-
-        if product_to_be_sold.lower() == "exit":
+        if user_input == "exit":
             return
+
         # HACK: Searching via next() is fine for small inventory,
         # but needs optimization (O(1) lookup) as the database grows.
         product_name = next(
-            (name for name in products if name.lower() == product_to_be_sold.lower()),
+            (name for name in products if name.lower() == user_input),
             None,
         )
 
         if product_name is None:
-            print(f"❌ Product '{product_to_be_sold}' not found in inventory.")
+            print(f"❌ Product '{raw_input}' not found in inventory.")
             continue
         product = products[product_name]
         #  If product isn't active
@@ -314,30 +314,20 @@ def sell_product():
             # 🔴 المخزون مش كفاية
             else:
                 print("❌ Not enough stock!")
-                print(f"Available: {stock}")
+                print(f"Available stock : {stock}")
 
                 # 🔥 (هنا مكان ميزة التصنيع اللي انت عايز تضيفها بعدين)
                 # مثال مستقبلي:
                 # allow = input(f"Allow sale with production? Note:[Stock is {stock}] (Yes/No): ").strip().lower()
 
-                while True:
-                    modify = (
-                        input("Do you want to modify the quantity? (Yes/No): ")
-                        .strip()
-                        .lower()
-                    )
+                modify_quantity = "Do you want to modify the quantity? "
 
-                    if modify == "yes":
-                        break
-                    elif modify == "no":
-                        # خروج من عملية البيع للمنتج ده
-                        print("❌ Sale cancelled.")
-                        return
-                    else:
-                        print("Please enter Yes or No only.")
-                        continue
-
-                continue  # مش هيخرج إلا في حالة طلب التعديل علشان يعيد إدخال الكمية
+                if get_yes_no(modify_quantity):
+                    continue
+                else:
+                    # خروج من عملية البيع للمنتج ده
+                    print("❌ Sale cancelled.")
+                    return
 
 
 # دالة عرض المنتجات
