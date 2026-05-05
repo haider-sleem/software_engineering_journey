@@ -35,10 +35,22 @@
 products = {}
 
 
+def get_yes_no(prompt):
+    """
+    A help function to assist with user approval (yes/no).
+    It continues to ask the user until they enter the correct answer.
+    """
+    while True:
+        choice = input(f"{prompt} (Yes/No): ").strip().lower()
+        if choice in ["yes", "y"]:
+            return True
+        if choice in ["no", "n"]:
+            return False
+        print("❌ Invalid input! Please enter 'Yes' or 'No' only.")
+
+
 # دالة رئيسية بتحدد هل المنتج موجود ولا لأ
 # عاوزين يكون في خاصية برضه يفحص بالباركود هل المنتج موجود ولا لاء ولو موجود يطلع كل بياناته تلقائي
-
-
 # دالة مسؤولة عن البحث عن المنتج واختياره
 # دالة منفصلة علشان لما نستخدمها تاني في البيع
 def select_product():
@@ -81,20 +93,11 @@ def update_price(product_name, is_new=False):
         old_price = products[product_name].get("price", 0) if not is_new else None
 
         if not is_new:
-            choice = (
-                input(
-                    f"Change price? (current: {products[product_name]['price']}) (Yes/No): "
-                )
-                .strip()
-                .lower()
-            )
-
-            if choice == "no":
+            change_price = f"Change price? (current: {products[product_name]['price']})"
+            # إستدعاء دالة تأكيد الرغبة في تغيير السعر و الخروج في حالة عدم الرغبة ب ريتيرن
+            if not get_yes_no(change_price): 
                 return False
-            elif choice != "yes":
-                print("Please enter Yes or No only!")
-                continue
-
+            
         prompt = (
             f"Enter price for new item '{product_name}': "
             if is_new
