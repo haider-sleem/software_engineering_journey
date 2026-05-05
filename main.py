@@ -90,12 +90,12 @@ def select_product():
 def update_price(product_name, is_new=False):
     """Update or set the price for a specific product with validation and confirmation."""
     while True:
-        old_price = products[product_name].get("price", 0) if not is_new else None
 
         if not is_new:
-            change_price = f"Change price? (current: {products[product_name]['price']})"
+            old_price = products[product_name].get("price", 0) 
+            change_price_prompt = f"Change price? (current: {products[product_name]['price']})"
             # إستدعاء دالة تأكيد الرغبة في تغيير السعر و الخروج في حالة عدم الرغبة ب ريتيرن
-            if not get_yes_no(change_price): 
+            if not get_yes_no(change_price_prompt): 
                 return False
             
         prompt = (
@@ -120,19 +120,18 @@ def update_price(product_name, is_new=False):
             else f"Confirm new price {new_price}?"
         )
 
-        confirm = input(f"{msg} (Yes/No): ").strip().lower()
-
-        if confirm == "yes":
+        if get_yes_no(msg):
             if not is_new and new_price == old_price:
-                print("⚠️ Price unchanged. No update made.")
+                print("⚠️ Price unchanged, No update made.")
                 return False
             products[product_name]["price"] = new_price
+            print("✅ Price changed, update made.")
             return True
-        elif confirm == "no":
-            continue
+
         else:
-            print("Please enter Yes or No only!")
             continue
+
+            
 
 
 # دالة لتحديث الكمية (إضافة كمية جديدة)
