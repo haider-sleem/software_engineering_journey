@@ -90,14 +90,15 @@ def select_product():
 def update_price(product_name, is_new=False):
     """Update or set the price for a specific product with validation and confirmation."""
     while True:
-
         if not is_new:
-            old_price = products[product_name].get("price", 0) 
-            change_price_prompt = f"Change price? (current: {products[product_name]['price']})"
+            old_price = products[product_name].get("price", 0)
+            change_price_prompt = (
+                f"Change price? (current: {products[product_name]['price']})"
+            )
             # إستدعاء دالة تأكيد الرغبة في تغيير السعر و الخروج في حالة عدم الرغبة ب ريتيرن
-            if not get_yes_no(change_price_prompt): 
+            if not get_yes_no(change_price_prompt):
                 return False
-            
+
         prompt = (
             f"Enter price for new item '{product_name}': "
             if is_new
@@ -131,67 +132,53 @@ def update_price(product_name, is_new=False):
         else:
             continue
 
-            
-
 
 # دالة لتحديث الكمية (إضافة كمية جديدة)
 # هل محتاجين تفريعة لتحديد وحدة الكمية قطعة كرتونة كونتنر مثلا ؟
 def update_quantity(product_name, is_new=False):  # المشتراة
     """Handle inventory restocking by setting initial amounts or adding to existing supplies."""
+
+    if not is_new:
+        additional_quantity_prompt = (
+            f"Do you want to add additional quantity for '{product_name}': "
+        )
+        if not get_yes_no(additional_quantity_prompt):
+            return False
+
     while True:
-        if not is_new:
-            choice = (
-                input(
-                    f"Do you want to add additional quantity for '{product_name}': (Yes/No) "
-                )
-                .strip()
-                .lower()
+        prompt = (
+            f"Set quantity for the new added item '{product_name}': "
+            if is_new
+            else f"Enter additional quantity for '{product_name}': "
+        )
+        new_quantity = input(prompt).strip()
+
+        # التحقق إن المدخل رقم
+        if new_quantity.isdigit():
+            quantity_confirmation = (
+                f"Are you sure you want to add '{new_quantity}' to stock ?"
             )
 
-            if choice == "no":
-                return False
-            elif choice != "yes":
-                print("❌ Please enter Yes or No only")
+            if get_yes_no(quantity_confirmation):
+                new_amount = int(new_quantity)
+                if is_new:
+                    products[product_name]["stock"] = new_amount
+                else:
+                    products[product_name]["stock"] += new_amount
+                print("✅Quantity updated successfully")
+                return True
+                """
+                ممكن تستخدم الـ 👆Ternary Operator
+                products[product_name]["stock"] = int(new_quantity) if is_new else products[product_name]["stock"] + int(new_quantity)
+                return True
+                """
+            else:
+                print("🔁 Please enter the correct quantity again.")
                 continue
 
-        while True:
-            prompt = (
-                f"Set quantity for the new added item '{product_name}': "
-                if is_new
-                else f"Enter additional quantity for '{product_name}': "
-            )
-            new_quantity = input(prompt)
-
-            # التحقق إن المدخل رقم
-            if new_quantity.isdigit():
-                quantity_confirmation = (
-                    input(
-                        f"Are you sure you want to add '{new_quantity}' to stock ? (Yes/No)"
-                    )
-                    .strip()
-                    .lower()
-                )
-                if quantity_confirmation == "yes":
-                    amount = int(new_quantity)
-                    if is_new:
-                        products[product_name]["stock"] = amount
-                    else:
-                        products[product_name]["stock"] += amount
-                    return True
-                    """
-                    ممكن تستخدم الـ 👆Ternary Operator
-                    products[product_name]["stock"] = int(new_quantity) if is_new else products[product_name]["stock"] + int(new_quantity)
-                    return True
-                    """
-                elif quantity_confirmation == "no":
-                    print("Ok, Reenter the correct amount please.")
-
-                else:
-                    print("❌ Please enter Yes or No only")
-
-            else:
-                print("Enter digit only")
-                continue  # سايبها للتوضيح
+        else:
+            print("Enter digit only")
+            continue  # سايبها للتوضيح
 
 
 # دالة لتحديث حالة المنتج
