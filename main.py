@@ -356,16 +356,25 @@ def adding_product():
     """Entry point to manage products; automatically toggles between Add and Update modes based on existence."""
     while True:
         # 1. اسأل عن الاسم مباشرة (ده قلب التطوير)
-        product_name = input(
-            "Enter product name or barcode  (or press Enter for all): "
+        user_input = input(
+            "Enter product name or barcode (or 'exit' to stop): "  # (or press Enter for all)
         ).strip()
-
-        if not product_name:
+        if not user_input:
             print("Name cannot be empty!")
             continue
+
+        display_name = user_input.title()
+        search_name = user_input.lower()
+        
+
+        if search_name == "exit":
+            return
         # 2. البرنامج هو اللي بيشيك (مش اليوزر اللي بيقرر)
+        # HACK: Searching via next() is fine for small inventory,
+        # but needs optimization (O(1) lookup) as the database grows.
         existing_name = next(
-            (name for name in products if name.lower() == product_name.lower()), None
+            (name for name in products if name.lower() == search_name),
+            None,
         )
         if existing_name:
             print(f"--- Product '{existing_name}' found! Switching to Update mode ---")
@@ -373,46 +382,30 @@ def adding_product():
 
         else:
             print(
-                f"--- Product '{product_name}' isn't found! Switching to Add new mode ---"
+                f"--- Product '{user_input}' isn't found! Switching to Add new mode ---"
             )
-            while True:
-                name_confirmition = (
-                    input(
-                        f"Are you sure you want to creat a new product named ''{product_name}!'' ? (Yes/No):"
-                    )
-                    .strip()
-                    .lower()
-                )
 
-                if name_confirmition == "yes":
-                    add_new_product(product_name)
-                    break
+            name_confirmation = (
+                f"Are you sure you want to creat a new product named '{user_input}'?"
+            )
+            if get_yes_no(name_confirmation):
+                add_new_product(display_name)
 
-                elif name_confirmition == "no":
-                    print("Ok, please enter the correct name.")
-                    break
-                else:
-                    print("Invalaid entire! , please choosse Yes or No.")
-                    continue
-            if (
-                name_confirmition == "no"
-            ):  # لو العلم مرفوع، اعمل continue للوب الكبيرة (خانة الاسم)
+            else:
                 continue
 
-        # 3. سؤال الاستمرار (زي ما هو عندك)
-        while True:
-            continue_choice = (
-                input("\nDo you want to manage another product? (Yes/No): ")
-                .strip()
-                .lower()
-            )
-            if continue_choice == "yes":
-                break
-            elif continue_choice == "no":
-                print("Exiting system...")
-                return
-            else:
-                print("Please enter Yes or No only!!")
+        # 3.سؤال الاستمرار
+        continue_choice = "\nDo you want to manage another product? : "
+        if get_yes_no(continue_choice):
+            continue
+        else:
+            print("Exiting system...")
+            return
+        '''
+        if not get_yes_no("Do you want to manage another product?"):
+            print("Exiting system...")
+            return
+        '''
 
 
 # نقطة بداية البرنامج
