@@ -49,6 +49,30 @@ def get_yes_no(prompt):
         print("❌ Invalid input! Please enter 'Yes' or 'No' only.")
 
 
+# دالة التأكد من إدخال أرقام صالحة
+def get_positive_number(
+    prompt: str,
+    converter: type[int] | type[float] = int,
+) -> int | float:
+    """
+    Ask user to enter a number until a valid positive number is given.
+
+    Supports int and float conversion.
+    """
+
+    while True:
+        user_input = input(prompt).strip()
+
+        try:
+            value = converter(user_input)
+            if value <= 0:
+                print("❌ Number must be greater than 0 ..!")
+                continue
+            return value
+        except ValueError:
+            print("❌ Invalid input! Please enter valid numbers only.")
+
+
 # دالة رئيسية بتحدد هل المنتج موجود ولا لأ
 # عاوزين يكون في خاصية برضه يفحص بالباركود هل المنتج موجود ولا لاء ولو موجود يطلع كل بياناته تلقائي
 # دالة مسؤولة عن البحث عن المنتج واختياره
@@ -365,7 +389,6 @@ def adding_product():
 
         display_name = user_input.title()
         search_name = user_input.lower()
-        
 
         if search_name == "exit":
             return
@@ -401,11 +424,11 @@ def adding_product():
         else:
             print("Exiting system...")
             return
-        '''
+        """
         if not get_yes_no("Do you want to manage another product?"):
             print("Exiting system...")
             return
-        '''
+        """
 
 
 # نقطة بداية البرنامج
