@@ -265,7 +265,7 @@ def add_new_product(product_name, is_new=True):
         print(f"⚠️ Product '{product_name}' is INACTIVE. Missing: {', '.join(reasons)}")
 
 
-def sell_product():
+def sell_product() -> bool | None:
     """
     Process a sale by checking product availability, validating stock, and updating inventory levels.
     """
@@ -277,7 +277,7 @@ def sell_product():
         if not user_input:
             continue
         if user_input == "exit":
-            return
+            return None
 
         # HACK: Searching via next() is fine for small inventory,
         # but needs optimization (O(1) lookup) as the database grows.
@@ -295,48 +295,38 @@ def sell_product():
             print(f"⚠️ Product '{product_name}' is inactive and cannot be sold.")
             continue
 
-        while True:
-            quantity_input = input(f"\nEnter quantity for {product_name}: ").strip()
+        prompt = f"\nEnter quantity for {product_name}: "
+        quantity_to_be_sold = get_positive_number(prompt)
 
-            try:
-                quantity_to_be_sold = int(quantity_input)
-                if quantity_to_be_sold <= 0:
-                    print("❌ Quantity must be greater than 0.")
-                    continue
+        stock = product["stock"]
 
-            except ValueError:
-                print("❌ Please enter valid numbers only.")
+        #  If product is active
+        if quantity_to_be_sold <= stock:
+            product["stock"] -= quantity_to_be_sold
+            total_price = quantity_to_be_sold * product["price"]
+            print(f"✅ Sale completed,Total: {total_price:.2f} EGP")
+            update_product_status(product_name)
+            print(f"📦 Remaining stock: {product['stock']}")
+            return True  # Exit after single sale (Single Responsibility)
+            # NOTE: later we may add dual mode (Cashier Mode: loop / Admin Mode: single action)
+
+        # 🔴 المخزون مش كفاية
+        else:
+            print("❌ Not enough stock!")
+            print(f"Available stock : {stock}")
+
+            # 🔥 (هنا مكان ميزة التصنيع اللي ممكن نضيفها بعدين)
+            # مثال مستقبلي:
+            # allow = input(f"Allow sale with production? Note:[Stock is {stock}] (Yes/No): ").strip().lower()
+
+            modify_quantity = "Do you want to modify the quantity? "
+
+            if get_yes_no(modify_quantity):
                 continue
-
-            stock = product["stock"]
-
-            #  If product is active
-            if quantity_to_be_sold <= stock:
-                product["stock"] -= quantity_to_be_sold
-                total_price = quantity_to_be_sold * product["price"]
-                print(f"✅ Sale completed,Total: {total_price} EGP")
-                update_product_status(product_name)
-                print(f"📦 Remaining stock: {product['stock']}")
-                return  # Exit after single sale (Single Responsibility)
-                # NOTE: later we may add dual mode (Cashier Mode: loop / Admin Mode: single action)
-
-            # 🔴 المخزون مش كفاية
             else:
-                print("❌ Not enough stock!")
-                print(f"Available stock : {stock}")
-
-                # 🔥 (هنا مكان ميزة التصنيع اللي انت عايز تضيفها بعدين)
-                # مثال مستقبلي:
-                # allow = input(f"Allow sale with production? Note:[Stock is {stock}] (Yes/No): ").strip().lower()
-
-                modify_quantity = "Do you want to modify the quantity? "
-
-                if get_yes_no(modify_quantity):
-                    continue
-                else:
-                    # خروج من عملية البيع للمنتج ده
-                    print("❌ Sale cancelled.")
-                    return
+                # خروج من عملية البيع للمنتج ده
+                print("❌ Sale cancelled.")
+                return False
 
 
 # دالة عرض المنتجات
