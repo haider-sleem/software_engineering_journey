@@ -111,8 +111,12 @@ def select_product():
 
 
 # دالة لتحديث السعر فقط
-def update_price(product_name, is_new=False):
-    """Update or set the price for a specific product with validation and confirmation."""
+def update_price(product_name: str, is_new: bool =False)-> bool:
+    """
+    Update or set the price for a specific product.
+    
+    Returns True if the price was successfully updated, False otherwise.
+    """   
     while True:
         if not is_new:
             old_price = products[product_name].get("price", 0)
