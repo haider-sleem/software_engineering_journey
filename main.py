@@ -117,7 +117,7 @@ def update_price(product_name, is_new=False):
         if not is_new:
             old_price = products[product_name].get("price", 0)
             change_price_prompt = (
-                f"Change price? (current: {products[product_name]['price']})"
+                f"Do you want to change price? (current: {old_price:.2f})"
             )
             # إستدعاء دالة تأكيد الرغبة في تغيير السعر و الخروج في حالة عدم الرغبة ب ريتيرن
             if not get_yes_no(change_price_prompt):
@@ -128,16 +128,7 @@ def update_price(product_name, is_new=False):
             if is_new
             else f"Enter new price for '{product_name}': "
         )
-        price_input = input(prompt).strip()
-
-        try:
-            new_price = float(price_input)
-            if new_price <= 0:
-                print("Price must be greater than 0")
-                continue
-        except ValueError:
-            print("❌ Invalid number!")
-            continue
+        new_price = get_positive_number(prompt, converter=float)
 
         msg = (
             f"Set initial price to {new_price}?"
