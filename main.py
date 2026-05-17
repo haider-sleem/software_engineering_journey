@@ -77,35 +77,31 @@ def get_positive_number(
 # عاوزين يكون في خاصية برضه يفحص بالباركود هل المنتج موجود ولا لاء ولو موجود يطلع كل بياناته تلقائي
 # دالة مسؤولة عن البحث عن المنتج واختياره
 # دالة منفصلة علشان لما نستخدمها تاني في البيع
-def select_product():
-    """Search for products by name and return the user's selected product name."""
+def select_product() -> str | None:
+    """
+    Search for products by name and return the selected product name.
+
+    If no product is selected or found, returns None.
+    """
     search = input("Enter product name  (or press Enter for all): ").strip()
 
     # فلترة المنتجات بناءً على البحث
-    filtered_names = [
-        name for name in products.keys() if search.lower() in name.lower()
-    ]
+    filtered_names = [name for name in products if search.lower() in name.lower()]
 
     # لو مفيش نتائج
     if not filtered_names:
-        print("No products found")
+        print("❌ No products found")
         return None
 
     # عرض المنتجات للمستخدم
     for idx, name in enumerate(filtered_names, 1):
         print(f"{idx}. {name}")
-
     # اختيار المنتج برقم
     while True:
-        choice = input("Enter product number: ")
-        if choice.isdigit():
-            choice = int(choice)
-            if 1 <= choice <= len(filtered_names):
-                selected_name = filtered_names[choice - 1]
-                return selected_name
-            else:
-                print("Invalid choice, try again")
-
+        choice = get_positive_number("Enter product number: ")
+        if 1 <= choice <= len(filtered_names):
+            selected_product = filtered_names[choice - 1]
+            return selected_product
         else:
             print("Invalid choice, try again")
 
