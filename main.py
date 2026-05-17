@@ -35,6 +35,16 @@
 products = {}
 
 
+def get_non_empty_text(prompt: str, allow_empty: bool = False) -> str:
+    """Get text input from the user with optional empty check."""
+    while True:
+        user_input = input(prompt).strip()
+        if not user_input and not allow_empty:
+            print("❌ Input cannot be empty! Please enter a valid text.")
+            continue
+        return user_input
+
+
 def get_yes_no(prompt):
     """
     A help function to assist with user approval (yes/no).
