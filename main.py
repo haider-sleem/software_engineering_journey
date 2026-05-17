@@ -356,22 +356,20 @@ def view_products():
 
 
 # الدالة الرئيسية
-def adding_product():
+def adding_product() -> None:
     """Entry point to manage products; automatically toggles between Add and Update modes based on existence."""
     while True:
         # 1. اسأل عن الاسم مباشرة (ده قلب التطوير)
-        user_input = input(
-            "Enter product name or barcode (or 'exit' to stop): "  # (or press Enter for all)
-        ).strip()
-        if not user_input:
-            print("Name cannot be empty!")
-            continue
+        prompt = "Enter product name or barcode (or 'exit' to stop): "  # (or press Enter for all)
+        
+        user_input = get_non_empty_text(prompt)
+            
 
         display_name = user_input.title()
         search_name = user_input.lower()
 
         if search_name == "exit":
-            return
+            return 
         # 2. البرنامج هو اللي بيشيك (مش اليوزر اللي بيقرر)
         # HACK: Searching via next() is fine for small inventory,
         # but needs optimization (O(1) lookup) as the database grows.
