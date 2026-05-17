@@ -42,6 +42,7 @@ def get_non_empty_text(prompt: str, allow_empty: bool = False) -> str:
         if not user_input and not allow_empty:
             print("❌ Input cannot be empty! Please enter a valid text.")
             continue
+
         return user_input
 
 
@@ -276,12 +277,10 @@ def sell_product() -> bool | None:
     Process a sale by checking product availability, validating stock, and updating inventory levels.
     """
     while True:
-        raw_input = input(
-            "\nEnter product name or barcode (or 'exit' to stop): "
-        ).strip()
-        user_input = raw_input.lower()
-        if not user_input:
-            continue
+        raw_input = "\nEnter product name or barcode (or 'exit' to stop): "
+
+        user_input = get_non_empty_text(raw_input).lower()
+
         if user_input == "exit":
             return None
 
@@ -293,7 +292,7 @@ def sell_product() -> bool | None:
         )
 
         if product_name is None:
-            print(f"❌ Product '{raw_input}' not found in inventory.")
+            print(f"❌ Product '{user_input}' not found in inventory.")
             continue
         product = products[product_name]
         #  If product isn't active
