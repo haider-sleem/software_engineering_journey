@@ -94,7 +94,8 @@ def select_product() -> str | None:
 
     If no product is selected or found, returns None.
     """
-    search = input("Enter product name  (or press Enter for all): ").strip()
+    prompt = "Enter product name  (or press Enter for all): "
+    search = get_non_empty_text(prompt, allow_empty=True)
 
     # فلترة المنتجات بناءً على البحث
     filtered_names = [name for name in products if search.lower() in name.lower()]
@@ -361,15 +362,14 @@ def adding_product() -> None:
     while True:
         # 1. اسأل عن الاسم مباشرة (ده قلب التطوير)
         prompt = "Enter product name or barcode (or 'exit' to stop): "  # (or press Enter for all)
-        
+
         user_input = get_non_empty_text(prompt)
-            
 
         display_name = user_input.title()
         search_name = user_input.lower()
 
         if search_name == "exit":
-            return 
+            return
         # 2. البرنامج هو اللي بيشيك (مش اليوزر اللي بيقرر)
         # HACK: Searching via next() is fine for small inventory,
         # but needs optimization (O(1) lookup) as the database grows.
