@@ -1,41 +1,10 @@
-# # 1-  إنشاء دالة للمستخدم
-
-# #  purchaser --> storekepeer / staff == cashir عاوزين نبدل
-# def choose_user_type():
-#     user_role = input(
-#         "choose your role : 1 for admin - 2 for purchaser and 3 for staff : "
-#     )
-#     if user_role.isdigit():
-#         user_role = int(user_role)
-#         if user_role in (1, 2, 3):
-#             if user_role == 1:
-#                 return "Admin"
-#             if user_role == 2:
-#                 return "purchaser"
-#             if user_role == 3:
-#                 return " staff"
-
-#         else:
-#             print("choice avalid number from (1-3)")
-#             return choose_user_type()
-
-#     else:
-#         print("Enter digit only from (1-3)")
-#         return choose_user_type()
-
-
-# choose_user_type()
-
-
-################222222222222222222222222222222222#################
-# #######222222222222222222222222222222222########################
-
-
-# # # 2- إنشاع دوال للمنتجات
 products = {}
 
 
-def get_non_empty_text(prompt: str, allow_empty: bool = False) -> str:
+# دالة للتأكد إن المستخدم مش هيدخل نص فاضي إلا لو كان مسموح
+def get_non_empty_text(
+    prompt: str, allow_empty: bool = False
+) -> str:  # هل ممكن نحتاج إن البرومت يكون رقم
     """Get text input from the user with optional empty check."""
     while True:
         user_input = input(prompt).strip()
@@ -46,7 +15,8 @@ def get_non_empty_text(prompt: str, allow_empty: bool = False) -> str:
         return user_input
 
 
-def get_yes_no(prompt):
+# دالة وظيفتها تاخد رد من المستخدم لنا تكون الإجابة ب نعم او لا فقط
+def get_yes_no(prompt: str) -> bool:
     """
     A help function to assist with user approval (yes/no).
     It continues to ask the user until they enter the correct answer.
@@ -84,6 +54,15 @@ def get_positive_number(
             print("❌ Invalid input! Please enter valid numbers only.")
 
 
+"""
+هنضيفها لما أدرس الايرور هاندلينج
+if converter not in (int, float):
+    raise TypeError(
+        "converter must be int or float"
+    )
+"""
+
+
 # دالة رئيسية بتحدد هل المنتج موجود ولا لأ
 # عاوزين يكون في خاصية برضه يفحص بالباركود هل المنتج موجود ولا لاء ولو موجود يطلع كل بياناته تلقائي
 # دالة مسؤولة عن البحث عن المنتج واختياره
@@ -110,7 +89,9 @@ def select_product() -> str | None:
         print(f"{idx}. {name}")
     # اختيار المنتج برقم
     while True:
-        choice = get_positive_number("Enter product number: ")
+        choice = get_positive_number(
+            "Enter product number: "
+        )  # طيب لو المستخدم مش هيكتب والإختيار تاتش؟؟
         if 1 <= choice <= len(filtered_names):
             selected_product = filtered_names[choice - 1]
             return selected_product
@@ -199,7 +180,9 @@ def update_quantity(product_name: str, is_new: bool = False) -> bool:  # الم�
 
 
 # دالة لتحديث حالة المنتج
-def update_product_status(product_name):
+def update_product_status(
+    product_name: str,
+) -> tuple[bool, list[str]]:
     """Check and update product active status based on price and stock availability."""
     reasons = []
 
@@ -227,7 +210,9 @@ def update_product_status(product_name):
 
 
 # دالة أساسية لتحديث منتج موجود
-def update_existing_product(product_name):
+def update_existing_product(
+    product_name: str,
+) -> None:
     """Update price, quantity, and status for an already existing product in inventory."""
 
     price_changed = update_price(product_name)
@@ -248,7 +233,9 @@ def update_existing_product(product_name):
 
 
 # # دالة لإضافة منتج جديد
-def add_new_product(product_name, is_new=True):
+def add_new_product(
+    product_name: str,
+) -> None:
     """Create a new product entry and initialize its price and stock levels."""
     products[product_name] = {
         "price": 0,
@@ -290,7 +277,7 @@ def sell_product() -> bool | None:
         product_name = next(
             (name for name in products if name.lower() == user_input),
             None,
-        )
+        )  # مش هنغير نيكست غير بعد مرحلة الخوارزميات
 
         if product_name is None:
             print(f"❌ Product '{user_input}' not found in inventory.")
