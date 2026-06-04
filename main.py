@@ -41,6 +41,7 @@ def get_positive_number(
     Supports int and float conversion.
     """
 
+    # TODO: Later, check if 'converter' is strictly int or float, and raise a TypeError if it's not.
     while True:
         user_input = input(prompt).strip()
 
@@ -54,19 +55,11 @@ def get_positive_number(
             print("❌ Invalid input! Please enter valid numbers only.")
 
 
-"""
-هنضيفها لما أدرس الايرور هاندلينج
-if converter not in (int, float):
-    raise TypeError(
-        "converter must be int or float"
-    )
-"""
-
-
 # دالة رئيسية بتحدد هل المنتج موجود ولا لأ
 # عاوزين يكون في خاصية برضه يفحص بالباركود هل المنتج موجود ولا لاء ولو موجود يطلع كل بياناته تلقائي
 # دالة مسؤولة عن البحث عن المنتج واختياره
 # دالة منفصلة علشان لما نستخدمها تاني في البيع
+# TODO: Use this inside sell_product later.
 def select_product() -> str | None:
     """
     Search for products by name and return the selected product name.
@@ -106,16 +99,13 @@ def update_price(product_name: str, is_new: bool = False) -> bool:
 
     Returns True if the price was successfully updated, False otherwise.
     """
+    if not is_new:
+        old_price = products[product_name].get("price", 0)
+        change_price_prompt = f"Do you want to change price? (current: {old_price:.2f})"
+        # إستدعاء دالة تأكيد الرغبة في تغيير السعر و الخروج في حالة عدم الرغبة ب ريتيرن
+        if not get_yes_no(change_price_prompt):
+            return False
     while True:
-        if not is_new:
-            old_price = products[product_name].get("price", 0)
-            change_price_prompt = (
-                f"Do you want to change price? (current: {old_price:.2f})"
-            )
-            # إستدعاء دالة تأكيد الرغبة في تغيير السعر و الخروج في حالة عدم الرغبة ب ريتيرن
-            if not get_yes_no(change_price_prompt):
-                return False
-
         prompt = (
             f"Enter price for new item '{product_name}': "
             if is_new
@@ -134,11 +124,9 @@ def update_price(product_name: str, is_new: bool = False) -> bool:
                 print("⚠️ Price unchanged, No update made.")
                 return False
             products[product_name]["price"] = new_price
-            print("✅ Price changed, update made.")
+            print(f"Price for '{product_name}' updated successfully")
             return True
-
-        else:
-            continue
+        print("🔁 Ok, please enter the correct Price.")
 
 
 # دالة لتحديث الكمية (إضافة كمية جديدة)
@@ -171,15 +159,15 @@ def update_quantity(product_name: str, is_new: bool = False) -> bool:  # الم�
                 products[product_name]["stock"] = new_quantity
             else:
                 products[product_name]["stock"] += new_quantity
-            print("✅Quantity updated successfully")
+            print(f"Quantity for '{product_name}' updated successfully")
             return True
 
-        else:
-            print("🔁 Please enter the correct quantity again.")
-            continue
+        print("🔁 Please enter the correct quantity again.")
 
 
 # دالة لتحديث حالة المنتج
+# TODO: Refactor later to follow Single Responsibility Principle (SRP).
+# Current issue: Function checks conditions and updates global state at the same time.
 def update_product_status(
     product_name: str,
 ) -> tuple[bool, list[str]]:
@@ -209,27 +197,25 @@ def update_product_status(
     return is_active, reasons
 
 
-# دالة أساسية لتحديث منتج موجود
-def update_existing_product(
-    product_name: str,
-) -> None:
-    """Update price, quantity, and status for an already existing product in inventory."""
-
-    price_changed = update_price(product_name)
-    quantity_changed = update_quantity(product_name)
-
-    if price_changed:
-        print(f"Price for '{product_name}' updated successfully")
-
-    if quantity_changed:
-        print(f"Quantity for '{product_name}' updated successfully")
-
+def display_product_status(product_name: str) -> None:
+    """Check and print the current status (ACTIVE/INACTIVE) of a product."""
     is_active, reasons = update_product_status(product_name)
 
     if is_active:
         print(f"\n✅ Product '{product_name}' is ACTIVE")
     else:
         print(f"⚠️ Product '{product_name}' is INACTIVE. Missing: {', '.join(reasons)}")
+
+
+# دالة أساسية لتحديث منتج موجود
+def update_existing_product(
+    product_name: str,
+) -> None:
+    """Update price, quantity, and status for an already existing product in inventory."""
+
+    update_price(product_name)
+    update_quantity(product_name)
+    display_product_status(product_name)
 
 
 # # دالة لإضافة منتج جديد
@@ -243,24 +229,12 @@ def add_new_product(
         "is_active": False,
     }
 
-    price_changed = update_price(product_name, is_new=True)
-    quantity_changed = update_quantity(product_name, is_new=True)
-
-    if price_changed:
-        print(f"Price for '{product_name}' updated successfully")
-
-    if quantity_changed:
-        print(f"Quantity for '{product_name}' updated successfully")
-
-    is_active, reasons = update_product_status(product_name)
-
-    if is_active:
-        print(f"\n✅ Product '{product_name}' is ACTIVE")
-    else:
-        print(f"⚠️ Product '{product_name}' is INACTIVE. Missing: {', '.join(reasons)}")
+    update_price(product_name, is_new=True)
+    update_quantity(product_name, is_new=True)
+    display_product_status(product_name)
 
 
-def sell_product() -> bool | None:
+def sell_product() -> bool:
     """
     Process a sale by checking product availability, validating stock, and updating inventory levels.
     """
@@ -269,8 +243,9 @@ def sell_product() -> bool | None:
 
         user_input = get_non_empty_text(raw_input).lower()
 
+        # TODO: Refactor to raise an Exception for exits/cancellations once Error Handling is covered.
         if user_input == "exit":
-            return None
+            return False
 
         # HACK: Searching via next() is fine for small inventory,
         # but needs optimization (O(1) lookup) as the database grows.
@@ -344,7 +319,7 @@ def view_products():
 
 
 # الدالة الرئيسية
-def adding_product() -> None:
+def handle_product() -> None:
     """Entry point to manage products; automatically toggles between Add and Update modes based on existence."""
     while True:
         # 1. اسأل عن الاسم مباشرة (ده قلب التطوير)
@@ -390,6 +365,7 @@ def adding_product() -> None:
             print("Exiting system...")
             return
         """
+        كود تعليمي 
         if not get_yes_no("Do you want to manage another product?"):
             print("Exiting system...")
             return
@@ -398,4 +374,4 @@ def adding_product() -> None:
 
 # نقطة بداية البرنامج
 if __name__ == "__main__":
-    adding_product()
+    handle_product()
