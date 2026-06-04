@@ -223,6 +223,10 @@ def add_new_product(
     product_name: str,
 ) -> None:
     """Create a new product entry and initialize its price and stock levels."""
+    # TODO: Refactor product creation flow
+    # Current: Product is reserved before price/qty validation.
+    # Fix: Collect and validate all data first, then save on confirmation.
+    # Why: Prevents partial data and ensures database readiness.
     products[product_name] = {
         "price": 0,
         "stock": 0,
@@ -364,12 +368,11 @@ def handle_product() -> None:
         else:
             print("Exiting system...")
             return
-        """
-        كود تعليمي 
-        if not get_yes_no("Do you want to manage another product?"):
-            print("Exiting system...")
-            return
-        """
+
+        # كود تعليمي
+        # if not get_yes_no("Do you want to manage another product?"):
+        #     print("Exiting system...")
+        #     return
 
 
 # نقطة بداية البرنامج
