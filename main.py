@@ -5,7 +5,16 @@ products = {}
 def get_non_empty_text(
     prompt: str, allow_empty: bool = False
 ) -> str:  # هل ممكن نحتاج إن البرومت يكون رقم
-    """Get text input from the user with optional empty check."""
+    """
+    Captures user text input and optionally allows empty values.
+
+    Args:
+        prompt (str): Message displayed to the user.
+        allow_empty (bool): If True, empty input is accepted.
+
+    Returns:
+        str: The stripped text entered by the user.
+    """
     while True:
         user_input = input(prompt).strip()
         if not user_input and not allow_empty:
@@ -18,8 +27,13 @@ def get_non_empty_text(
 # دالة وظيفتها تاخد رد من المستخدم لنا تكون الإجابة ب نعم او لا فقط
 def get_yes_no(prompt: str) -> bool:
     """
-    A help function to assist with user approval (yes/no).
-    It continues to ask the user until they enter the correct answer.
+    Prompts the user for a confirmation and ensures a valid yes/no response.
+
+    Args:
+        prompt (str): Message displayed to the user asking for confirmation.
+
+    Returns:
+        bool: True if the user confirms (yes/y), False if they decline (no/n).
     """
     while True:
         choice = input(f"{prompt} (Yes/No): ").strip().lower()
@@ -36,9 +50,15 @@ def get_positive_number(
     converter: type[int] | type[float] = int,
 ) -> int | float:
     """
-    Ask user to enter a number until a valid positive number is given.
+    Repeatedly requests user input until a valid positive number is provided.
 
-    Supports int and float conversion.
+    Args:
+        prompt (str): Message displayed to the user.
+        converter (type[int] | type[float]): Conversion function used to
+            transform the input into int or float. Defaults to int.
+
+    Returns:
+        int | float: The converted positive number greater than zero.
     """
 
     # TODO: Later, check if 'converter' is strictly int or float, and raise a TypeError if it's not.
@@ -59,23 +79,31 @@ def get_positive_number(
 # عاوزين يكون في خاصية برضه يفحص بالباركود هل المنتج موجود ولا لاء ولو موجود يطلع كل بياناته تلقائي
 # دالة مسؤولة عن البحث عن المنتج واختياره
 # دالة منفصلة علشان لما نستخدمها تاني في البيع
-# TODO: Use this inside sell_product later.
-def select_product() -> str | None:
+def select_product(search: str = "") -> str | None:
     """
-    Search for products by name and return the selected product name.
+    Filters products by a search term and handles user selection from the matches.
 
-    If no product is selected or found, returns None.
+    If a single direct match is found, it returns it immediately. If multiple
+    matches are found, prompts the user to select by list number.
+
+    Args:
+        search (str): The product name or barcode substring to filter by. Defaults to "".
+
+    Returns:
+        str | None: The selected product name if a match is confirmed,
+            or None if no products are found.
     """
-    prompt = "Enter product name  (or press Enter for all): "
-    search = get_non_empty_text(prompt, allow_empty=True)
 
     # فلترة المنتجات بناءً على البحث
     filtered_names = [name for name in products if search.lower() in name.lower()]
 
     # لو مفيش نتائج
     if not filtered_names:
-        print("❌ No products found")
+        print(f"❌ No products found matching '{search}'")
         return None
+
+    if len(filtered_names) == 1:
+        return filtered_names[0]
 
     # عرض المنتجات للمستخدم
     for idx, name in enumerate(filtered_names, 1):
@@ -238,9 +266,13 @@ def add_new_product(
     display_product_status(product_name)
 
 
-def sell_product() -> bool:
+def sell_product() -> bool | None:
     """
-    Process a sale by checking product availability, validating stock, and updating inventory levels.
+    Processes a product sale by validating stock and updating inventory.
+
+    Returns:
+        bool | None: True if the sale succeeds, False if cancelled due to insufficient stock,
+            or None if the user exits the process.
     """
     while True:
         raw_input = "\nEnter product name or barcode (or 'exit' to stop): "
@@ -249,20 +281,14 @@ def sell_product() -> bool:
 
         # TODO: Refactor to raise an Exception for exits/cancellations once Error Handling is covered.
         if user_input == "exit":
-            return False
+            return None
 
         # HACK: Searching via next() is fine for small inventory,
         # but needs optimization (O(1) lookup) as the database grows.
-        product_name = next(
-            (name for name in products if name.lower() == user_input),
-            None,
-        )  # مش هنغير نيكست غير بعد مرحلة الخوارزميات
-
+        product_name = select_product(user_input)
         if product_name is None:
-            print(f"❌ Product '{user_input}' not found in inventory.")
             continue
         product = products[product_name]
-        #  If product isn't active
         if not product["is_active"]:
             print(f"⚠️ Product '{product_name}' is inactive and cannot be sold.")
             continue
@@ -272,7 +298,6 @@ def sell_product() -> bool:
 
         stock = product["stock"]
 
-        #  If product is active
         if quantity_to_be_sold <= stock:
             product["stock"] -= quantity_to_be_sold
             total_price = quantity_to_be_sold * product["price"]
@@ -295,10 +320,10 @@ def sell_product() -> bool:
 
             if get_yes_no(modify_quantity):
                 continue
-            else:
-                # خروج من عملية البيع للمنتج ده
-                print("❌ Sale cancelled.")
-                return False
+
+            # خروج من عملية البيع للمنتج ده
+            print("❌ Sale cancelled.")
+            return False
 
 
 # دالة عرض المنتجات
