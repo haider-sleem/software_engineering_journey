@@ -6,14 +6,14 @@ def get_non_empty_text(
     prompt: str, allow_empty: bool = False
 ) -> str:  # هل ممكن نحتاج إن البرومت يكون رقم
     """
-    Captures user text input and optionally allows empty values.
+    Captures text input from the user and strips whitespace.
 
     Args:
         prompt (str): Message displayed to the user.
-        allow_empty (bool): If True, empty input is accepted.
+        allow_empty (bool): If True, empty input is accepted. Defaults to False.
 
     Returns:
-        str: The stripped text entered by the user.
+        str: The entered text, which can be empty if allow_empty is True.
     """
     while True:
         user_input = input(prompt).strip()
@@ -45,6 +45,8 @@ def get_yes_no(prompt: str) -> bool:
 
 
 # دالة التأكد من إدخال أرقام صالحة
+# TODO: Refactor converter type hint to use Callable[[str], int | float]
+# Why: In this context, int and float act as callable conversion functions rather than just strict types.
 def get_positive_number(
     prompt: str,
     converter: type[int] | type[float] = int,
@@ -84,14 +86,13 @@ def select_product(search: str = "") -> str | None:
     Filters products by a search term and handles user selection from the matches.
 
     If a single direct match is found, it returns it immediately. If multiple
-    matches are found, prompts the user to select by list number.
+    matches are found, it loops indefinitely until the user enters a valid list number.
 
     Args:
         search (str): The product name or barcode substring to filter by. Defaults to "".
 
     Returns:
-        str | None: The selected product name if a match is confirmed,
-            or None if no products are found.
+        str | None: The selected product name, or None ONLY if no matching products exist.
     """
 
     # فلترة المنتجات بناءً على البحث
@@ -123,9 +124,16 @@ def select_product(search: str = "") -> str | None:
 # دالة لتحديث السعر فقط
 def update_price(product_name: str, is_new: bool = False) -> bool:
     """
-    Update or set the price for a specific product.
+    Manages the pricing lifecycle of a product by setting or modifying it.
 
-    Returns True if the price was successfully updated, False otherwise.
+    Args:
+        product_name (str): The identifier key of the product in inventory.
+        is_new (bool): If True, initializes a new price without checking historical data.
+            Defaults to False.
+
+    Returns:
+        bool: True if the price is successfully updated or initialized,
+            False if the process is declined or the price remains identical.
     """
     if not is_new:
         old_price = products[product_name].get("price", 0)
@@ -160,7 +168,17 @@ def update_price(product_name: str, is_new: bool = False) -> bool:
 # دالة لتحديث الكمية (إضافة كمية جديدة)
 # هل محتاجين تفريعة لتحديد وحدة الكمية قطعة كرتونة كونتنر مثلا ؟
 def update_quantity(product_name: str, is_new: bool = False) -> bool:  # المشتراة
-    """Handle inventory restocking by setting initial amounts or adding to existing supplies."""
+    """Manages the inventory stock of a product by initializing or incrementing its quantity.
+
+    Args:
+        product_name (str): The identifier key of the product in inventory.
+        is_new (bool): If True, initializes a new stock level directly.
+            Defaults to False.
+
+    Returns:
+        bool: True if the stock quantity is successfully updated or initialized,
+            False if the process is declined.
+    """
 
     if not is_new:
         additional_quantity_prompt = (
@@ -199,7 +217,17 @@ def update_quantity(product_name: str, is_new: bool = False) -> bool:  # الم�
 def update_product_status(
     product_name: str,
 ) -> tuple[bool, list[str]]:
-    """Check and update product active status based on price and stock availability."""
+    """
+    Checks and updates if a product is active based on its price and stock.
+
+    Args:
+        product_name (str): The identifier key of the product in inventory.
+
+    Returns:
+        tuple[bool, list[str]]: A tuple containing:
+            - bool: True if the product satisfies all conditions to be ACTIVE, False otherwise.
+            - list[str]: A list of missing requirements ("Price", "Stock") causing inactivity.
+    """
     reasons = []
 
     if products[product_name]["price"] <= 0:
@@ -214,7 +242,7 @@ def update_product_status(
     """
     # لو قائمة الأسباب فاضية (يعني مفيش مشاكل)
     if len(reasons) == 0:
-    is_active = True
+        is_active = True
     else:
         is_active = False
 
@@ -226,7 +254,15 @@ def update_product_status(
 
 
 def display_product_status(product_name: str) -> None:
-    """Check and print the current status (ACTIVE/INACTIVE) of a product."""
+    """
+    Prints the current active or inactive status of a product to the terminal.
+
+    Args:
+        product_name (str): The identifier key of the product in inventory.
+
+    Returns:
+        None: This function only prints output to the console.
+    """
     is_active, reasons = update_product_status(product_name)
 
     if is_active:
@@ -239,7 +275,15 @@ def display_product_status(product_name: str) -> None:
 def update_existing_product(
     product_name: str,
 ) -> None:
-    """Update price, quantity, and status for an already existing product in inventory."""
+    """
+    Updates the price, stock quantity, and active status of an existing product.
+
+    Args:
+        product_name (str): The identifier key of the product in inventory.
+
+    Returns:
+        None: This function executes updates and does not return a value.
+    """
 
     update_price(product_name)
     update_quantity(product_name)
@@ -250,11 +294,16 @@ def update_existing_product(
 def add_new_product(
     product_name: str,
 ) -> None:
-    """Create a new product entry and initialize its price and stock levels."""
-    # TODO: Refactor product creation flow
-    # Current: Product is reserved before price/qty validation.
-    # Fix: Collect and validate all data first, then save on confirmation.
-    # Why: Prevents partial data and ensures database readiness.
+    """
+    Creates a new product in inventory and sets its price and stock.
+
+    Args:
+        product_name (str): The identifier key of the product in inventory.
+
+    Returns:
+        None: This function executes creation steps and does not return a value.
+    """
+
     products[product_name] = {
         "price": 0,
         "stock": 0,
@@ -271,8 +320,10 @@ def sell_product() -> bool | None:
     Processes a product sale by validating stock and updating inventory.
 
     Returns:
-        bool | None: True if the sale succeeds, False if cancelled due to insufficient stock,
-            or None if the user exits the process.
+        bool | None:
+            - True: If the sale succeeds.
+            - False: If cancelled due to insufficient stock.
+            - None: If the user explicitly exits the process (Not a failure).
     """
     while True:
         raw_input = "\nEnter product name or barcode (or 'exit' to stop): "
@@ -294,6 +345,8 @@ def sell_product() -> bool | None:
             continue
 
         prompt = f"\nEnter quantity for {product_name}: "
+        # NOTE: Is it necessary to explicitly type 'quantity_to_be_sold: int' for the IDE's sake?
+        # Or is relying on the function's default behavior enough since Python works fine at runtime?
         quantity_to_be_sold = get_positive_number(prompt)
 
         stock = product["stock"]
@@ -327,9 +380,13 @@ def sell_product() -> bool | None:
 
 
 # دالة عرض المنتجات
-def view_products():
-    """Display all products in inventory with their price, stock, and status."""
+def view_products() -> None:
+    """
+    Displays all items in the inventory with their price, stock level, and status.
 
+    Returns:
+        None: This function only prints the inventory data to the terminal.
+    """
     if not products:
         print("No products available..!, add products first to display.")
         return
@@ -349,7 +406,14 @@ def view_products():
 
 # الدالة الرئيسية
 def handle_product() -> None:
-    """Entry point to manage products; automatically toggles between Add and Update modes based on existence."""
+    """
+    Serves as the main menu to loop through product management actions.
+
+    Automatically switches between Add and Update modes based on product existence.
+
+    Returns:
+        None: This function runs the main program loop until the user exits.
+    """
     while True:
         # 1. اسأل عن الاسم مباشرة (ده قلب التطوير)
         prompt = "Enter product name or barcode (or 'exit' to stop): "  # (or press Enter for all)
