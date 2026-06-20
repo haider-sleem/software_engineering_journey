@@ -1,4 +1,5 @@
 # 2. USACO 2017 February Bronze Contest problem Why Did the Cow Cross the Road
+# Source: https://usaco.org/index.php?page=viewproblem2&cpid=711
 import os
 
 current_path = os.path.dirname(os.path.abspath(__file__))
