@@ -1,4 +1,5 @@
 # # 1. USACO 2018 December Bronze Contest problem Mixing Milk
+# Source: https://usaco.org/index.php?page=viewproblem2&cpid=855
 import os
 
 current_path = os.path.dirname(os.path.abspath(__file__))
