@@ -30,3 +30,24 @@ The `+` sign does not change the original mode's behavior regarding clearing con
 
 ---
 
+
+### Useful Python Tips for Competitive Programming
+
+#### 1. The `abs()` Function
+
+The `abs()` function stands for **absolute value**. It converts any negative number into its positive counterpart and leaves positive numbers unchanged.
+
+* **Why it's useful:** In many problems, you need to calculate the distance between two points on a number line. Since distance is always positive, `abs(x - y)` ensures you get the correct result regardless of which number is larger.
+* **Example:** `abs(3 - 6)` returns `3`, and `abs(6 - 3)` also returns `3`.
+
+#### 2. Using `min()` and `max()` for Comparison
+
+When you need to find the range between two points (`x` and `y`) without using complex `if-else` statements to check which one is larger, you can use these built-in functions:
+
+* **`min(x, y)`:** Returns the smaller of the two numbers.
+* **`max(x, y)`:** Returns the larger of the two numbers.
+* **Why it's useful:** It makes your code cleaner and helps you define boundaries (like checking if a value lies between two points) without worrying about the order of the variables.
+* **Example:** If you want to check if a point `target` is between `x` and `y` and you don't know which one is bigger, you can simply write: `if min(x, y) <= target <= max(x, y):`.
+
+---
+
