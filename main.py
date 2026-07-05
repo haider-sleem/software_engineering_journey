@@ -1,3 +1,13 @@
+import logging
+
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    handlers=[logging.FileHandler("main.log"), logging.StreamHandler()],
+)
+
+logger = logging.getLogger(__name__)
+
 products = {}
 
 
@@ -373,6 +383,10 @@ def sell_product() -> bool | None:
             continue
         product = products[product_name]
         if not product["is_active"]:
+            logger.warning(
+                "Sale rejected | Reason: Product is inactive | Product: '%s'.",
+                product_name,
+            )
             print(f"⚠️ Product '{product_name}' is inactive and cannot be sold.")
             continue
 
@@ -386,13 +400,26 @@ def sell_product() -> bool | None:
         if quantity_to_be_sold <= stock:
             product["stock"] -= quantity_to_be_sold
             total_price = quantity_to_be_sold * product["price"]
-            print(f"✅ Sale completed,Total: {total_price:.2f} EGP")
             update_product_status(product_name)
+            logger.info(
+                "Sale completed | Product: '%s' | Quantity sold: %d | Total: %.2f EGP | Remaining stock: %d",
+                product_name,
+                quantity_to_be_sold,
+                total_price,
+                product['stock'],
+            )
+            print(f"✅ Sale completed,Total: {total_price:.2f} EGP")
             print(f"📦 Remaining stock: {product['stock']}")
             return True  # Exit after single sale (Single Responsibility)
             # NOTE: later we may add dual mode (Cashier Mode: loop / Admin Mode: single action)
 
         # 🔴 لو المخزون مش كفاية
+        logger.warning(
+            "Sale rejected | Product: '%s' | Reason: Insufficient stock | Requested quantity: %d | Available stock: %d",
+            product_name,
+            quantity_to_be_sold,
+            stock,
+        )
         print("❌ Not enough stock!")
         print(f"Available stock : {stock}")
 
