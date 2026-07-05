@@ -45,8 +45,12 @@ def get_yes_no(prompt: str) -> bool:
 
 
 # دالة التأكد من إدخال أرقام صالحة
-# TODO: Refactor converter type hint to use Callable[[str], int | float]
+# TODO 1: Refactor converter type hint to use Callable[[str], int | float]
 # Why: In this context, int and float act as callable conversion functions rather than just strict types.
+# TODO 2:
+# Should this function be split into:
+# - parse_positive_number() for validation/conversion
+# - get_positive_number() for input/retry handling?
 def get_positive_number(
     prompt: str,
     converter: type[int] | type[float] = int,
@@ -75,6 +79,36 @@ def get_positive_number(
             return value
         except ValueError:
             print("❌ Invalid input! Please enter valid numbers only.")
+
+
+def get_menu_choice(options: list[str]) -> str:
+    """
+    Display numbered menu options, repeatedly prompt the user until a valid
+    choice is entered, then return the selected option text.
+    """
+    while True:
+        # عرض الخيارات تلقائياً مرقمة تبدأ من 1
+        for idx, option in enumerate(options, start=1):
+            print(f"{idx}: {option}")
+
+        prompt = "Enter the number of your choice: "
+        user_input = input(prompt).strip()
+
+        # 1. محاولة تحويل الإدخال إلى رقم صحيح
+        try:
+            choice = int(user_input)
+        # 2. إذا فشل التحويل (حدث ValueError)
+        except ValueError:
+            print("❌ Invalid input! Please enter a valid number.")
+        # 3. إذا نجح التحويل بدون أخطاء
+        else:
+            # التحقق من أن الرقم داخل النطاق
+            if 1 <= choice <= len(options):
+                return options[choice - 1]  # إرجاع النص بنجاح
+            else:
+                print(
+                    f"❌ Invalid choice! Please select a number between 1 and {len(options)}."
+                )
 
 
 # دالة رئيسية بتحدد هل المنتج موجود ولا لأ
@@ -334,8 +368,6 @@ def sell_product() -> bool | None:
         if user_input == "exit":
             return None
 
-        # HACK: Searching via next() is fine for small inventory,
-        # but needs optimization (O(1) lookup) as the database grows.
         product_name = select_product(user_input)
         if product_name is None:
             continue
@@ -360,10 +392,9 @@ def sell_product() -> bool | None:
             return True  # Exit after single sale (Single Responsibility)
             # NOTE: later we may add dual mode (Cashier Mode: loop / Admin Mode: single action)
 
-        # 🔴 المخزون مش كفاية
-        else:
-            print("❌ Not enough stock!")
-            print(f"Available stock : {stock}")
+        # 🔴 لو المخزون مش كفاية 
+        print("❌ Not enough stock!")
+        print(f"Available stock : {stock}")
 
             # 🔥 (هنا مكان ميزة التصنيع اللي ممكن نضيفها بعدين)
             # مثال مستقبلي:
@@ -407,12 +438,13 @@ def view_products() -> None:
 # الدالة الرئيسية
 def handle_product() -> None:
     """
-    Serves as the main menu to loop through product management actions.
+    Handle the workflow for adding a new product or updating an existing one.
 
-    Automatically switches between Add and Update modes based on product existence.
+    The function repeatedly prompts the user until they choose to exit.
 
     Returns:
-        None: This function runs the main program loop until the user exits.
+        None: The function performs product management operations without
+        returning a value.
     """
     while True:
         # 1. اسأل عن الاسم مباشرة (ده قلب التطوير)
@@ -451,12 +483,14 @@ def handle_product() -> None:
                 continue
 
         # 3.سؤال الاستمرار
+        # TODO:
+        # Should the "manage another product" workflow be moved to a dedicated
+        # handle_product_flow() function when separating workflow from business logic?
         continue_choice = "\nDo you want to manage another product? : "
         if get_yes_no(continue_choice):
             continue
-        else:
-            print("Exiting system...")
-            return
+
+        return
 
         # كود تعليمي
         # if not get_yes_no("Do you want to manage another product?"):
@@ -464,6 +498,80 @@ def handle_product() -> None:
         #     return
 
 
-# نقطة بداية البرنامج
+def cashier_menu() -> None:
+    """
+    Display the cashier menu and dispatch the selected cashier operation.
+    """
+    # نحدد الخيارات في قائمة مرنة وسهلة التعديل مستقبلاً (مثلاً لإضافة Refund)
+    cashier_options = ["Selling", "Back"]
+
+    while True:
+        choice = get_menu_choice(cashier_options)
+        # NOTE: Keep explicit `if/elif` branches for easier future extension (e.g., adding new menu options).
+        # TODO: Learn and consider replacing this with `match/case` after studying structural pattern matching.
+        if choice == "Selling":
+            sell_product()
+        elif choice == "Back":
+            print("Going back to main menu...")
+            break
+
+
+# TODO:
+# Consider introducing dedicated workflow functions (e.g., update_quantity_flow,
+# update_price_flow) when the application grows or is migrated to an API.
+def inventory_menu() -> None:
+    """
+    Display the inventory menu and dispatch inventory operations.
+    """
+
+    inventory_options = [
+        "View Products",
+        "Add Or Update Product",
+        "Update Quantity",
+        "Update Price",
+        "Back",
+    ]
+
+    while True:
+        choice = get_menu_choice(inventory_options)
+        # NOTE: Keep explicit `if/elif` branches for easier future extension (e.g., adding new menu options).
+        # TODO: Learn and consider replacing this with `match/case` after studying structural pattern matching.
+        if choice == "View Products":
+            view_products()
+        elif choice == "Add Or Update Product":
+            handle_product()
+        elif choice == "Update Quantity":
+            product_name = select_product()
+            if product_name:
+                update_quantity(product_name)
+        elif choice == "Update Price":
+            product_name = select_product()
+            if product_name:
+                update_price(product_name)
+        elif choice == "Back":
+            print("Going back to main menu...")
+            break
+
+
+def main() -> None:
+    """
+    Display the main menu and dispatch the selected application module.
+    """
+
+    main_options = ["Cashier Menu", "Inventory Menu", "Exit"]
+
+    while True:
+        choice = get_menu_choice(main_options)
+        # NOTE: Keep explicit `if/elif` branches for easier future extension (e.g., adding new menu options).
+        # TODO: Learn and consider replacing this with `match/case` after studying structural pattern matching.
+        if choice == "Cashier Menu":
+            cashier_menu()
+        elif choice == "Inventory Menu":
+            inventory_menu()
+        elif choice == "Exit":
+            print("Exiting the program...")
+            break
+
+
 if __name__ == "__main__":
-    handle_product()
+    main()
