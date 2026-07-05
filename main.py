@@ -111,10 +111,10 @@ def get_menu_choice(options: list[str]) -> str:
                 )
 
 
-# دالة رئيسية بتحدد هل المنتج موجود ولا لأ
-# عاوزين يكون في خاصية برضه يفحص بالباركود هل المنتج موجود ولا لاء ولو موجود يطلع كل بياناته تلقائي
-# دالة مسؤولة عن البحث عن المنتج واختياره
-# دالة منفصلة علشان لما نستخدمها تاني في البيع
+# TODO:
+# Revisit select_product() after learning Enum.
+# Distinguish between "not found" and "cancelled" without overloading None.
+# Support barcode search to find a product and display all its information.
 def select_product(search: str = "") -> str | None:
     """
     Filters products by a search term and handles user selection from the matches.
@@ -392,22 +392,22 @@ def sell_product() -> bool | None:
             return True  # Exit after single sale (Single Responsibility)
             # NOTE: later we may add dual mode (Cashier Mode: loop / Admin Mode: single action)
 
-        # 🔴 لو المخزون مش كفاية 
+        # 🔴 لو المخزون مش كفاية
         print("❌ Not enough stock!")
         print(f"Available stock : {stock}")
 
-            # 🔥 (هنا مكان ميزة التصنيع اللي ممكن نضيفها بعدين)
-            # مثال مستقبلي:
-            # allow = input(f"Allow sale with production? Note:[Stock is {stock}] (Yes/No): ").strip().lower()
+        # 🔥 (هنا مكان ميزة التصنيع اللي ممكن نضيفها بعدين)
+        # مثال مستقبلي:
+        # allow = input(f"Allow sale with production? Note:[Stock is {stock}] (Yes/No): ").strip().lower()
 
-            modify_quantity = "Do you want to modify the quantity? "
+        modify_quantity = "Do you want to modify the quantity? "
 
-            if get_yes_no(modify_quantity):
-                continue
+        if get_yes_no(modify_quantity):
+            continue
 
-            # خروج من عملية البيع للمنتج ده
-            print("❌ Sale cancelled.")
-            return False
+        # خروج من عملية البيع للمنتج ده
+        print("❌ Sale cancelled.")
+        return False
 
 
 # دالة عرض المنتجات
