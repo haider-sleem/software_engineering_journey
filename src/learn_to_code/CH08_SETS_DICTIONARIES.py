@@ -231,7 +231,7 @@ for name, count in reg.items():
         break
 """
 
-# 7. DMOJ problem coci17c2p2, ZigZag (Hint: maintain two dictionaries. The first maps each starting letter to its list of words; the second maps each starting letter to the index of its next word that will be output. That way, we can cycle through the words for each letter without having to explicitly update numbers of occurrences or modify lists.)
+# # 7. DMOJ problem coci17c2p2, ZigZag (Hint: maintain two dictionaries. The first maps each starting letter to its list of words; the second maps each starting letter to the index of its next word that will be output. That way, we can cycle through the words for each letter without having to explicitly update numbers of occurrences or modify lists.)
 # n, m = map(int, input().split())
 
 # words = {}
@@ -257,8 +257,6 @@ for name, count in reg.items():
 
 #     for word in words[letter]:
 #         if used[word] < used[best]:
-#             best = word
-#         elif used[word] == used[best] and word < best:
 #             best = word
 
 #     print(best)
