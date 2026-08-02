@@ -1,12 +1,9 @@
 # Warehouse Sales System
-
 ## Software Requirements Specification (SRS)
 
-| Field | Value |
-|-------|-------|
-| **Version** | 0.1 |
-| **Status** | Draft |
-| **Document Type** | Vision & Requirements |
+- **Version:** 0.1
+- **Status:** Draft
+- **Document Type:** Vision & Requirements
 
 ---
 
@@ -28,10 +25,8 @@ The following stakeholders represent the intended users and interested parties o
 
 ### 3.1 Business Owner / Manager
 
-| Field | Detail |
-|-------|--------|
-| **Role** | Responsible for overseeing business operations and inventory |
-| **Status** | ✅ Supported |
+- **Role:** Responsible for overseeing business operations and inventory
+- **Status:** ✅ Supported
 
 **Goals:**
 - Monitor inventory levels
@@ -42,10 +37,8 @@ The following stakeholders represent the intended users and interested parties o
 
 ### 3.2 Warehouse Employee
 
-| Field | Detail |
-|-------|--------|
-| **Role** | Responsible for managing products and inventory |
-| **Status** | ✅ Supported |
+- **Role:** Responsible for managing products and inventory
+- **Status:** ✅ Supported
 
 **Goals:**
 - Add new products
@@ -56,10 +49,8 @@ The following stakeholders represent the intended users and interested parties o
 
 ### 3.3 Cashier
 
-| Field | Detail |
-|-------|--------|
-| **Role** | Responsible for processing sales transactions |
-| **Status** | 🔲 Planned |
+- **Role:** Responsible for processing sales transactions
+- **Status:** 🔲 Planned
 
 **Goals:**
 - Search for products
@@ -70,10 +61,8 @@ The following stakeholders represent the intended users and interested parties o
 
 ### 3.4 Accountant
 
-| Field | Detail |
-|-------|--------|
-| **Role** | Responsible for reviewing financial and sales information |
-| **Status** | 🔲 Planned |
+- **Role:** Responsible for reviewing financial and sales information
+- **Status:** 🔲 Planned
 
 **Goals:**
 - Review sales reports
@@ -84,10 +73,8 @@ The following stakeholders represent the intended users and interested parties o
 
 ### 3.5 System Administrator
 
-| Field | Detail |
-|-------|--------|
-| **Role** | Responsible for maintaining and managing the system |
-| **Status** | 🔲 Planned |
+- **Role:** Responsible for maintaining and managing the system
+- **Status:** 🔲 Planned
 
 **Goals:**
 - Manage user accounts
@@ -108,9 +95,9 @@ The following stakeholders represent the intended users and interested parties o
 | FR-03 | Allow user to view a list of all products with their details | High | Phase 1 | ✅ Implemented |
 | FR-04 | Allow user to search for a product by name or identifier | High | Phase 1 | ✅ Implemented |
 | FR-05 | Allow user to update product information (name, description, price, quantity, category) | High | Phase 1 | ✅ Implemented |
-| FR-06 | Allow user to remove a product from the inventory | Medium | Phase 1 | 🔲 Planned |
+| FR-06 | Allow user to remove a product from the inventory | Medium | Phase 3 | 🔲 Planned |
 | FR-07 | Prevent removal of a product if it has associated sales records (soft delete or warning) | Medium | Phase 3 | 🔲 Planned |
-| FR-08 | Allow user to view products that are low in stock (below a configurable threshold) | Medium | Phase 2 | 🔲 Planned |
+| FR-08 | Allow user to view products that are low in stock (below a configurable threshold) — See Q-03 | Medium | Phase 2 | 🔲 Planned |
 
 ---
 
@@ -132,7 +119,7 @@ The following stakeholders represent the intended users and interested parties o
 |----|-------------|:--------:|:--------------:|:------:|
 | FR-14 | Allow the Cashier to start a new sales transaction | High | Phase 2 | 🔲 Planned |
 | FR-15 | Allow user to add products to the current sale by product identifier | High | Phase 2 | 🔲 Planned |
-| FR-16 | Calculate the total price of the sale automatically | High | Phase 2 | 🔲 Planned |
+| FR-16 | Calculate the total price of the sale automatically as (Price × Quantity), excluding any tax — See Out of Scope | High | Phase 2 | 🔲 Planned |
 | FR-17 | Display a summary of the current sale before finalization | High | Phase 2 | 🔲 Planned |
 | FR-18 | Allow user to remove or adjust quantities of items in the current sale | Medium | Phase 2 | 🔲 Planned |
 | FR-19 | Generate a simple text invoice after the sale is finalized | Medium | Phase 2 | 🔲 Planned |
@@ -230,17 +217,15 @@ The following stakeholders represent the intended users and interested parties o
 
 The following items are explicitly excluded from the current scope:
 
-| Item | Reason |
-|------|--------|
-| Graphical User Interface (GUI) | System is strictly command-line based |
-| Mobile Application | No mobile version is planned |
-| Multi-warehouse Management | System assumes a single warehouse location |
-| Barcode / QR Code Scanning | No hardware integration is supported |
-| Currency Exchange | System operates in a single currency |
-| Tax Calculation | Tax handling is not included in the initial scope |
-| E-commerce Integration | No integration with online stores |
-| Third-party Accounting Integration | No external software integration |
-| Real-time Inventory Updates | No concurrent multi-user inventory updates |
+- **Graphical User Interface (GUI):** The system is strictly command-line based
+- **Mobile Application:** No mobile version is planned
+- **Multi-warehouse Management:** The system assumes a single warehouse location
+- **Barcode / QR Code Scanning:** No hardware integration is supported
+- **Currency Exchange:** The system operates in a single currency
+- **Tax Calculation:** Tax handling is not included in the initial scope (total price = Price × Quantity only)
+- **E-commerce Integration:** No integration with online stores
+- **Third-party Accounting Integration:** No external software integration
+- **Real-time Inventory Updates:** No concurrent multi-user inventory updates
 
 ---
 
@@ -250,7 +235,7 @@ The following items are explicitly excluded from the current scope:
 |----|----------|:------:|:-----------------:|
 | Q-01 | What technology will be used for data persistence? (JSON, CSV, SQLite, etc.) | 🔲 Open | Phase 2 |
 | Q-02 | Should the system support multiple languages? | 🔲 Open | Future |
-| Q-03 | What is the configurable threshold for low-stock alerts? | 🔲 Open | Phase 2 |
+| Q-03 | What is the configurable threshold for low-stock alerts? (Referenced in FR-08) | 🔲 Open | Phase 2 |
 | Q-04 | Should product categories be predefined or user-defined? | 🔲 Open | Phase 2 |
 | Q-05 | How will sales tax be handled if required in the future? | 🔲 Open | Future |
 
@@ -260,9 +245,9 @@ The following items are explicitly excluded from the current scope:
 
 | Phase | Focus | Requirements | Time Estimate |
 |-------|-------|--------------|:-------------:|
-| **Phase 1** | Product Management + Inventory Core | FR-01 to FR-06, FR-10, FR-36 to FR-38 | ~2 weeks |
+| **Phase 1** | Product Management + Inventory Core | FR-01 to FR-05, FR-10, FR-36 to FR-38 | ~2 weeks |
 | **Phase 2** | Data Persistence + Basic Sales | FR-08, FR-09, FR-11, FR-14 to FR-20, FR-25, FR-33 to FR-35 | ~3 weeks |
-| **Phase 3** | User Management + Low Stock Alerts | FR-07, FR-13, FR-21, FR-26 to FR-29 | ~2 weeks |
+| **Phase 3** | User Management + Low Stock Alerts | FR-06, FR-07, FR-13, FR-21, FR-26 to FR-29 | ~2 weeks |
 | **Phase 4** | Advanced Sales + Reports | FR-12, FR-22 to FR-24, FR-30, FR-32 | ~2 weeks |
 | **Phase 5** | Full ERP Foundation | FR-31 + remaining backlog | ~1 week |
 
