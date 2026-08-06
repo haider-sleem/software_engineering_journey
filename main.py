@@ -139,11 +139,20 @@ def select_product(search: str = "") -> str | None:
         str | None: The selected product name, or None ONLY if no matching products exist.
     """
 
+    if not products:
+        logger.info("Product selection failed | Reason: Inventory is empty.")
+        print("❌ No products available.")
+        return None
+
     # فلترة المنتجات بناءً على البحث
     filtered_names = [name for name in products if search.lower() in name.lower()]
 
     # لو مفيش نتائج
     if not filtered_names:
+        logger.info(
+            "No products found | Search term: '%s'.",
+            search,
+        )
         print(f"❌ No products found matching '{search}'")
         return None
 
@@ -196,15 +205,33 @@ def update_price(product_name: str, is_new: bool = False) -> bool:
         msg = (
             f"Set initial price to {new_price}?"
             if is_new
-            else f"Confirm new price {new_price}?"
+            else f"Confirm new price to {new_price}?"
         )
 
         if get_yes_no(msg):
             if not is_new and new_price == old_price:
-                print("⚠️ Price unchanged, No update made.")
+                print(
+                    "⚠️ Price unchanged, No update made, Reason: the old price is equal to the new price."
+                )
                 return False
             products[product_name]["price"] = new_price
-            print(f"Price for '{product_name}' updated successfully")
+            if is_new:
+                logger.info(
+                    "Price initialized | Product: '%s' | Price: %.2f EGP",
+                    product_name,
+                    new_price,
+                )
+            else:
+                logger.info(
+                    "Price updated | Product: '%s' | Old price: %.2f EGP | New price: %.2f EGP",
+                    product_name,
+                    old_price,
+                    new_price,
+                )
+            if is_new:
+                print(f"Initial price for '{product_name}' set successfully.")
+            else:
+                print(f"Price for '{product_name}' updated successfully.")
             return True
         print("🔁 Ok, please enter the correct Price.")
 
@@ -406,7 +433,7 @@ def sell_product() -> bool | None:
                 product_name,
                 quantity_to_be_sold,
                 total_price,
-                product['stock'],
+                product["stock"],
             )
             print(f"✅ Sale completed,Total: {total_price:.2f} EGP")
             print(f"📦 Remaining stock: {product['stock']}")
