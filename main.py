@@ -128,6 +128,9 @@ def select_product(search: str = "") -> str | None:
     Returns:
         str | None: The selected product name, or None ONLY if no matching products exist.
     """
+    if not products:
+        print("❌ No products available.")
+        return None
 
     # فلترة المنتجات بناءً على البحث
     filtered_names = [name for name in products if search.lower() in name.lower()]
