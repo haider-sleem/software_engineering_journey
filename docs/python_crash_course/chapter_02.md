@@ -1,75 +1,118 @@
-# Chapter 2 – Strings & Numbers
-Python Crash Course – الفصل الثاني
+# Chapter 2: Strings & Numbers
+
+> *Python Crash Course*
 
 ---
 
-## 1. Strings – النصوص
+## Strings
 
-### تحديث المتغيرات
-- يمكن إعادة تعيين أي متغير بقيمة جديدة بسهولة.
-- كل `print` statement تعمل على القيمة الحالية للمتغير وقت تنفيذها.
+### Updating Variables
 
-### تنسيق النصوص
-- `.title()` → تحول أول حرف من كل كلمة إلى كبير.
-- `.upper()` → تحول كل الحروف إلى كبيرة.
-- `.lower()` → تحول كل الحروف إلى صغيرة.
+- Any variable can be reassigned to a new value at any time.
+- Each `print()` statement uses the current value of the variable at the moment it runs.
 
-### دمج النصوص (Concatenation)
-- استخدام `+` لدمج النصوص.
-- ضع مسافة `" "` بين الكلمات عند الدمج.
+### Text Formatting Methods
 
-### المسافات والتنسيق
-- `\t` → علامة تبويب (tab) لإضافة مسافة أفقية.
-- `\n` → سطر جديد (new line) للفصل بين الأسطر.
-- `.strip()`, `.lstrip()`, `.rstrip()` → إزالة المسافات الزائدة.
-- يمكن تحديث النصوص بعد إزالة المسافات:  
-  ```python
-  favorite_language = favorite_language.strip()
-التعامل مع علامات الاقتباس
+| Method | Effect |
+|--------|--------|
+| `.title()` | Capitalizes the first letter of each word |
+| `.upper()` | Converts all characters to uppercase |
+| `.lower()` | Converts all characters to lowercase |
 
-لاستخدام apostrophes داخل النصوص، استخدم "" أو ''.
+### Concatenation
 
-2. Numbers – الأرقام
-الفواصل الكبيرة
+Use `+` to combine strings. Add `" "` between words when needed:
 
-استخدام _ في الأرقام الطويلة لتحسين القراءة:
+```python
+full_name = first_name + " " + last_name
+```
 
-14_000_000_000  # يعادل 14000000000
-العمليات الحسابية
+### Whitespace
 
-/ → دائمًا ترجع float.
+- `\t` — horizontal tab
+- `\n` — new line
 
-// → القسمة الصحيحة (integer division).
+| Method | Effect |
+|--------|--------|
+| `.strip()` | Removes leading and trailing whitespace |
+| `.lstrip()` | Removes leading whitespace only |
+| `.rstrip()` | Removes trailing whitespace only |
 
-*, +, - → عمليات الضرب، الجمع، الطرح العادية.
+```python
+favorite_language = favorite_language.strip()
+```
 
-Multiple Assignment
+### Quotes Inside Strings
 
-يمكن تعيين قيم متعددة في سطر واحد:
+Use double quotes `"` to include apostrophes, or single quotes `'` to include double quotes:
 
+```python
+message = "It's a great day."
+```
+
+---
+
+## Numbers
+
+### Underscores in Large Numbers
+
+Use `_` as a visual separator — Python ignores it:
+
+```python
+population = 14_000_000_000  # same as 14000000000
+```
+
+### Arithmetic Operators
+
+| Operator | Meaning | Note |
+|----------|---------|------|
+| `+` | Addition | — |
+| `-` | Subtraction | — |
+| `*` | Multiplication | — |
+| `/` | Division | always returns `float` |
+| `//` | Integer division | drops the remainder |
+| `**` | Exponentiation | — |
+
+### Multiple Assignment
+
+Assign multiple variables in one line:
+
+```python
 x, y, z = 0, 0, 0
 first_name, last_name, country = "Haider", "Sleem", "Egypt"
-الثوابت
+```
 
-تكتب بأحرف كبيرة، مثال: MAX_CONNECTIONS = 5000
+### Constants
 
-3. التعامل مع الملفات
-إزالة الامتدادات وPrefixes/Suffixes
+By convention, write constants in all caps:
 
-os.path.splitext(filename)[0] → للحصول على اسم الملف بدون امتداد.
+```python
+MAX_CONNECTIONS = 5000
+```
 
-.removeprefix("prefix") → إزالة بداية النص.
-
-.removesuffix("suffix") → إزالة نهاية النص.
-
-يمكن دمجهم في سطر واحد:
-
-clean = url.removeprefix("http://").removesuffix(".com/")
-
-
-
-
-
+Python does not enforce constants — this is a naming convention only.
 
 ---
 
+## Additional String & Path Utilities
+
+> **Note:** These are string and path methods — not file reading or writing operations.
+
+### Removing Extensions
+
+```python
+import os
+
+name = os.path.splitext("report.pdf")[0]  # → "report"
+```
+
+### Removing Prefixes and Suffixes
+
+```python
+url = "https://example.com/"
+clean = url.removeprefix("https://").removesuffix("/")  # → "example.com"
+```
+
+- `.removeprefix("prefix")` — removes a specific string from the start.
+- `.removesuffix("suffix")` — removes a specific string from the end.
+- Both can be chained in one line.

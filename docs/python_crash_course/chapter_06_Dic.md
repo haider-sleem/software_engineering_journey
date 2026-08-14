@@ -1,23 +1,130 @@
-Below are the key points learned from Chapter 6 about **Dictionaries** in Python:
+# Chapter 6: Dictionaries
 
-*   **Dictionary Definition:** A dictionary is a collection of **key-value pairs**, where each key is connected to a specific value. A value can be any object you can create in Python, such as numbers, strings, lists, or even other dictionaries.
-    Conversely, a key must be an **immutable** object. This means you can use strings, numbers, or tuples as keys, but you cannot use lists or dictionaries as keys because they are mutable objects. 
+> *Python Crash Course*
 
-*   **Accessing Values:** You can access the value associated with a specific key by placing the key name inside square brackets `[]` after the dictionary name. Additionally, the **`get()` method** can be used to access values; it is useful because it allows you to define a default value to be returned if the requested key does not exist, which prevents the program from crashing with an error.
+---
 
-*   **Adding and Modifying Data:** Dictionaries are dynamic data structures; new key-value pairs can be added at any time by specifying the dictionary name, the new key in brackets, and the new value. To modify an existing value, you use the same syntax by referencing an existing key and assigning a new value to it.
+## What Is a Dictionary?
 
-*   **Removing Data:** The **`del` statement** can be used to permanently delete a key-value pair from a dictionary by specifying the dictionary name and the specific key you want to remove.
+A collection of **key-value pairs** — each key is connected to a specific value.
 
-*   **Looping Through a Dictionary:** Python provides several ways to iterate through dictionary data:
-    *   Using the **`.items()` method** to loop through all key-value pairs together.
-    *   Using the **`.keys()` method** (which is the default behavior) to loop through keys only.
-    *   Using the **`sorted()` function** to loop through dictionary keys in a specific order.
-    *   Using the **`.values()` method** to loop through values only.
+```python
+person = {"name": "Haider", "age": 41, "city": "Damietta"}
+```
 
-*   **Unique Values (Sets):** When you need to display or work with the values in a dictionary without repetition, you can use the **`set()` function**, which identifies unique items and builds a collection containing no duplicate elements.
+| Part | Rules |
+|------|-------|
+| **Key** | Must be **immutable** — strings, numbers, or tuples are valid; lists and dictionaries are not |
+| **Value** | Can be any Python object — string, number, list, or even another dictionary |
 
-*   **Nesting:** Python allows for storing dictionaries in complex ways to organize data:
-    *   **A list of dictionaries:** Storing multiple dictionaries inside a single list.
-    *   **A list in a dictionary:** Storing a list as a value associated with a single key in a dictionary.
-    *   **A dictionary in a dictionary:** Storing an entire dictionary as a value inside another dictionary.
+---
+
+## Accessing Values
+
+```python
+# Direct access — raises KeyError if key doesn't exist
+print(person["name"])  # Haider
+
+# Safe access with get() — returns None or a default if key missing
+print(person.get("email"))  # None
+print(person.get("email", "not provided"))  # not provided
+```
+
+---
+
+## Adding and Modifying
+
+```python
+# Add a new key-value pair
+person["email"] = "haider@example.com"
+
+# Modify an existing value
+person["city"] = "Cairo"
+```
+
+Dictionaries are dynamic — they can grow at any time.
+
+---
+
+## Removing
+
+```python
+del person["age"]  # permanently removes the key-value pair
+```
+
+---
+
+## Looping
+
+```python
+user = {"name": "Haider", "role": "developer", "city": "Damietta"}
+
+# Key-value pairs
+for key, value in user.items():
+    print(f"{key}: {value}")
+
+# Keys only (default behavior)
+for key in user.keys():
+    print(key)
+
+# Keys in sorted order
+for key in sorted(user.keys()):
+    print(key)
+
+# Values only
+for value in user.values():
+    print(value)
+```
+
+---
+
+## Unique Values with `set()`
+
+Use `set()` to get the unique values from a dictionary's values:
+
+```python
+languages = {"Ali": "Python", "Omar": "Python", "Sara": "JavaScript"}
+
+for language in set(languages.values()):
+    print(language)
+# Python
+# JavaScript
+```
+
+---
+
+## Nesting
+
+### List of Dictionaries
+
+```python
+users = [
+    {"name": "Ali", "role": "admin"},
+    {"name": "Omar", "role": "user"},
+]
+
+for user in users:
+    print(user["name"], "-", user["role"])
+```
+
+### List Inside a Dictionary
+
+```python
+order = {
+    "customer": "Haider",
+    "items": ["laptop", "mouse", "keyboard"],
+}
+
+print(order["items"][0])  # laptop
+```
+
+### Dictionary Inside a Dictionary
+
+```python
+users = {
+    "ali": {"email": "ali@example.com", "role": "admin"},
+    "omar": {"email": "omar@example.com", "role": "user"},
+}
+
+print(users["ali"]["role"])  # admin
+```

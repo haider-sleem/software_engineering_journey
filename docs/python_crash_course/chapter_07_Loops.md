@@ -1,23 +1,120 @@
-# Chapter 7 Summary: User Input and While Loops
+# Chapter 7: User Input and While Loops
 
-In this chapter, I transitioned from static scripting to creating **interactive programs**. I mastered the flow of data based on user decisions and dynamic conditions.
+> *Python Crash Course*
 
-### ⚠️ Core Concepts Mastered
+---
 
-#### 1. Interactive Data Handling
-* **User Input:** Utilizing the `input()` function to accept string data.
-* **Type Casting:** Converting string inputs into numerical data using `int()` for logical comparisons.
+## User Input
 
-#### 2. Advanced Loop Control
-* **Conditional While Loops:** Executing code blocks as long as a specific condition remains `True`.
-* **Active Flags:** Using boolean flags (e.g., `active = True`) to manage complex program states elegantly.
-* **Loop Interruption:** * `break`: Immediate exit from a loop.
-    * `continue`: Skipping the current iteration to restart the loop from the top.
+`input()` always returns a string. Use `int()` or `float()` to convert when needed.
 
-#### 3. Dynamic Data Manipulation
-* **List Migration:** Moving items between lists (e.g., `sandwich_orders` to `finished_sandwiches`) using `while` loops with `pop()` and `append()`.
-* **Mass Removal:** Efficiently cleaning lists by removing all occurrences of a specific value using `while` and `remove()`.
-* **Automated Polling:** Collecting and storing user-provided data into dictionaries to create structured records.
+```python
+age = input("How old are you? ")
+age = int(age)
 
+if age >= 18:
+    print("You can vote.")
+```
 
+---
 
+## `while` Loop
+
+Runs as long as a condition is `True`. Always make sure the condition eventually becomes `False`.
+
+```python
+count = 1
+while count <= 5:
+    print(count)
+    count += 1
+```
+
+### Active Flag
+
+Use a boolean flag to control a loop cleanly, especially when multiple conditions can end it:
+
+```python
+active = True
+
+while active:
+    message = input("Enter a message ('quit' to exit): ")
+    if message == "quit":
+        active = False
+    else:
+        print(message)
+```
+
+### `break`
+
+Exits the loop immediately:
+
+```python
+while True:
+    city = input("Enter a city ('quit' to stop): ")
+    if city == "quit":
+        break
+    print(f"I'd love to visit {city}!")
+```
+
+### `continue`
+
+Skips the rest of the current iteration and goes back to the top of the loop:
+
+```python
+count = 0
+while count < 10:
+    count += 1
+    if count % 2 == 0:
+        continue
+    print(count)  # prints odd numbers only
+```
+
+---
+
+## Using `while` with Lists
+
+### Moving Items Between Lists
+
+```python
+sandwich_orders = ["tuna", "egg", "cheese"]
+finished_sandwiches = []
+
+while sandwich_orders:
+    current = sandwich_orders.pop()
+    print(f"Making: {current}")
+    finished_sandwiches.append(current)
+```
+
+### Removing All Occurrences of a Value
+
+`remove()` only deletes the first match — use `while` to remove all:
+
+```python
+pets = ["dog", "cat", "dog", "fish", "dog"]
+
+while "dog" in pets:
+    pets.remove("dog")
+
+print(pets)  # ['cat', 'fish']
+```
+
+---
+
+## Collecting Input into a Dictionary
+
+```python
+responses = {}
+active = True
+
+while active:
+    name = input("Name: ")
+    response = input("Favorite language: ")
+    responses[name] = response
+
+    again = input("Another response? (yes/no): ")
+    if again != "yes":
+        active = False
+
+for name, response in responses.items():
+    print(f"{name}: {response}")
+```

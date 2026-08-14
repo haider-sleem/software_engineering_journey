@@ -1,53 +1,122 @@
-List Comprehension = [expression for item in iterable]
-لاحظ إن الكود بين قوسين قائمة طالما عاوز المخرج قائمة
+# Chapter 4: Lists — Part 2
+
+> *Python Crash Course*
+
+---
+
+## List Comprehension
+
+A concise way to build a list in one line:
+
+```python
+# Syntax
+result = [expression for item in iterable]
+
+# Example
 squares = [value**2 for value in range(1, 11)]
+```
 
+- The output is always a list (note the square brackets).
+- Cleaner and more readable than writing a full `for` loop.
 
- دليل إتقان القوائم والعمليات الحسابية الضخمة في بايثون  برمجة بايثون - الفصل الرابع القوائم
+---
 
+## `range()` and Memory
 
+`range()` does not store all values in memory at once — it generates each value only when needed. This makes it efficient for large sequences.
 
-Key Concepts:
+```python
+# No memory wasted on 1,000,000 numbers
+for i in range(1_000_000):
+    process(i)
 
-الذاكرة مقابل التوليد: دالة range() لا تحجز مكاناً في الذاكرة لكل رقم إلا عند تحويلها إلى list صراحة، مما يوفر موارد الجهاز.
+# Only now are all values stored in memory
+numbers = list(range(1_000_000))
+```
 
-كفاءة الدوال الجاهزة: دوال مثل sum() مصممة بلغة C لتعطي أداءً يقترب من سرعة العتاد (Hardware) مباشرة.
+> `range()` is an **iterable object**, not a generator — but both share the idea of producing values on demand rather than storing them all at once.
 
-الأناقة البرمجية: الـ List Comprehension ليست مجرد اختصار، بل هي وسيلة لكتابة كود أكثر قابلية للقراءة وأسرع في التنفيذ غالباً.
+---
 
-عنق زجاجة الإدخال والإخراج: العمليات الحسابية داخل المعالج (CPU) أسرع بآلاف المرات من عمليات عرض البيانات على الشاشة (Printing).
+## Slicing
 
-Vocabulary List:
+Extract a portion of a list using `:` inside the brackets.
 
-Generator (المولد): كائن يقوم بإنتاج القيم واحدة تلو الأخرى عند الحاجة بدلاً من تخزينها كلها دفعة واحدة.
+```python
+players = ["Ali", "Omar", "Sara", "Nour", "Rami"]
 
-List Comprehension: صيغة مختصرة لبناء قائمة جديدة بناءً على قائمة موجودة أو نطاق معين في سطر واحد.
+print(players[0:3])  # first 3 → ['Ali', 'Omar', 'Sara']
+print(players[1:4])  # index 1 to 3 → ['Omar', 'Sara', 'Nour']
+print(players[:3])  # from start → ['Ali', 'Omar', 'Sara']
+print(players[2:])  # to end → ['Sara', 'Nour', 'Rami']
+print(players[-2:])  # last 2 → ['Nour', 'Rami']
+```
 
-I/O Operations (عمليات الإدخال والإخراج): التفاعل مع الأجهزة الخارجية مثل الشاشة، لوحة المفاتيح، أو القرص الصلب.
+### Looping Over a Slice
 
-Scientific Notation (الصيغة العلمية): طريقة لتمثيل الأرقام الضخمة باستخدام الأسس (مثل 5e11).
+```python
+for player in players[:3]:
+    print(player)  # prints first 3 only
+```
 
+---
 
-  ملخص "النص الثاني" من الفصل الرابع 
+## Copying a List
 
-1. تقطيع القوائم (Slicing) ✂️
-تستخدم لاستخراج أجزاء محددة من القائمة باستخدام : داخل الأقواس.
+Assigning a list with `=` creates a reference, not a copy — both variables point to the same list.
 
-عملي: list[0:3] تجلب أول 3 عناصر، و list[-2:] تجلب آخر عنصرين.
+```python
+# Wrong — both variables share the same list
+a = [1, 2, 3]
+b = a
+b.append(4)
+print(a)  # [1, 2, 3, 4]  ← a was also changed
+```
 
-2. نسخ القائمة (Copying) 📋
-لإنشاء نسخة مستقلة تماماً، يجب استخدام السلايس الفارغ [:].
+Use an empty slice `[:]` to create an independent copy:
 
-عملي: new_list = old_list[:] (أي تعديل في الواحدة لا يؤثر على الأخرى).
+```python
+# Correct — independent copy
+a = [1, 2, 3]
+b = a[:]
+b.append(4)
+print(a)  # [1, 2, 3]  ← a unchanged
+print(b)  # [1, 2, 3, 4]
+```
 
-3. الصفوف (Tuples) 🔒
-قائمة ثابتة لا يمكن تغيير عناصرها بعد إنشائها (Immutable)، وتُكتب بأقواس دائرية ().
+---
 
-عملي: dimensions = (200, 50). إذا حاولت تغيير عنصر سيعطيك بايثون خطأ، وللتعديل يجب إعادة تعريف المتغير بالكامل.
+## Tuples
 
-4. التكرار (Looping over Slices) 🔄
-يمكنك عمل for loop على جزء معين فقط من القائمة وليس كلها.
+A tuple is an **immutable** sequence — its elements cannot be changed after creation.
 
-عملي: for item in my_list[:3]: print(item) (يطبع أول 3 فقط).
+```python
+dimensions = (200, 50)
+print(dimensions[0])  # 200
+```
 
-# Notes updated on: 2026-03-03
+- Written with `()` instead of `[]`.
+- Trying to modify an element raises a `TypeError`.
+- To "update" a tuple, reassign the variable entirely:
+
+```python
+dimensions = (400, 100)  # new tuple, not a modification
+```
+
+> Use tuples when a set of values should stay constant throughout the program.
+
+---
+
+## Personal Research Notes
+
+> The following concepts are not covered in PCC Chapter 4 — added from external reading for broader context.
+
+**Generators** — objects that produce values one at a time on demand, without storing them all in memory. Different from `range()`, which is a built-in iterable object.
+
+**I/O Operations** — interactions with external devices (screen, keyboard, disk). CPU computations are thousands of times faster than I/O, which is why printing inside a large loop is slow.
+
+**Scientific Notation** — Python represents very large floats using exponent notation: `5e11` = 500,000,000,000.
+
+---
+
+*Notes last updated: 2026-03-03*
