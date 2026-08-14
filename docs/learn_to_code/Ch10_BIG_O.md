@@ -1,7 +1,8 @@
-```markdown
-# Chapter 10 - Big O Basics
+## Chapter 10: Big O Basics
 
-## What is Big O?
+---
+
+### What is Big O?
 
 Big O measures **how the running time of an algorithm grows** as the input size increases. It describes the relationship between:
 
@@ -12,12 +13,12 @@ Big O does **not** measure exact time in seconds.
 
 ---
 
-# 1. Constant Time — O(1)
+### 1. Constant Time — O(1)
 
 An algorithm is **O(1)** if it performs the same amount of work **regardless** of input size.
 
 ```python
-x = numbers[5]          # Always one step
+x = numbers[5]  # Always one step
 ```
 
 **Common O(1) operations (average case):**
@@ -28,7 +29,7 @@ x = numbers[5]          # Always one step
 
 ---
 
-# 2. Linear Time — O(n)
+### 2. Linear Time — O(n)
 
 An algorithm is **O(n)** if the work grows **directly** with input size.
 
@@ -39,10 +40,10 @@ for item in data:
 
 **Doubling the input → doubles the work.**
 
-### Python Operations That Are O(n)
+#### Python Operations That Are O(n)
 
 | Operation | Why |
-|-----------|-----|
+|---|---|
 | `input()` | O(n) with respect to input length |
 | `string.count(" ")` | Checks every character |
 | `value in list` | Linear search |
@@ -50,7 +51,7 @@ for item in data:
 | `max(list)` / `min(list)` | Scans entire list |
 | `sum(list)` | Visits every element |
 
-### Example
+#### Example
 
 ```python
 line = input()  # O(n) – reads all characters
@@ -60,7 +61,7 @@ words = line.count(" ") + 1  # O(n) – scans all characters
 
 ---
 
-# 3. Big O Ignores Constants
+### 3. Big O Ignores Constants
 
 All of these are **O(n)**:
 
@@ -72,7 +73,7 @@ Because Big O only cares about **growth rate**, not exact numbers.
 
 ---
 
-# 4. Quadratic Time — O(n²)
+### 4. Quadratic Time — O(n²)
 
 Quadratic algorithms perform work proportional to the **square** of input size.
 
@@ -82,16 +83,16 @@ for i in range(n):
         do_constant_work()  # n × n iterations
 ```
 
-### Comparison
+#### Comparison
 
 | Input Size | O(n) | O(n²) |
-|------------|------|-------|
-| n = 1,000  | 1,000 | 1,000,000 |
+|---|---|---|
+| n = 1,000 | 1,000 | 1,000,000 |
 | n = 10,000 | 10,000 | 100,000,000 |
 
 ---
 
-# 5. Nested Loops — Not Always O(n²)
+### 5. Nested Loops — Not Always O(n²)
 
 ```python
 for i in range(10):  # 10 is constant
@@ -100,7 +101,7 @@ for i in range(10):  # 10 is constant
 # Total: 10n → O(n)
 ```
 
-### Sequential Loops (Not Nested)
+#### Sequential Loops (Not Nested)
 
 ```python
 for i in range(n):  # O(n)
@@ -113,9 +114,9 @@ for j in range(n):  # O(n)
 
 ---
 
-# 6. Hidden Quadratic
+### 6. Hidden Quadratic
 
-Sometimes there's only **one visible loop**, but the algorithm is still O(n²).
+Sometimes there is only **one visible loop**, but the algorithm is still O(n²).
 
 ```python
 for address in addresses:  # O(n)
@@ -124,10 +125,10 @@ for address in addresses:  # O(n)
 # Total: n × n = O(n²)
 ```
 
-### Using a Set Makes It Faster
+#### Using a Set Makes It Faster
 
 | Operation | Complexity |
-|-----------|------------|
+|---|---|
 | `value in list` | O(n) |
 | `value in set` | O(1) average |
 
@@ -135,7 +136,7 @@ for address in addresses:  # O(n)
 
 ---
 
-# 7. Cubic Time — O(n³)
+### 7. Cubic Time — O(n³)
 
 Three nested loops → O(n³).
 
@@ -147,21 +148,21 @@ for i in range(n):
 ```
 
 | Input Size | Operations |
-|------------|------------|
+|---|---|
 | n = 1,000 | 1,000,000,000 |
 
 ---
 
-# 8. Sequential vs Nested — Summary
+### 8. Sequential vs Nested — Summary
 
 | Pattern | Complexity |
-|---------|------------|
+|---|---|
 | Sequential loops | O(a + b) — **Add** |
 | Nested loops | O(a × b) — **Multiply** |
 
 ---
 
-# 9. Multiple Variables
+### 9. Multiple Variables
 
 Sometimes Big O uses **more than one variable**.
 
@@ -176,7 +177,7 @@ for day in range(d):  # d days
 
 ---
 
-# 10. Logarithmic Time — O(log n)
+### 10. Logarithmic Time — O(log n)
 
 **Binary Search** is the classic logarithmic algorithm.
 
@@ -187,18 +188,18 @@ Instead of checking every element, it removes **half** the search space each ste
 ```
 
 | Input Size | Steps |
-|------------|-------|
+|---|---|
 | 512 | ~9 |
 | 1,000,000 | ~20 |
 
 ---
 
-# 11. O(n log n) — Sorting
+### 11. O(n log n) — Sorting
 
 Sorting in Python uses **Timsort** → O(n log n) worst case.
 
 | Algorithm | Complexity |
-|-----------|------------|
+|---|---|
 | Bubble Sort | O(n²) |
 | Insertion Sort | O(n²) |
 | Merge Sort | O(n log n) |
@@ -206,7 +207,7 @@ Sorting in Python uses **Timsort** → O(n log n) worst case.
 
 ---
 
-# 12. Big O — Function Calls
+### 12. Big O — Function Calls
 
 **Always include the cost of function calls.**
 
@@ -227,28 +228,28 @@ for i in range(len(lst)):  # O(n)
 
 ---
 
-# 13. Context Matters
+### 13. Context Matters
 
 A function's complexity depends on the **size of its input**.
 
 ```python
 def no_high(lst):
-    if max(lst) > 10:
-        ...  # O(n) normally
+    if max(lst) > 10:  # O(n) normally
+        ...
 ```
 
-If called with **at most 4 elements**, it's effectively **O(1)**.
+If called with **at most 4 elements**, it is effectively **O(1)**.
 
 ---
 
-# 14. Preprocessing for Faster Queries ⭐
+### 14. Preprocessing for Faster Queries ⭐
 
 Sometimes we can process the data once and store useful information so that later operations become faster.
 
-### Example: Longest Scarf Problem
+#### Example: Longest Scarf Problem
 
 | Approach | Complexity |
-|----------|------------|
+|---|---|
 | Searching repeatedly through original data | O(m × n) |
 | Preprocess once using a dictionary | O(n) |
 | Process the queries using the dictionary | O(m) |
@@ -258,7 +259,7 @@ This is an example of **trading extra memory and preprocessing time for faster q
 
 ---
 
-# 15. Big O Ranking (Fastest → Slowest)
+### 15. Big O Ranking (Fastest → Slowest)
 
 ```
 O(1)       ← Fastest
@@ -273,16 +274,16 @@ O(n!)      ← Slowest
 
 ---
 
-# 16. Practical Rule
+### 16. Practical Rule
 
 | Complexity | Verdict |
-|------------|---------|
+|---|---|
 | O(1), O(log n), O(n), O(n log n) | ✅ Usually fast enough |
 | O(n²), O(n³) | ⚠️ Check constraints carefully |
 
 ---
 
-# 17. Key Takeaways
+### 17. Key Takeaways
 
 - Big O measures **growth**, not exact speed.
 - **Ignore constants** (`10n → O(n)`).
@@ -298,12 +299,12 @@ O(n!)      ← Slowest
 
 ---
 
-# 18. Golden Rules
+### 18. Golden Rules
 
 > When you see a function call:
 > 1. Analyze the function itself.
 > 2. Analyze the size of its input.
-> 3. Combine with how many times it's called.
+> 3. Combine with how many times it is called.
 
 > Sorting is **O(n log n)** — not O(n), not O(n²).
 
@@ -314,4 +315,4 @@ O(n!)      ← Slowest
 > - Efficient enough for the constraints
 
 > Optimize only when necessary.
-```
+

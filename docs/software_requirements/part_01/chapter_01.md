@@ -1,10 +1,10 @@
-# Chapter 1: The Essential Software Requirement
+## Chapter 1: The Essential Software Requirement
 
 > *Software Requirements, 3rd Edition — Karl Wiegers & Joy Beatty*
 
 ---
 
-## Why Requirements Matter
+### Why Requirements Matter
 
 - Most software problems originate from poor requirements.
 - Requirements errors account for a large percentage of software defects.
@@ -14,7 +14,7 @@
 
 ---
 
-## What Is a Requirement?
+### What Is a Requirement?
 
 - A requirement can describe behavior, a property, an attribute, or a constraint.
 - Requirements represent both the user's and the developer's perspectives.
@@ -24,7 +24,7 @@
 
 ---
 
-## Terminology and Communication
+### Terminology and Communication
 
 - Different stakeholders often use the term "requirement" differently — agree on common terminology before any discussion begins.
 - A shared glossary reduces misunderstandings across the project team.
@@ -33,32 +33,32 @@
 
 ---
 
-## Types of Requirements
+### Types of Requirements
 
 | Type | Purpose |
-|------|---------|
+|---|---|
 | **Business Requirements** | Explain *why* the product is needed — the business goal |
 | **User Requirements** | Describe *what* users need to accomplish |
-| **Functional Requirements** | Define *how* the system should behave |
-| **Nonfunctional Requirements** | Define quality attributes and constraints |
-| **Business Rules** | Not requirements themselves, but often generate functional requirements |
+| **Functional Requirements** | Define what the system shall do and how it should behave in response to inputs or conditions |
+| **Nonfunctional Requirements** | Define quality attributes and constraints on the system or its development |
+| **Business Rules** | Policies, regulations, standards, or guidelines that influence or constrain system behavior and may lead to functional requirements |
 | **Transition Requirements** | Essential for successful system migration |
 
 - Features provide user value and are supported by functional requirements.
 - Functional Requirements support User Requirements, which in turn support Business Requirements.
-- The SRS documents the expected behavior of the software.
+- The SRS documents the software requirements that the system is expected to satisfy.
 - A system may include software, hardware, people, and processes.
 - Use Cases and User Stories are common ways to represent User Requirements.
 
 ---
 
-## Requirements Hierarchy
+### Requirements Hierarchy
 
 ```
 Business Needs
     └── Business Requirements  (why)
-            └── User Requirements  (what)
-                    └── Functional Requirements  (how)
+            └── User Requirements  (what users need)
+                    └── Functional Requirements  (what the system shall do)
 ```
 
 - Start from business goals before defining system behavior.
@@ -67,19 +67,28 @@ Business Needs
 
 ---
 
-## Stakeholders
+### Product vs Project Requirements
+
+| Type | Description |
+|---|---|
+| **Product Requirements** | Describe what the product must do or provide |
+| **Project Requirements** | Describe needs related to the project itself, such as schedule, budget, or process constraints |
+
+---
+
+### Stakeholders
 
 - Requirements are the intersection point of all stakeholders.
 - Different stakeholders participate at different requirement levels.
 - Every important stakeholder should have a voice.
 - Maintenance and support teams also have requirements.
 - User involvement and customer involvement are critical to project success and reduce expectation gaps.
-- Developers implement functional and nonfunctional requirements.
-- Testers verify that requirements are correctly implemented.
+- Developers implement the software to satisfy functional and nonfunctional requirements.
+- Testers verify that the implemented software satisfies the specified requirements.
 
 ---
 
-## Requirements Engineering
+### Requirements Engineering
 
 Requirements Engineering consists of two distinct activities:
 
@@ -90,21 +99,21 @@ Requirements Engineering consists of two distinct activities:
 - Baselines, traceability, and change control
 - Use impact analysis before accepting requirement changes
 
-> Product Requirements are different from Project Requirements. Requirements development is iterative, not strictly linear.
+> Requirements development is iterative, not strictly linear.
 
 ---
 
-## Common Pitfalls to Avoid
+### Common Pitfalls to Avoid
 
 - **Ambiguity** — unclear requirements lead to different interpretations.
-- **Scope creep** — accepting requirements that don't support a business objective.
+- **Scope creep** — accepting requirements that do not support a business objective.
 - **Gold plating** — implementing features beyond what was required.
 - **Tribal knowledge** — requirements kept in people's heads, not documented.
 - Small projects may combine requirement documents, but the information types remain distinct.
 
 ---
 
-## Key Takeaways
+### Key Takeaways
 
 - Good requirements improve both product quality and project success.
 - Clear requirements simplify testing and reduce rework and project risk.
@@ -112,3 +121,6 @@ Requirements Engineering consists of two distinct activities:
 - Continuous improvement of requirements practices benefits the entire project team.
 - Focus on user goals before implementing features.
 - Maintain traceability across all requirement levels.
+
+
+

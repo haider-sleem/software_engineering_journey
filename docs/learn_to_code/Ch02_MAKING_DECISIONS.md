@@ -1,8 +1,10 @@
-Problem #3: Winning Team (DMOJ problem ccc19j1.) page 58
+## Chapter 2: Making decisions
 
---- طريقة حل المسألة بطريقة إحترافية غير حل الكتاب مع تحليلها--
+## Problem 3 — Winning Team (DMOJ ccc19j1, page 58)
 
-'''
+A different way to solve this problem — a more professional approach than the book's solution, with analysis.
+
+```python
 def calculate_total(three, two, one):
     return three * 3 + two * 2 + one
 
@@ -18,140 +20,80 @@ def get_team_score(team_name):
 apple = get_team_score("Apples")
 banana = get_team_score("Bananas")
 
-
 if apple > banana:
     print("A")
 elif banana > apple:
     print("B")
 else:
     print("T")
+```
 
---------------------------  التحليل -----------------
+### Analysis
 
+#### 1. Clean Code principles
 
+- **Clear naming**
+  - `calculate_total` — clearly describes what it does: calculate the total score.
+  - `get_team_score` — collects the team's input and returns the result produced by `calculate_total()`. It does not do the calculation itself.
 
-## 1️⃣ كيف يحقق مبدأ **Clean Code**
+- **Separation of concerns**
+  - `calculate_total` handles the calculation.
+  - `get_team_score` handles collecting input, and calls `calculate_total` to get the result.
+  - Comparing results and printing the output is a separate final step.
+  This makes it easy to change one part without affecting the others.
 
-* **وضوح الأسماء (Naming)**
+- **Avoiding repetition (DRY principle)**
+  - The calculation logic isn't repeated for each team — it lives in one function, `calculate_total`.
+  - Any change to how the score is calculated only needs to happen in one place.
 
-  * `calculate_total` → اسم واضح يصف وظيفة الدالة بدقة: حساب مجموع النقاط.
-  * `get_team_score` → اسم واضح يفهم منه أنها **تجمع مدخلات الفريق وتحسب النتيجة**.
-    ✅ هذا يقلل أي غموض ويجعل الكود self-documenting.
+- **Readability**
+  - The code is organized logically: input → processing → decision → output.
 
-* **فصل المسؤوليات (Separation of Concerns)**
+#### 2. Design notes
 
-  * دالة واحدة مسئولة عن الحساب (`calculate_total`).
-  * دالة أخرى مسئولة عن جمع المدخلات (`get_team_score`).
-  * مقارنة النتائج وطباعة النتيجة في القسم الأخير منفصلة.
-    ✅ هذا يسهل تعديل أي جزء دون التأثير على الأجزاء الأخرى.
+- **Modularity & reusability:** each function does one job and can be reused. `calculate_total` works for any set of scores; `get_team_score` can be called for any team without repeating the input code.
+- **On scalability:** adding a new score type only needs a small change inside `calculate_total`. But adding a third team would also require updating the final `if`/`elif`/`else` comparison — so this design makes the *calculation* easy to extend, not the *comparison logic*.
 
-* **تقليل التكرار (DRY Principle)**
+#### 3. Comparison with a simpler, quicker approach
 
-  * لم نكرر منطق الحساب لكل فريق، استخدمنا دالة `calculate_total`.
-  * أي تعديل على طريقة الحساب يتم مرة واحدة فقط في الدالة.
+- **The quick approach (a loop with direct input)**
+  - Mixes input and processing together, which makes it harder to understand, reuse, test, or modify.
 
-* **سهولة القراءة والفهم (Readability)**
+- **Why this solution is more professional**
+  - Clear, organized, easier to modify and test, and reduces mistakes when editing.
 
-  * الكود مقسم منطقيًا: إدخال → معالجة → قرار → إخراج.
-  * كل خطوة واضحة بدون خلط بين الأمور.
+- **When to use each approach**
+  - The function-based approach → for projects, larger exercises, tests, and official competitions.
+  - The direct approach → for very quick problems or trying out a short idea.
 
----
+#### 4. Performance
 
-## 2️⃣ مفاهيم تصميم مهمة
+- **Time complexity:** O(1) per team — the operations are fixed and limited.
+- In practice, there's no meaningful performance difference from the direct approach here. The real benefit is **flexibility, maintainability, and clarity** — not speed.
 
-* **تقسيم الكود إلى دوال (Modularity)**
+#### 5. A general model for similar problems
 
-  * كل دالة تقوم بمهمة محددة، يمكن إعادة استخدامها بسهولة.
-  * يسمح بإضافة فرق جديدة أو أنواع مختلفة من الرميات بدون تعديل الكود الرئيسي.
+1. **Identify the required input** — what data will come in?
+2. **Separate the calculation/processing logic** — one function per calculation.
+3. **Use small, reusable functions** — follow DRY.
+4. **Handle the decision or comparison separately** — using `if`/`elif`/`else` or similar logic.
+5. **Only produce the final output after all processing is done** — this reduces mistakes.
 
-* **إعادة الاستخدام (Reusability)**
+#### 6. Another example using the same approach
 
-  * يمكن استخدام `calculate_total` لأي نوع من النقاط أو أي فريق آخر.
-  * يمكن استدعاء `get_team_score` لأي عدد فرق دون كتابة نفس الـ input مرة أخرى.
+**Problem:** calculate test scores for students in 3 subjects and find who scored higher.
 
-* **قابلية التوسعة (Scalability)**
-
-  * إضافة فريق ثالث أو تغيير عدد أنواع الرميات يتطلب تعديل بسيط فقط في الدوال.
-  * الكود معدّ للتوسع دون إعادة كتابة منطق الحساب أو مقارنة النتائج.
-
----
-
-## 3️⃣ مقارنة بأساليب أبسط أو سريعة
-
-* **الأسلوب السريع (loop مع input مباشرة)**
-
-  * يخلط بين الإدخال والمعالجة، مما يصعب الفهم أو إعادة الاستخدام.
-  * صعب التعديل أو التوسع.
-  * يصعب اختبار الدوال أو استخدام الـ automated tests.
-
-* **لماذا هذا الحل أكثر احترافية**
-
-  * واضح ومنظم
-  * قابل للتعديل والاختبار بسهولة
-  * يقلل الأخطاء المحتملة أثناء التعديل أو التوسع
-
-* **متى يُفضّل استخدام كل أسلوب**
-
-  * الأسلوب المنظم بالدوال → للمشاريع، التمارين الكبيرة، الاختبارات، المسابقات الرسمية
-  * الأسلوب المباشر → للمسائل السريعة جدًا أو تجربة فكرة واحدة قصيرة
-
----
-
-## 4️⃣ تحليل الأداء (Performance)
-
-* **Time Complexity**:
-
-  * O(1) لكل فريق → العمليات محدودة وثابتة
-* **فرق الأداء مع الحلول الأخرى**:
-
-  * الحلول المباشرة لا يوجد فرق كبير عمليًا هنا
-  * الفائدة الحقيقية ليست الأداء، بل **المرونة، الصيانة، والفهم**
-
----
-
-## 5️⃣ كيف يساعدك هذا الأسلوب
-
-* **حل مسائل أخرى مشابهة بشكل أسرع**:
-
-  * بمجرد كتابة دوال حسابية واستدعاءها، يمكنك حل أي مسألة حساب نقاط أو تقييم نتائج فرق مختلفة.
-
-* **تقليل الأخطاء أثناء البرمجة**:
-
-  * كل دالة صغيرة → أقل فرصة لخلط المنطق مع الإدخال أو الطباعة
-  * أي خطأ يتم تحديده وتصحيحه بسهولة في دالة واحدة
-
-* **التفكير المنظم (Problem Solving Mindset)**:
-
-  * تعلم كيفية فصل المدخلات عن المعالجة عن القرار
-  * هذا يكوّن عادة تحليل المسألة قبل كتابة أي كود
-
----
-
-## 6️⃣ قاعدة عامة أو نموذج تفكير
-
-**نموذج أي مسألة مشابهة:**
-
-1. **حدد المدخلات المطلوبة** → ما هي البيانات التي ستدخل؟
-2. **افصل منطق الحساب أو المعالجة** → دالة واحدة لكل عملية حسابية
-3. **استعمل دوال صغيرة قابلة لإعادة الاستخدام** → DRY
-4. **حدد القرار أو المقارنة منفصلًا** → if/elif/else أو أي منطق اتخاذ قرار
-5. **الإخراج النهائي فقط بعد كل المعالجة** → لتقليل الأخطاء
-
----
-
-## 7️⃣ مثال آخر يمكن تطبيق نفس الأسلوب
-
-**مسألة:** حساب درجات اختبار الطلاب في 3 مواد ومعرفة الأعلى.
-
-python
+```python
 def calculate_total(math, physics, chemistry):
     return math + physics + chemistry
+
 
 def get_student_score():
     math = int(input())
     physics = int(input())
     chemistry = int(input())
     return calculate_total(math, physics, chemistry)
+
 
 alice = get_student_score()
 bob = get_student_score()
@@ -162,38 +104,6 @@ elif bob > alice:
     print("Bob")
 else:
     print("Tie")
+```
 
-
-✅ نفس الأسلوب: دوال منفصلة، إعادة استخدام، نظافة الكود، قابلية التوسع
-
----
-
-
-'''
-
-# ---------------------------------------
-
-# Problem #4: Telemarketer or not ( DMOJ problem ccc18j1.) page 72
-
-# Chapter 02: Making Decisions
-
-## 🎯 Key Concepts
-- **Membership Testing:** Using `in` with `Tuples` for cleaner conditions.
-- **Boolean Logic:** Mastering `and`, `or`, and `not`.
-
-## 🛠 Pro Tools
-### Input Redirection
-To run code with automated inputs:
-`python file.py < input.txt` (CMD/Bash)
-`Get-Content input.txt | python file.py` (PowerShell)
-((((Problem: RedirectionNotSupported error in PowerShell when using <.
-Cause: PowerShell handles input redirection differently than standard shells.
-Solution: Switch the terminal to Command Prompt (CMD) or use the piping command: Get-Content file.txt | python code.py.))))
-
-## 💡 Senior Tip
-Always keep your logic **Positive & Direct**. Avoid double negatives to reduce cognitive load.
-
-# -------------------------------------------------------
-
-
-
+Same approach: separate functions, reusability, clean code.

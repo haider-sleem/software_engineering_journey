@@ -1,131 +1,144 @@
+## Chapter 3: Repeating Code
 
-
-* # ملاحظات الفصل الثالث   
 
 ## Technical Note: Using Multiple Arguments in `print()`
 
-When calling the `print()` function, using commas to separate multiple arguments is more efficient than string concatenation (using the `+` operator).
+When calling `print()`, using commas to separate multiple arguments is more convenient than string concatenation (using the `+` operator).
 
-**Key Benefits:**
-* **Automatic Type Conversion:** Python automatically handles non-string data types (like the integer returned by `len()`), removing the need to manually wrap them in `str()`.
-* **Automatic Spacing:** Python inserts a space between arguments by default, which keeps the code cleaner and reduces manual formatting within string literals.
+**Key benefits:**
+- **Handles different data types:** `print()` can print a string and an integer as separate arguments without manually converting the integer with `str()`.
+- **Automatic spacing:** Python inserts a space between arguments by default, which keeps the code cleaner and avoids manual formatting inside string literals.
 
-**Example from the code:**
+**Example:**
 ```python
-print(len(secret_word), 'iterations, coming right up!')
-```
-*This approach is preferred over `print(str(len(secret_word)) + " iterations...")` because it is more readable and less prone to type errors.*
+print(len(secret_word), "iterations, coming right up!")
+````
+
+This is preferred over `print(str(len(secret_word)) + " iterations...")` because it's more readable and less likely to cause type errors.
 
 ---
 
 ## "Pythonic" Swap: Tuple Unpacking
 
-To swap two values, Python uses Tuple Unpacking. This allows us to exchange the contents of two variables (or list elements) simultaneously without needing a temporary "helper" variable.
+To swap two values, Python uses tuple unpacking. This lets you exchange the contents of two variables (or list elements) at the same time, without needing a temporary "helper" variable.
 
 **Syntax:** `a, b = b, a`
 
-**مثال توضيحي بالأرقام:**
-لو كان عندنا:
+**Example with numbers:**
+
+If we have:
+
 ```python
 cups = [1, 0, 0]
 ```
-يعني:
-- `cups[0]` قيمته 1
-- `cups[1]` قيمته 0
 
-عند تنفيذ السطر:
+This means:
+
+* `cups[0]` is `1`
+* `cups[1]` is `0`
+
+When we run this line:
+
 ```python
 cups[0], cups[1] = cups[1], cups[0]
 ```
-1. بايثون يرى الجهة اليمنى: `(0, 1)`
-2. يقوم بتعيين هذه القيم للجهة اليسرى بالترتيب:
-   - يضع الـ `0` داخل `cups[0]`
-   - يضع الـ `1` داخل `cups[1]`
 
-**النتيجة النهائية:** `cups = [0, 1, 0]`
+1. Python first looks at the right side: `(0, 1)`.
+2. Then it assigns these values to the left side, in order:
+
+   * `0` goes into `cups[0]`
+   * `1` goes into `cups[1]`
+
+**Result:** `cups = [0, 1, 0]`
 
 ---
 
 ## Logic Note: Substring vs. Subsequence
 
-في معالجة النصوص، لازم نفرق بين طريقتين للبحث عن الكلمات داخل "السترنج":
+When working with text, it's important to tell apart two ways of searching for a word inside a string:
 
-- **Substring:** حروف متجاورة تماماً بدون أي فواصل (مثل: `HONI` في كلمة `XXHONIYY`).
-- **Subsequence:** حروف تظهر بنفس الترتيب لكن مش لازم تكون جنب بعض (مثل: `HONI` في كلمة `H-X-O-X-N-X-I`).
+* **Substring:** letters that are exactly next to each other, with no gaps (example: `HONI` inside `XXHONIYY`).
+* **Subsequence:** letters that appear in the same order, but don't have to be next to each other (example: `HONI` inside `H-X-O-X-N-X-I`).
 
-**القاعدة في مسألة Magnus:**
-المسألة تطلب البحث عن **Subsequence**، يعني بنصطاد حروف كلمة `HONI` بالترتيب من الشمال لليمين، وبنطنش أي حروف تانية في النص.
+**Rule for the Magnus problem:**
+The problem asks for a **subsequence**. This means we look for the letters of `HONI` in order, from left to right, and ignore any other letters in between.
 
 ---
 
 ## The "Greedy" Selection & Pattern Matching
 
-لحل المسألة بأفضل أداء، بنستخدم أسلوب الخوارزمية الجشعة (Greedy Algorithm) مع مطابقة الأنماط (Pattern Matching).
+To solve this problem efficiently, we use a **greedy algorithm** combined with **pattern matching**.
 
-**المفهوم المنطقي:**
+**The idea:**
 
-- **Greedy:** يعني "خد أول فرصة صح تقابلك". أول ما تلاقي حرف `H` خده فوراً وابدأ دور على اللي بعده (`O`)، لأن تأخير الاختيار هنا ملوش فايدة وهضيع عليك فرص تانية.
-- **Pattern Matching:** إحنا بنراقب "نمط" معين (`H -> O -> N -> I`) ونتجاهل أي حرف مش تبع النمط ده.
+* **Greedy:** take the first correct match as soon as you see it. As soon as you find `H`, take it right away and start looking for the next letter (`O`). Waiting doesn't help here — it only wastes opportunities.
+* **Pattern matching:** we watch for a specific pattern (`H → O → N → I`) and ignore any letter that doesn't fit the pattern.
 
 ---
 
-## State Tracking (تتبع الحالة)
+## State Tracking
 
-عشان الكود "يفتكر" هو وصل لفين في الكلمة، بنستخدم متغير بنسميه `Target` أو الهدف الحالي.
+To make the code "remember" how far it has gone through the word, we use a variable often called `target` — the letter we're currently looking for.
 
-**مثال توضيحي بالمنطق:**
-لو الكلمة هي: `PROHODNIHODNIK`
+**Example:**
 
-إحنا بنبدأ بـ `target = "H"`:
-1. نمشي حرف حرف، أول ما نقابل `H`، بنغير الهدف: `target = "O"`.
-2. نطنش أي حروف تانية لحد ما نقابل `O`، فنغير الهدف: `target = "N"`.
-3. أول ما نقابل `N`، نغير الهدف: `target = "I"`.
-4. أول ما نقابل `I`، كدة إحنا قفلنا كلمة كاملة (Block 1):
-   - بنعمل `honi_count += 1`
-   - بنصفر الهدف ونرجعه: `target = "H"` عشان نبدأ نصطاد كلمة جديدة.
+If the word is: `PROHODNIHODNIK`
 
-**النتيجة النهائية:** الكود بيمر على الكلمة مرة واحدة فقط (`O(n)`)، وده بيخليه سريع جداً ومثالي للمسابقات البرمجية.
+We start with `target = "H"`:
+
+1. We go letter by letter. As soon as we find `H`, we change the target: `target = "O"`.
+2. We ignore other letters until we find `O`, then change the target: `target = "N"`.
+3. As soon as we find `N`, we change the target: `target = "I"`.
+4. As soon as we find `I`, we've completed one full word (Block 1):
+
+   * `honi_count += 1`
+   * Reset the target back to `target = "H"` to start looking for the next word.
+
+**Result:** the code only goes through the word once (`O(n)`), which makes it fast and well suited for programming contests.
 
 ---
 
 ## Input Management (Handling Data)
 
-- **`input()` Function:** It reads only one single line at a time and stops when it hits a new line `\n`. If your text is spread across multiple lines, you must use a `for` loop to read them one by one. This allows you to access every character in every word across all separate lines.
+* **`input()`:** reads only one line at a time, and stops when it hits a newline (`\n`). If the input spans multiple lines, there are a few ways to read it — for example, using a `for` loop, or reading everything at once with `sys.stdin.read()`.
 
-- **`sys.stdin.read()`:** This is a professional tool from the `sys` library. It reads all the input at once as one giant block of text. It is much faster and more efficient in programming contests because it eliminates the need for a loop to read the lines, giving you immediate access to everything written.
+* **`sys.stdin.read()`:** a tool from the `sys` library that reads all the input at once, as one large block of text. When the input is large, this can be faster than calling `input()` repeatedly, because it reduces the overhead of reading the input line by line.
 
 ---
 
 ## Variable Scope After Loops
 
-In Python, a variable used in a `for` loop (like `i`) does not disappear when the loop finishes. It keeps the last value it held during the final iteration.
+In Python, a variable used in a `for` loop (like `i`) does not disappear when the loop ends. It keeps the last value it had during the final iteration.
 
-**Why is this useful?** You can use this last value outside the loop for final checks or calculations without needing to create a new variable.
+**Note:** The loop variable remains available after the loop and keeps its last assigned value, as long as the loop ran at least once.
 
 ---
 
 ## Iterating: By Element vs. By Index
 
-There are two ways to loop through a string or a list, and each has a specific use:
+There are two ways to loop through a string or a list, and each has its own use:
 
-1.  **`for item in sequence` (By Element):**
-    - **Use it when:** You only care about the value of each item.
-    - **Pros:** Simple and clean code.
+1. **`for item in sequence` (by element)**
 
-2.  **`for i in range(len(sequence))` (By Index):**
-    - **Use it when:** You need the position (Index) of the item.
-    - **Pros:** It allows you to "look around" the current item, such as checking the previous character `sequence[i-1]` or the next one `sequence[i+1]`.
+   * Use it when: you only care about the value of each item.
+   * Pros: simple, clean code.
+
+2. **`for i in range(len(sequence))` (by index)**
+
+   * Use it when: you need the position (index) of the item.
+   * Pros: lets you "look around" the current item, like checking the previous character (`sequence[i-1]`) or the next one (`sequence[i+1]`).
 
 ---
 
-## Efficiency: In-Place Processing vs. Data Splitting
+## Processing a String Directly vs. Using `.split()`
 
-Processing data "In-Place" (directly from the original string) is generally more efficient than splitting it into new structures.
+Going through a string directly (character by character) can avoid creating a new list with `.split()`, which may reduce memory use — especially with large input.
 
-- **Data Splitting (The `.split()` method):** This creates a new list in memory and copies parts of the string into it. This uses extra memory and takes extra time to "cut" the data.
+* **Data splitting (the `.split()` method):** creates a new list in memory and copies parts of the string into it. This uses extra memory and extra time to "cut" the data.
 
-- **In-Place Processing (The `range(len())` method):** This reads the original string directly without creating any copies. Since it doesn't move or duplicate data, it is faster and more memory-efficient, especially with very large inputs.
+* **Index-based processing (`range(len())`):** uses the string's indices to access its characters without creating a new list with `.split()`. This can use less memory and be faster, especially with very large inputs.
 
-> **Note:** Review the two ways solution for **[# 5. DMOJ problem coci12c5p1, Ljestvica]** in `Ch03_REPEATING_CODE.py`
+> **Note:** review the two solutions for **DMOJ problem coci12c5p1 (Ljestvica)** in `Ch03_REPEATING_CODE.py`.
+
 ```
 

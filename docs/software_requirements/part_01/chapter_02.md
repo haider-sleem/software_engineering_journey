@@ -1,16 +1,16 @@
-# Chapter 2: Requirements from the Customer's Perspective
+## Chapter 2: Requirements from the Customer's Perspective
 
 > *Software Requirements, 3rd Edition — Karl Wiegers & Joy Beatty*
 
 ---
 
-## Core Idea
+### Core Idea
 
 Requirements should not come from developers guessing what customers need. Good requirements come from **collaboration between customers, users, BAs, and developers**. The goal is to build the **right product**, not just to build the product correctly.
 
 ---
 
-## Requirements Hierarchy
+### Requirements Hierarchy
 
 ```
 Business Requirements   →  Why does the organization want this system?
@@ -21,7 +21,7 @@ Functional Requirements →  What must the software do?
 ```
 
 | Type | Defined By | Purpose |
-|------|-----------|---------|
+|---|---|---|
 | **Business Requirements** | Management / Sponsors | Business objectives and expected benefits |
 | **User Requirements** | Users / BA | Tasks, outputs, and quality characteristics users need |
 | **Functional Requirements** | BA + Developers | System behavior that supports user tasks |
@@ -29,12 +29,12 @@ Functional Requirements →  What must the software do?
 
 ---
 
-## Key Roles
+### Key Roles
 
 | Role | Definition |
-|------|-----------|
+|---|---|
 | **Stakeholder** | Anyone who has an interest in, is affected by, or can influence the product |
-| **Customer** | A person or organization that receives direct or indirect benefit from the product |
+| **Customer** | The person or organization that commissions, purchases, or otherwise sponsors the product |
 | **User** | Someone who actually operates the product or receives its outputs |
 | **Direct User** | Operates the software directly |
 | **Indirect User** | Receives outputs without directly operating the system |
@@ -44,15 +44,15 @@ Functional Requirements →  What must the software do?
 
 ---
 
-## Why Actual Users Matter
+### Why Actual Users Matter
 
-Customers may not know the details of users' daily work. Developers should not guess — the BA should communicate directly with actual users.
+Customers may not know the details of users' daily work. Developers should not guess user needs. The BA helps communicate with actual users and brings their needs into the requirements process.
 
 **Example:** A manager says *"We need a warehouse system."* The warehouse employees know they need product lookup, barcode scanning, stock updates, quantity tracking, reports, receiving, and sales operations. The manager may not know any of this.
 
 ---
 
-## The Missing Stakeholder Problem
+### The Missing Stakeholder Problem
 
 A project can fail because an important stakeholder was never identified. Different stakeholders may have conflicting requirements, and some may not even know the project exists.
 
@@ -62,7 +62,7 @@ A project can fail because an important stakeholder was never identified. Differ
 
 ---
 
-## The Expectation Gap
+### The Expectation Gap
 
 The gap between what customers actually need and what developers deliver.
 
@@ -77,17 +77,17 @@ The gap between what customers actually need and what developers deliver.
 
 ---
 
-## Requirements Are Iterative
+### Requirements Are Iterative
 
 Requirements change because the business changes, users provide new information, or the team understands the problem better. The goal is not perfect requirements immediately — it is a **shared understanding good enough to safely build the next part of the product**.
 
 ---
 
-## Customer Bill of Rights
+### Customer Bill of Rights
 
 Customers have the right to:
 
-1. Have BAs speak their **business language** — not force technical jargon on them.
+1. Have BAs speak their **business language** and avoid unnecessary technical jargon.
 2. Have BAs **learn the business** — understand users' work, objectives, and current systems.
 3. Have requirements **recorded properly** — distinguishing user requirements, functional requirements, business rules, and quality goals.
 4. **Understand the requirements process** — why techniques are used and what each deliverable means.
@@ -100,10 +100,10 @@ Customers have the right to:
 
 ---
 
-## Customer Bill of Responsibilities
+### Customer Bill of Responsibilities
 
 | # | Responsibility | Key Point |
-|---|---------------|-----------|
+|---|---|---|
 | 1 | Educate the team | Teach business concepts, processes, and terminology |
 | 2 | Provide time | Participate in interviews, workshops, reviews, and prototypes |
 | 3 | Be specific and precise | "Fast" is vague; "results in 2 seconds" is testable |
@@ -111,41 +111,41 @@ Customers have the right to:
 | 5 | Respect cost and feasibility | Every feature has a cost; listen to technical assessments |
 | 6 | Set realistic priorities | Not everything can be high priority |
 | 7 | Review requirements and prototypes | Do not wait until the entire document is finished |
-| 8 | Establish Acceptance Criteria | Define what "done" means in measurable terms |
+| 8 | Define acceptance criteria | Establish measurable conditions for determining whether the requirement has been satisfied |
 | 9 | Communicate changes quickly | Late changes have greater impact |
 | 10 | Respect the requirements process | Requirements work is an investment, not wasted time |
 
 ---
 
-## Creating a Culture That Respects Requirements
+### Creating a Culture That Respects Requirements
 
-### Why People Resist
+#### Why People Resist
 - Bad past experiences with large, ignored requirements documents
 - No understanding of the hidden cost of rework
 - Informal work culture with no structured practices
 
 **The hidden cost chain:** Poor requirements → Rework → Delays → Customer dissatisfaction → Lost business
 
-### Who Should Be Involved
+#### Who Should Be Involved
 
 **Developers** should participate *while* requirements are being developed, not just receive them afterward. They can identify unclear, expensive, or unnecessary requirements early.
 
 **Testers and QA** should review requirements early. They create test cases from requirements and can spot ambiguities, conflicts, and missing information that others miss.
 
-### Management Commitment
+#### Management Commitment
 
 Requirements improvement cannot depend on individual projects. Leadership must treat **business analysis** and **requirements engineering** as strategic core competencies — otherwise improvements disappear after reorganization.
 
 ---
 
-## Identifying Decision Makers
+### Identifying Decision Makers
 
 Requirements decisions (resolving conflicts, approving changes, handling disagreements) must have a clear owner. Identify who can decide **before** the project needs a decision.
 
-### Decision Rules
+#### Decision Rules
 
 | Rule | How It Works |
-|------|-------------|
+|---|---|
 | **Decision Leader** | One person makes the final call |
 | **Majority Vote** | Most votes win |
 | **Unanimous Vote** | Everyone must agree |
@@ -157,20 +157,20 @@ Requirements decisions (resolving conflicts, approving changes, handling disagre
 
 ---
 
-## Reaching Agreement on Requirements
+### Reaching Agreement on Requirements
 
-### What Sign-off Should Mean
+#### What Sign-off Should Mean
 
 Sign-off is **not** "requirements are frozen forever." It is a milestone confirming the team's **best current understanding**. Future changes are expected and will go through the change control process.
 
 | Stakeholder | What They Confirm |
-|-------------|------------------|
+|---|---|
 | Customers | Requirements meet their needs |
 | Developers | Requirements are understood and feasible |
 | Testers | Requirements are verifiable |
 | Management | Requirements support business objectives |
 
-### Requirements Baseline
+#### Requirements Baseline
 
 A reviewed and agreed set of requirements that becomes the basis for further development — a snapshot of agreement at a specific point in time.
 
@@ -178,16 +178,11 @@ A reviewed and agreed set of requirements that becomes the basis for further dev
 Requirements → Review → Agreement → Baseline → Change Control
 ```
 
-After the baseline is set, all changes must be:
-1. Proposed
-2. Reviewed
-3. Analyzed for impact
-4. Approved or rejected
-5. Managed in a controlled way
+After the baseline is set, proposed changes should go through the project's defined change control process.
 
 > **Baseline + Change Control = Controlled Requirements Evolution**
 
-### When Agreement Cannot Be Reached
+#### When Agreement Cannot Be Reached
 
 - **Do not assume silence means agreement** — "reply by Friday or we assume you agree" is not real agreement.
 - Find out *why* the stakeholder is resisting and address the concern directly.
@@ -195,21 +190,21 @@ After the baseline is set, all changes must be:
 
 ---
 
-## Agile Projects
+### Agile Projects
 
-Agile generally does not use formal sign-off. Requirements live as **User Stories** in a **Product Backlog**. The **Product Owner** and team agree on what to build in each **Iteration**.
+Agile generally relies less on formal requirements sign-off and change-control procedures. Requirements are commonly represented as **User Stories** in a **Product Backlog**, and the Product Owner and team decide what to build based on priorities and feedback.
 
-| Concept | Agile Equivalent |
-|---------|-----------------|
-| Sign-off | Product Owner acceptance of working, tested software |
-| Baseline | Stories agreed for the current Iteration |
-| Change control | New requests go to future Iterations |
+| Traditional Concept | Common Agile Approach |
+|---|---|
+| Sign-off | Product Owner acceptance of completed work |
+| Baseline | A shared understanding of the current scope or iteration |
+| Change control | Backlog refinement, reprioritization, and agreement on scope |
 
 > Agile embraces change, but change still needs a reference point: **"What have we agreed to build now?"**
 
 ---
 
-## Key Takeaways
+### Key Takeaways
 
 - Customers are not always users; users are not always the people who pay.
 - Business Requirements explain **why**; User Requirements explain **what users need**; Functional Requirements explain **what the software must do**.
@@ -221,3 +216,4 @@ Agile generally does not use formal sign-off. Requirements live as **User Storie
 - Sign-off is a milestone, not a freeze — future changes go through change control.
 - Strong requirements practices need management commitment to last.
 - The requirements process is an investment that reduces rework, cost, and project chaos.
+
