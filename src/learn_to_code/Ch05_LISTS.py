@@ -597,7 +597,7 @@ print(ans)
 
 # 12. DMOJ problem dmopc19c5p2, Charlie’s Crazy Conquest (You’ll have to be careful with indices and the game rules for this one!)
 
-# # أول محاولة حل خاطئة 
+# # أول محاولة حل خاطئة
 # n_h = input().strip().split()
 
 # n, h = map(int, n_h)
@@ -656,7 +656,7 @@ print(ans)
 #     print("TIE")
 
 
-# # الحل الصحيح بعد 26 حل خطأ بمساعدة أدوات الذكاء المجانية 
+# # الحل الصحيح بعد 26 حل خطأ بمساعدة أدوات الذكاء المجانية
 # # 1. قراءة البيانات بنفس طريقتك البسيطة
 # n_h = input().strip().split()
 # n, h = map(int, n_h)
@@ -674,7 +674,7 @@ print(ans)
 # charly_energy, bot_energy = h, h
 
 # # المتغير المنطقي لمتابعة تأثير تفادي البوت على الدور التالي
-# bot_had_dodge = False 
+# bot_had_dodge = False
 
 # # 2. اللوب الصريحة بنفس أسلوبك
 # for indix in range(n):
@@ -689,23 +689,23 @@ print(ans)
 #                 bot_had_dodge = True
 #             else:
 #                 charly_energy -= j[1]
-            
+
 #             if charly_energy <= 0 or bot_energy <= 0:
 #                 break
 #             continue
-            
+
 #         elif i[0] == "D":
 #             bot_had_dodge = False
 #             # عقاب البوت على حركته القديمة
-#             bot_energy -= bot_moves[indix - 1][1] 
-            
+#             bot_energy -= bot_moves[indix - 1][1]
+
 #             if bot_energy <= 0:
 #                 break
-                
+
 #             if j[0] == "D":
 #                 bot_had_dodge = True
-#                 charly_energy -= i[1] 
-                
+#                 charly_energy -= i[1]
+
 #             if charly_energy <= 0 or bot_energy <= 0:
 #                 break
 #             continue
@@ -714,10 +714,10 @@ print(ans)
 #     if i[0] == "A" and j[0] == "D":
 #         bot_had_dodge = True
 #         bot_energy -= i[1]  # عقاب البوت الفوري (self-humility)
-        
+
 #     elif i[0] == "D" and j[0] == "A":
 #         pass  # تشارلي يتفادى هجوم البوت بنجاح
-        
+
 #     elif i[0] == "A" and j[0] == "A":
 #         bot_energy -= i[1]
 #         if bot_energy <= 0:
@@ -725,7 +725,7 @@ print(ans)
 #         charly_energy -= j[1]
 #         if charly_energy <= 0:
 #             break
-            
+
 #     else:  # حالة D ضد D
 #         bot_had_dodge = True
 #         charly_energy -= i[1]  # عقاب تشارلي الفوري
