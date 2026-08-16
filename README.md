@@ -1,52 +1,130 @@
 # Warehouse Sales System
 
-## Project Overview
-A CLI-based prototype for managing warehouse inventory and sales operations.
+A learning project for building a small warehouse and sales management system, developed while progressively applying Python and Software Engineering concepts studied throughout the learning roadmap.
 
-## Setup Instructions
+The project evolves alongside the roadmap rather than being built as a single finished application. Its current implementation reflects the concepts learned up to this stage and is not intended to represent a final or production-ready design.
+
+## Current Status
+
+**Prototype — In Development**
+
+The current version provides basic inventory and sales management functionality through a command-line interface and serves as a practical environment for applying concepts learned throughout the roadmap.
+
+## Current Features
+
+- Add new products with name, price, and quantity.
+- Search and select products by name using partial matching.
+- Update existing product prices with confirmation.
+- Update existing product quantities.
+- View product status and details.
+- Basic cashier and inventory management menus.
+- Basic input validation and input error handling using `try`/`except` for invalid input.
+
+## Project Structure
+
+```text
+warehouse_sales_system/
+├── main.py
+├── README.md
+├── ToDo.md
+└── docs/
+    ├── requirements.md
+    └── troubleshooting.md
+```
+
+## Setup & Usage
 
 ### Prerequisites
+
 - Python 3.11 or higher
 
 ### Installation
 
-1. Clone the repository
-2. Create virtual environment:
-   ```
-   python -m venv .venv
-   ```
-3. Activate virtual environment:
-   - Windows: `.venv\Scripts\activate`
-   - Mac/Linux: `source .venv/bin/activate`
+Clone the repository, then create and activate a virtual environment:
 
-## Features (Current Version)
-
-### Product Management
-- ✅ Add new products with name, price, and quantity
-- ✅ Update existing product prices with confirmation
-- ✅ Add stock quantity to existing products
-- ✅ Product search by name (partial match)
-- ✅ Product selection via numbered list
-- ✅ Input validation for all user inputs
-- ✅ Product active/inactive status based on price and quantity
-- ✅ Continue/exit flow after each operation
-
-## Usage
-Run the main script:
+```bash
+python -m venv .venv
 ```
+
+**Windows:**
+
+```cmd
+.venv\Scripts\activate
+```
+
+**macOS/Linux:**
+
+```bash
+source .venv/bin/activate
+```
+
+### Run the Project
+
+```bash
 python main.py
 ```
 
-## Future Roadmap
-- Persistent storage with JSON/PostgreSQL
-- Sales reports (daily/monthly)
-- Low stock alerts
-- REST API with FastAPI
-- Authentication and role-based access
+## Learning Roadmap
 
-## Tech Stack (Current)
-- Python 3
-- CLI interface
+The project is developed incrementally as new concepts are learned and applied.
 
-## Project Status
-Prototype phase - Basic CRUD operations for inventory management
+### Phase 1 — Python Foundations
+
+The initial version of the project was developed while building fundamental Python skills, including:
+
+- Python fundamentals and functions.
+- Basic data structures.
+- Input validation.
+- Basic project organization.
+
+### Phase 2 — Algorithms & Data Structures
+
+*(Planned focus for this project)*
+
+The project will be reviewed and improved using concepts learned during this phase, including:
+
+- Refactoring existing functions.
+- Improving error handling using exceptions and concepts learned in this phase.
+- Reviewing the data structures used by the inventory system.
+- Reviewing product-search operations and their efficiency.
+- Preparing the codebase for the transition to OOP.
+
+### Phase 3 — Object-Oriented Programming
+
+*(Planned focus for this project)*
+
+The project will gradually evolve toward an object-oriented design, including:
+
+- Redesigning the inventory domain using appropriate classes and objects.
+- Separating responsibilities according to OOP principles.
+- Refactoring workflows and business logic where appropriate.
+- Improving the overall project structure based on the OOP concepts learned.
+
+### Later Stages
+
+As the learning roadmap progresses, additional concepts may be applied to the project when they become relevant. The project intentionally avoids implementing future concepts before they are covered in the learning process.
+
+See [`ToDo.md`](./ToDo.md) for the detailed and up-to-date list of planned work.
+
+## Learning Branches
+
+This repository includes independent branches used to practice specific concepts while they are being learned. These branches are kept separate from `master` and are not intended to be merged into it:
+
+- **`learning/logging`**: An independent branch for practicing Logging concepts. Logging will later be applied directly to the then-current `master` codebase after the project has evolved through the relevant learning phases.
+- **`docs/requirements`**: An independent branch for applying Software Requirements concepts to the project. The branch remains separate from `master` and is not intended to be merged into it.
+
+These branches represent learning activities and experiments rather than separate production versions of the project.
+
+## Documentation
+
+- [`docs/requirements.md`](./docs/requirements.md) — project requirements and scope documentation.
+- [`docs/troubleshooting.md`](./docs/troubleshooting.md) — documented problems and solutions.
+- [`ToDo.md`](./ToDo.md) — planned project improvements organized by learning phase.
+
+## Purpose
+
+This is primarily a learning and practical application project.
+
+Its purpose is to provide a continuously evolving codebase where programming and Software Engineering concepts can be applied progressively.
+
+The goal is not to maximize the number of features, but to improve the codebase, design, and engineering practices as the learning roadmap advances.

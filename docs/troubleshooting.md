@@ -1,35 +1,31 @@
-# Troubleshooting
+Troubleshooting
+This document logs real technical issues encountered during the setup and development of the project, along with their resolution steps.
 
-## Issue 1:
+Issue 1: PowerShell Execution Policy
+Problem
+PowerShell refused to execute the virtual environment activation script (.venv\Scripts\activate) and displayed the following error:
 
-PowerShell refused to run .venv\Scripts\activate with error "running scripts is disabled on this system".
+cannot be loaded because running scripts is disabled on this system.
+Solution
+Opened PowerShell as Administrator and updated the execution policy:
 
-Solution :
+Set-ExecutionPolicy RemoteSigned
+This allows locally created scripts to run while requiring downloaded scripts to be digitally signed.
+Issue 2: Project Files Created Inside .venv
+Problem
+Running git status showed .venv as untracked, while expected project files such as main.py, README.md, and .gitignore were missing from the expected project root structure.
 
-Opened PowerShell as Administrator and ran Set-ExecutionPolicy RemoteSigned to allow local scripts to execute.
+Solution
+The project files had accidentally been created inside the .venv/ directory.
+The misplaced files were deleted from .venv/ and recreated in the project root directory, at the same level as .venv/.
 
-المشكلة الأولى :
-
-PowerShell رفض يشغل .venv\Scripts\activate وظهر خطأ "running scripts is disabled on this system".
-
-الحل:
-
- فتحت PowerShell كـ Administrator ونفذت Set-ExecutionPolicy RemoteSigned عشان تسمح للسكريبتات المحلية بالتشغيل.
-
-
-
-## Issue 2:
-
-Git status showed .venv as untracked, but main.py, README.md, and .gitignore were not visible.
-
-Solution:
-
-The files were accidentally created inside the .venv folder. Deleted them from there and recreated them in the root project directory (same level as .venv).
-
-المشكلة الثانية:
-
-أمر git status كان بيظهر مجلد .venv كملف غير متتبع، لكن main.py و README.md و .gitignore مكانوش ظاهرين.
-
-الحل:
-
- الملفات كانت مخلوقة بالغلط جوه مجلد .venv. اتمسحوا من هناك واتعملوا تاني في المستوى الرئيسي للمشروع (نفس مستوى .venv).
+Verified Project Structure
+warehouse_sales_system/
+├── .venv/
+├── main.py
+├── README.md
+├── ToDo.md
+├── .gitignore
+└── docs/
+    ├── requirements.md
+    └── troubleshooting.md اديني تقييمك كده بإيجاز شديد، وقول لي هل في أي ملاحظات ولا تعتمد؟
