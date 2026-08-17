@@ -29,8 +29,7 @@ The study contributes to developing skills such as:
 * Understanding stakeholder and software needs
 * Translating problems into clear software requirements
 
-These skills are also part of a broader **Software Engineering side track** that complements the backend roadmap.
-
+These skills are part of the broader software engineering foundation supporting my Python Backend Engineering journey.
 ---
 
 ## 🤖 Software Engineering in the AI Era
@@ -102,12 +101,3 @@ Only my own notes and documentation are included in this directory.
 ---
 
 ⬅️ [Back to Phase One Documentation](../../README.md)
-
-<!--
-Notes for Later Review:
-
-- When the Software Engineering side-track documentation is created, review whether a direct navigation link should be added to it.
-- When the Warehouse & Sales Management System README/documentation structure is finalized, consider adding a direct relative link to the practical project from the Practical Connection section.
-- During the final README review, verify consistency of terminology and structure across the Learn to Code, Python Crash Course, and Software Requirements READMEs.
-- Verify all relative links on GitHub after the related README files and repository sections have been created.
--->
