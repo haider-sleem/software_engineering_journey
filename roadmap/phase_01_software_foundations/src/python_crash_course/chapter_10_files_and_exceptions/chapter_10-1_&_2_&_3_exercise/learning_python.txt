@@ -1,0 +1,8 @@
+In Python you can store data using variables like numbers and strings.
+In Python you can manage collections of items easily using lists and tuples.
+In Python you can write conditional statements using if, elif, and else to control program execution.
+In Python you can iterate through sequences efficiently using for and while loops.
+In Python you can organize key-value data structures using dictionaries.
+In Python you can define reusable blocks of code by creating functions.
+In Python you can model real-world objects using classes and Object-Oriented Programming.
+In Python you can handle file operations and read text data using pathlib.
