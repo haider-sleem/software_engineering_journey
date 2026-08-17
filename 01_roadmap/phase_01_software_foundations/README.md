@@ -1,6 +1,6 @@
-# Phase One — Python Foundations
+# Phase One — Software Foundations
 
-Phase One establishes the foundational programming knowledge required for my Python Backend Engineering roadmap.
+Phase One establishes the foundational programming and software engineering knowledge required for my broader software engineering journey, with Python Backend Engineering as the primary technical direction.
 
 The phase focuses on building a strong foundation in Python programming, problem-solving, basic algorithmic thinking, software requirements, and practical application through exercises, source code, and foundational testing practice.
 
