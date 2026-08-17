@@ -18,7 +18,7 @@ A central index documenting my problem-solving practice across online judges and
 
 ## Phase Snapshots
 
-### Phase One — End of Phase
+### Phase One Snapshot
 - **Codewars:** 58 Katas solved (6 kyu)
 - **DMOJ:** 77 Problems solved (155 Points)
 - **USACO:** Practice problems solved
@@ -29,6 +29,6 @@ A central index documenting my problem-solving practice across online judges and
 
 DMOJ and USACO problems were studied and solved as part of *Learn to Code by Solving Problems* (Chapters 1–10). The original problems remain on their respective platforms, while my solutions are stored with the corresponding learning material:
 
-- **Local Solutions:** [`Learn to Code — Solutions & Notes`](../01_roadmap/phase_01_software_foundations/src/learn_to_code/README.md)
+- **Local Solutions:** [`Learn to Code — Source Code`](../01_roadmap/phase_01_software_foundations/src/learn_to_code/README.md)
 
 Codewars solutions are not stored locally in this repository; they exist only on the Codewars platform under my profile above.
