@@ -16,6 +16,7 @@ The repository separates learning documentation, source code, and testing work i
 - [Repository Organization](#repository-organization)
 - [Testing in Phase One](#testing-in-phase-one)
 - [Key Learning Outcomes](#key-learning-outcomes)
+- [Problem Solving](#problem-solving)
 - [Next Phase](#next-phase)
 - [Navigation](#navigation)
 
@@ -103,6 +104,11 @@ Phase One established a reliable foundation in:
 - Organizing and documenting programming work professionally with Git and GitHub
 
 These foundations support the deeper programming, algorithms, data structures, databases, backend development, testing, and software engineering topics covered in later phases.
+
+## Problem Solving
+
+Problem-solving practice during this phase is documented separately.
+See the [Problem Solving Index](../../03_problem_solving/README.md) for platforms, profiles, and solutions.
 
 ## Next Phase
 
