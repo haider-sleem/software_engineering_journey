@@ -47,6 +47,14 @@ My ability to solve problems varied considerably depending on the problem. This 
 
 ---
 
+## Related: Problem Solving Index
+
+DMOJ and USACO problems included in this resource (Chapters 1–10) are drawn from those platforms. The corresponding solutions are part of the learning work documented in [`src/learn_to_code/`](../../src/learn_to_code/README.md).
+
+See the [Problem Solving Index](../../../../03_problem_solving/README.md) for platform profiles and context.
+
+---
+
 ## Notes & Documentation
 
 The notes in this directory were originally written based on my own study and understanding of the material.
