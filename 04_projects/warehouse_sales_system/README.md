@@ -68,7 +68,7 @@ python main.py
 
 The project is developed incrementally as new concepts are learned and applied.
 
-### Phase 1 — Python Foundations
+### Phase One — Software Foundations
 
 The initial version of the project was developed while building fundamental Python skills, including:
 
@@ -108,10 +108,10 @@ See [`ToDo.md`](./ToDo.md) for the detailed and up-to-date list of planned work.
 
 ## Learning Branches
 
-This repository includes independent branches used to practice specific concepts while they are being learned. These branches are kept separate from `master` and are not intended to be merged into it:
+This repository includes independent branches used to practice specific concepts while they are being learned. These branches are kept separate from `main` and are not intended to be merged into it:
 
-- **`learning/logging`**: An independent branch for practicing Logging concepts. Logging will later be applied directly to the then-current `master` codebase after the project has evolved through the relevant learning phases.
-- **`docs/requirements`**: An independent branch for applying Software Requirements concepts to the project. The branch remains separate from `master` and is not intended to be merged into it.
+- **`learning/logging`**: An independent branch for practicing Logging concepts. Logging will later be applied directly to the then-current `main` codebase after the project has evolved through the relevant learning phases.
+- **`docs/requirements`**: An independent branch for applying Software Requirements concepts to the project. The branch remains separate from `main` and is not intended to be merged into it.
 
 These branches represent learning activities and experiments rather than separate production versions of the project.
 
