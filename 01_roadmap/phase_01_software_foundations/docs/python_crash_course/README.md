@@ -58,7 +58,7 @@ The documented study material in this directory covers **Part I — Basics**, be
 |  **06** | Dictionaries                    |          [View Notes](./chapter_06_Dic.md)         |              [View Code](../../src/python_crash_course/chapter_06_Dic.py)              |
 |  **07** | User Input and while Loops      |         [View Notes](./chapter_07_Loops.md)        |             [View Code](../../src/python_crash_course/chapter_07_Loops.py)             |
 |  **08** | Functions                       |          [View Notes](./chapter_08_fun.md)         |              [View Code](../../src/python_crash_course/chapter_08_fun.py)              |
-|  **09** | Classes                         |        [View Notes](./chapter_09_classes.md)       |        [View Chapter 09 Work](../../src/python_crash_course/chapter_09_modules/)       |
+|  **09** | Classes & Modules                         |        [View Notes](./chapter_09_classes.md)       |        [View Chapter 09 Work](../../src/python_crash_course/chapter_09_modules/)       |
 |  **10** | Files and Exceptions            | [View Notes](./chapter_10_files_and_exceptions.md) | [View Chapter 10 Work](../../src/python_crash_course/chapter_10_files_and_exceptions/) |
 |  **11** | Testing Your Code               |        [View Notes](./chapter_11_testing.md)       |        [View Chapter 11 Work](../../src/python_crash_course/chapter_11_testing/)       |
 

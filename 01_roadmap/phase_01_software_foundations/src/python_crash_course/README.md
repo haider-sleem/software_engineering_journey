@@ -24,7 +24,7 @@ The chapter order follows the learning sequence of the book rather than alphabet
 |  **06** | Dictionaries                    |              [View Code](./chapter_06_Dic.py)              |          [View Notes](../../docs/python_crash_course/chapter_06_Dic.md)         |
 |  **07** | User Input and while Loops      |             [View Code](./chapter_07_Loops.py)             |         [View Notes](../../docs/python_crash_course/chapter_07_Loops.md)        |
 |  **08** | Functions                       |              [View Code](./chapter_08_fun.py)              |          [View Notes](../../docs/python_crash_course/chapter_08_fun.md)         |
-|  **09** | Classes & Modules               |        [View Chapter 09 Work](./chapter_09_modules/)       |            [View Notes](../../docs/python_crash_course/chapter_09.md)           |
+|  **09** | Classes & Modules               |        [View Chapter 09 Work](./chapter_09_classes/)       |            [View Notes](../../docs/python_crash_course/chapter_09_classes.md)           |
 |  **10** | Files and Exceptions            | [View Chapter 10 Work](./chapter_10_files_and_exceptions/) | [View Notes](../../docs/python_crash_course/chapter_10_files_and_exceptions.md) |
 |  **11** | Testing Your Code               |        [View Chapter 11 Work](./chapter_11_testing/)       |        [View Notes](../../docs/python_crash_course/chapter_11_testing.md)       |
 
@@ -41,7 +41,7 @@ Chapter 9 contains the practical work related to classes and modules, including:
 * Multi-file imports
 * Chapter exercises involving multiple modules and classes
 
-[View Chapter 09 Work](./chapter_09_modules/)
+[View Chapter 09 Work](./chapter_09_classes/)
 
 ---
 
