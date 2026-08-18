@@ -38,7 +38,7 @@ The increasing use of AI-assisted development tools makes software engineering f
 
 AI tools can assist with generating, modifying, explaining, and reviewing code. However, effective software development still requires the engineer to understand the underlying problem, identify the actual requirements, evaluate proposed solutions, recognize weaknesses, and guide the development process toward the intended outcome.
 
-This side track therefore focuses not only on learning how to write software, but also on developing the **reasoning, engineering judgment, and decision-making skills** needed to understand and guide software development effectively, including when working with AI-assisted development tools.
+This section therefore focuses not only on learning how to write software, but also on developing the **reasoning, engineering judgment, and decision-making skills** needed to understand and guide software development effectively, including when working with AI-assisted development tools.
 
 ---
 
