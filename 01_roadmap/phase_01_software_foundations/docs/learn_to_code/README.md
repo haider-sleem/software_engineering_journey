@@ -8,7 +8,7 @@
 
 ## Role in Phase One
 
-*Learn to Code by Solving Problems* is a foundational resource in Phase One of my Python Backend Engineering roadmap.
+*Learn to Code by Solving Problems* is a foundational resource in Phase One of my broader software engineering journey, with Python Backend Engineering as the primary technical direction.
 
 It was used to develop programming fundamentals, problem-solving skills, algorithmic thinking, and an early understanding of algorithm efficiency.
 

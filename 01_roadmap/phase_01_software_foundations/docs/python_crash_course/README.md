@@ -37,7 +37,7 @@ For example, **OOP** and **Testing** are introduced here at a foundational level
 
 ## Study Scope Note — Chapter 1
 
-Chapter 1 is not included in the documented study notes because I had already begun my Python Backend Engineering learning journey before starting *Python Crash Course* and had already completed the environment setup required for my studies.
+Chapter 1 is not included in the documented study notes because I had already begun my broader software engineering learning journey before starting *Python Crash Course* and had already completed the environment setup required for my studies.
 
 Therefore, my documented study of the book begins with **Chapter 2**.
 

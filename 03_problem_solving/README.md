@@ -18,7 +18,7 @@ A central index documenting my problem-solving practice across online judges and
 
 ## Phase Snapshots
 
-### Phase One Snapshot
+### Phase One — End of Phase
 - **Codewars:** 58 Katas solved (6 kyu)
 - **DMOJ:** 77 Problems solved (155 Points)
 - **USACO:** Practice problems solved

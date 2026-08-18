@@ -16,7 +16,7 @@
 
 ## 🎯 Role in Phase One
 
-*Software Requirements* represents the **Software Engineering dimension** of Phase One and complements my primary Python Backend Engineering learning path.
+*Software Requirements* represents the **Software Engineering dimension** of Phase One and complements my broader software engineering journey, with Python Backend Engineering as the primary technical direction.
 
 While the backend roadmap focuses primarily on programming and technical implementation, this resource introduces the engineering practices involved in understanding and defining **what software should accomplish before focusing on how it should be implemented**.
 
