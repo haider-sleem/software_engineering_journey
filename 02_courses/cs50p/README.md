@@ -6,9 +6,9 @@ This repository contains my work from **CS50's Introduction to Programming with 
 
 The repository currently covers:
 
-* **Week 0** — lecture practice and personal notes
-* **Week 1** — lecture practice and personal notes
-* **Week 2** — lecture practice and personal notes
+* **Week 0 — Functions, Variables** — lecture practice and personal notes
+* **Week 1 — Conditionals** — lecture practice and personal notes
+* **Week 2 — Loops** — lecture practice and personal notes
 
 Each week contains the Python practice files produced while studying the corresponding course material, along with my own `notes.md` documentation.
 
@@ -40,7 +40,7 @@ The work preserved here represents the learning stage at which it was produced. 
 
 ## Source
 
-**Course:** CS50's Introduction to Programming with Python
-**Institution:** Harvard University / CS50
+* **Course:** [CS50's Introduction to Programming with Python](https://www.edx.org/learn/python/harvard-university-cs50-s-introduction-to-programming-with-python)
+* **Institution:** Harvard University / CS50 (via edX)
 
-The original course material is available through the official CS50 course resources.
+The course is also available directly through [CS50's official site](https://cs50.harvard.edu/python/).
