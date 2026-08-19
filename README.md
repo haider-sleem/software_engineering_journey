@@ -141,9 +141,7 @@ See the [Problem Solving README](./03_problem_solving/README.md) for platform-sp
 
 ## 🧪 Courses
 
-Courses in this repository serve as targeted supplementary resources 
-selected to fill specific knowledge gaps in the main roadmap. 
-Additional courses may be added in later phases when relevant.
+Courses in this repository serve as targeted supplementary resources selected to fill specific knowledge gaps in the main roadmap. Additional courses may be added in later phases when relevant.
 
 ### CS50's Introduction to Programming with Python
 
@@ -191,13 +189,25 @@ See the [Warehouse Sales System README](./04_projects/warehouse_sales_system/REA
 
 Some technical topics have been studied outside the primary books and resources currently defined in the roadmap.
 
+### Computer Organization & Architecture (COA)
+
+Computer Organization & Architecture was studied as a supplementary foundational topic through a comprehensive YouTube lecture series.
+
+The full lecture series was followed to develop a broad conceptual understanding of computer organization and architecture. Selected topics were then explored in greater depth using NotebookLM and additional AI-assisted learning sessions, with particular focus on concepts such as Memory Hierarchy and related architectural fundamentals.
+
+The lecture series was based on concepts from William Stallings — *Computer Organization and Architecture*, 6th Edition. The textbook itself was not studied as a separate resource.
+
+Source: [Computer Organization & Architecture — YouTube lecture series](https://www.youtube.com/playlist?list=PL-cKUB-e2KiswAkwZLJYlTzI69FpSJa50)
+
+COA is documented as supplementary learning rather than as a primary Phase One resource. It is therefore intentionally not included in the Phase One Resources & Work table.
+
 ### Linux Fundamentals & Logging
 
-Linux Fundamentals and Logging were studied through **AI-assisted learning curricula** created for foundational understanding and initial practice.
+Linux Fundamentals and Logging were studied through AI-assisted learning curricula created for foundational understanding and initial practice.
 
-They are documented as supplementary learning rather than as primary Phase One resources.
+These topics were explored as self-directed supplementary learning rather than as formal courses or primary roadmap resources.
 
-They are therefore intentionally **not included in the Phase One Resources & Work table**.
+They are documented here to reflect additional topics explored during my learning journey and are therefore intentionally not included in the Phase One Resources & Work table.
 
 Official resources for these topics will be documented separately when they become part of the formal learning roadmap.
 
@@ -317,6 +327,3 @@ These are roadmap directions rather than claims of completed study.
 - [Courses](./02_courses/cs50p/README.md)
 - [Problem Solving](./03_problem_solving/README.md)
 - [Warehouse & Sales Management System](./04_projects/warehouse_sales_system/README.md)
-
-TODO:
-- هل محتاج أوضح ان الكورسات كمان ليها خطة وانها وسائل مساعدة لسد الفجوات المعرفية يعني يكون مفهوم ضمنا ان في كورسات تانية لاحقة ولا ده مفهوم ضمنا وهل هنحتاج نعدل الريد مي الخاص بيه بناء عليه 
