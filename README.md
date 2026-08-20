@@ -7,21 +7,21 @@ The repository documents what I have actually studied, practiced, and produced t
 ---
 
 ## 📑 Table of Contents
-- [Learning Focus](#-learning-focus)
-- [Roadmap](#-roadmap)
-- [Repository Structure](#-repository-structure)
-- [Phase One — Software Foundations](#-phase-one--software-foundations)
-- [Problem Solving](#-problem-solving)
-- [Courses](#-courses)
-- [Main Practical Project](#-main-practical-project)
-- [Supplementary Learning](#-supplementary-learning)
-- [Learning Resources & Depth](#-learning-resources--depth)
-- [Code & Learning Transparency](#-code--learning-transparency)
-- [Documentation & Notes](#-documentation--notes)
-- [Learning Philosophy](#-learning-philosophy)
-- [Current Progress](#-current-progress)
-- [Future Direction](#-future-direction)
-- [Navigation](#-navigation)
+* [Learning Focus](#-learning-focus)
+* [Roadmap](#-roadmap)
+* [Repository Structure](#-repository-structure)
+* [Phase One — Software Foundations](#-phase-one--software-foundations)
+* [Problem Solving](#-problem-solving)
+* [Courses](#-courses)
+* [Main Practical Project](#-main-practical-project)
+* [Supplementary Learning](#-supplementary-learning)
+* [Learning Resources & Depth](#-learning-resources--depth)
+* [Code & Learning Transparency](#-code--learning-transparency)
+* [Documentation & Notes](#-documentation--notes)
+* [Learning Philosophy](#-learning-philosophy)
+* [Current Progress](#-current-progress)
+* [Future Direction](#-future-direction)
+* [Navigation](#-navigation)
 
 ---
 
