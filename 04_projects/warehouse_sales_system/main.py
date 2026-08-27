@@ -367,7 +367,9 @@ def sell_product() -> bool | None:
 
         user_input = get_non_empty_text(raw_input).lower()
 
-        # TODO: Refactor to raise an Exception for exits/cancellations once Error Handling is covered.
+        # TODO: Revisit exit/cancellation handling after learning Error Handling.
+        # Choose an explicit control-flow mechanism that clearly distinguishes
+        # exit, cancellation, failure, and success.
         if user_input == "exit":
             return None
 
