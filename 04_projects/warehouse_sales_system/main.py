@@ -138,9 +138,6 @@ def select_product(search: str = "") -> str | None:
     Returns:
         str | None: The selected product name, or None ONLY if no matching products exist.
     """
-    if not products:
-        print("❌ No products available.")
-        return None
 
     if not products:
         logger.info("Product selection failed | Reason: Inventory is empty.")
