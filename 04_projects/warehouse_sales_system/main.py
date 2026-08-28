@@ -138,6 +138,9 @@ def select_product(search: str = "") -> str | None:
     Returns:
         str | None: The selected product name, or None ONLY if no matching products exist.
     """
+    if not products:
+        print("❌ No products available.")
+        return None
 
     if not products:
         logger.info("Product selection failed | Reason: Inventory is empty.")
@@ -401,7 +404,9 @@ def sell_product() -> bool | None:
 
         user_input = get_non_empty_text(raw_input).lower()
 
-        # TODO: Refactor to raise an Exception for exits/cancellations once Error Handling is covered.
+        # TODO: Revisit exit/cancellation handling after learning Error Handling.
+        # Choose an explicit control-flow mechanism that clearly distinguishes
+        # exit, cancellation, failure, and success.
         if user_input == "exit":
             return None
 
@@ -561,13 +566,12 @@ def cashier_menu() -> None:
 
     while True:
         choice = get_menu_choice(cashier_options)
-        # NOTE: Keep explicit `if/elif` branches for easier future extension (e.g., adding new menu options).
-        # TODO: Learn and consider replacing this with `match/case` after studying structural pattern matching.
-        if choice == "Selling":
-            sell_product()
-        elif choice == "Back":
-            print("Going back to main menu...")
-            break
+        match choice:
+            case "Selling":
+                sell_product()
+            case "Back":
+                print("Going back to main menu...")
+                break
 
 
 # TODO:
@@ -588,23 +592,27 @@ def inventory_menu() -> None:
 
     while True:
         choice = get_menu_choice(inventory_options)
-        # NOTE: Keep explicit `if/elif` branches for easier future extension (e.g., adding new menu options).
-        # TODO: Learn and consider replacing this with `match/case` after studying structural pattern matching.
-        if choice == "View Products":
-            view_products()
-        elif choice == "Add Or Update Product":
-            handle_product()
-        elif choice == "Update Quantity":
-            product_name = select_product()
-            if product_name:
-                update_quantity(product_name)
-        elif choice == "Update Price":
-            product_name = select_product()
-            if product_name:
-                update_price(product_name)
-        elif choice == "Back":
-            print("Going back to main menu...")
-            break
+
+        match choice:
+            case "View Products":
+                view_products()
+
+            case "Add Or Update Product":
+                handle_product()
+
+            case "Update Quantity":
+                product_name = select_product()
+                if product_name:
+                    update_quantity(product_name)
+
+            case "Update Price":
+                product_name = select_product()
+                if product_name:
+                    update_price(product_name)
+
+            case "Back":
+                print("Going back to main menu...")
+                break
 
 
 def main() -> None:
@@ -616,15 +624,17 @@ def main() -> None:
 
     while True:
         choice = get_menu_choice(main_options)
-        # NOTE: Keep explicit `if/elif` branches for easier future extension (e.g., adding new menu options).
-        # TODO: Learn and consider replacing this with `match/case` after studying structural pattern matching.
-        if choice == "Cashier Menu":
-            cashier_menu()
-        elif choice == "Inventory Menu":
-            inventory_menu()
-        elif choice == "Exit":
-            print("Exiting the program...")
-            break
+
+        match choice:
+            case "Cashier Menu":
+                cashier_menu()
+
+            case "Inventory Menu":
+                inventory_menu()
+
+            case "Exit":
+                print("Exiting the program...")
+                break
 
 
 if __name__ == "__main__":
