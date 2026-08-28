@@ -149,7 +149,7 @@ def select_product(search: str = "") -> str | None:
 
     # لو مفيش نتائج
     if not filtered_names:
-        logger.info(
+        logger.warning(
             "No products found | Search term: '%s'.",
             search,
         )
@@ -274,8 +274,19 @@ def update_quantity(product_name: str, is_new: bool = False) -> bool:  # الم�
         if get_yes_no(quantity_confirmation):
             if is_new:
                 products[product_name]["stock"] = new_quantity
+                logger.info(
+                    "Stock initialized | Product: '%s' | Stock: %d",
+                    product_name,
+                    products[product_name]["stock"],
+                )
             else:
                 products[product_name]["stock"] += new_quantity
+                logger.info(
+                    "Stock increased | Product: '%s' | Added: %d | Total stock: %d",
+                    product_name,
+                    new_quantity,
+                    products[product_name]["stock"],
+                )
             print(f"Quantity for '{product_name}' updated successfully")
             return True
 
@@ -307,19 +318,17 @@ def update_product_status(
     if products[product_name]["stock"] <= 0:
         reasons.append("Stock")
 
-    is_active = len(reasons) == 0
-    products[product_name]["is_active"] = is_active
-    # السطر السابق بطريقة أوضح
-    """
-    # لو قائمة الأسباب فاضية (يعني مفيش مشاكل)
     if len(reasons) == 0:
         is_active = True
     else:
         is_active = False
-
-    # بعدين نخزن النتيجة في بيانات المنتج
     products[product_name]["is_active"] = is_active
-    """
+    logger.info(
+        "Product status updated | Product: '%s' | Status: %s | Reasons: %s",
+        product_name,
+        "ACTIVE" if is_active else "INACTIVE",
+        reasons if reasons else "None",
+    )
 
     return is_active, reasons
 
@@ -361,7 +370,7 @@ def update_existing_product(
     display_product_status(product_name)
 
 
-# # دالة لإضافة منتج جديد
+# دالة لإضافة منتج جديد
 def add_new_product(
     product_name: str,
 ) -> None:
@@ -384,6 +393,13 @@ def add_new_product(
     update_price(product_name, is_new=True)
     update_quantity(product_name, is_new=True)
     display_product_status(product_name)
+    logger.info(
+        "Product add | Product: '%s' | Price: %.2f EGP | Stock: %d | Status '%s' ",
+        product_name,
+        products[product_name]["price"],
+        products[product_name]["stock"],
+        "ACTIVE" if products[product_name]["is_active"] else "INACTIVE",
+    )
 
 
 def sell_product() -> bool | None:
