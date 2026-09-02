@@ -268,3 +268,54 @@ def wait_an_hour():
 This function is technically **O(1)** — its runtime doesn't depend on any input size `n` — yet it takes a full hour to run.
 
 > **O(1) does not necessarily mean fast.** Big O describes how performance changes as `n` grows, not the actual number of seconds a function takes.
+
+
+## Personal Notes: Beyond `timeit` / `cProfile` — What's Used in 2026
+
+> The book covers `timeit` and `cProfile` as the standard built-in tools, and they remain the correct starting point — no installation needed, part of every Python environment. But the profiling ecosystem has moved forward significantly since the book's 2020 release.
+
+### Modern Profiling Tools (Alternatives to `cProfile`)
+
+| Tool | Best For | Note |
+|------|---------|------|
+| **Scalene** | CPU + Memory + GPU profiling in one pass | Line-level precision; some versions include optimization suggestions, but its core value is precise multi-resource profiling |
+| **py-spy** | Production / live processes | Sampling profiler written in Rust — low overhead, attaches to a running process without restarting or modifying code |
+| **pyinstrument** | Quick first look at call stacks | Clear, readable call-stack visualization |
+| **memray** | Memory-specific issues | Deep memory allocation tracking (built by Bloomberg) |
+| **line_profiler** | Line-by-line precision | Best used *after* you've already identified the slow function |
+
+### Modern Benchmarking Tools (Alternatives to `timeit`)
+
+| Tool | Best For |
+|------|---------|
+| **pytest-benchmark** | Benchmarking inside an existing pytest suite |
+| **hyperfine** | CLI tool (Rust) for comparing whole scripts/programs |
+| **pyperf** | More rigorous statistics than `timeit` — used in CPython's own official benchmarks |
+
+### Important Update: Python 3.15 (October 2026)
+
+Python 3.15 introduces a new built-in `profiling` package (PEP 799) that reorganizes profiling in the standard library into two official modules:
+
+- **`profiling.tracing`** — deterministic profiling. `cProfile` becomes a **backward-compatible alias** for it, so existing code using `import cProfile` keeps working unchanged.
+- **`profiling.sampling`** — statistical/sampling profiling, developed under the internal codename **Tachyon** (not the name used in code — the actual import is `profiling.sampling`).
+
+`profiling.sampling` reads a process's call stack externally at regular intervals rather than instrumenting every call, giving it **very low overhead** (not literally zero). It can attach to an already-running process by PID — similar to `py-spy`, but now built into the standard library. It supports multiple threads, async functions, and free-threaded builds.
+
+**Tracing vs. Sampling — the core distinction:**
+
+| | Tracing (`profiling.tracing` / `cProfile`) | Sampling (`profiling.sampling`) |
+|---|---|---|
+| **How it works** | Instruments every function call/return | Takes periodic snapshots of the call stack |
+| **Precision** | Exact call counts | Statistical — may miss very short-lived function calls between samples |
+| **Overhead** | Higher | Very low |
+| **Best for** | Detailed, exact analysis | Production and long-running processes |
+
+This reduces (but doesn't eliminate) the need for external tools like `py-spy` — third-party tools still matter for versions before 3.15, memory profiling, GPU profiling, and more mature flame-graph tooling.
+
+### Practical Takeaway
+
+- `timeit` / `cProfile` → still the correct foundation to learn first; always available.
+- **Deep local development profiling** → Scalene
+- **Production / live process profiling** → py-spy (or `profiling.sampling` once on Python 3.15+)
+- **Benchmarking inside pytest** → pytest-benchmark
+- **Comparing whole programs** → hyperfine
