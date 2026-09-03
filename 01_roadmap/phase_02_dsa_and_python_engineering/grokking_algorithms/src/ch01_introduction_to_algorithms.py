@@ -1,18 +1,18 @@
-def binary_search(arr, item):
-    low = 0
-    high = len(arr) - 1
+def binary_search(sorted_list, target):
+    lowest_choice = 0
+    highest_choice = len(sorted_list) - 1
 
-    while low <= high:
-        mid = (low + high) // 2
-        guess = arr[mid]  
+    while lowest_choice <= highest_choice:
+        center = (lowest_choice + highest_choice) // 2
+        guessed_value = sorted_list[center]
 
-        if guess == item:
-            return mid    
-        if guess > item:
-            high = mid - 1  
+        if guessed_value == target:
+            return center
+        elif guessed_value > target:
+            highest_choice = center - 1
         else:
-            low = mid + 1   
-
+            lowest_choice = center + 1
     return None
+
 
 print(binary_search([1, 2, 3, 4, 5], 3))
