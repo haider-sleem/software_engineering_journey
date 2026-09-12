@@ -7,7 +7,6 @@ Python Performance Tools Reference
 import cProfile
 import timeit
 
-
 # ==============================================================================
 # 1. TIMEIT (Micro-benchmarking Snippets)
 # ==============================================================================
