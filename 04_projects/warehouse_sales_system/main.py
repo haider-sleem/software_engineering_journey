@@ -440,7 +440,58 @@ def view_products() -> None:
         print("-" * 20)
 
 
-# الدالة الرئيسية
+def calculate_inventory_value() -> tuple[float, list[tuple[str, int, float]]]:
+    """
+    Calculate the total financial value of the inventory.
+
+    The inventory value is computed as the sum of (price * stock) for all
+    products that have a valid price (> 0) and a stock greater than 0.
+
+    Returns:
+        tuple[float, list[tuple[str, int, float]]]:
+            - float: The total inventory value.
+            - list[tuple[str, int, float]]: Products that have stock but no
+              valid price, stored as (name, stock, price).
+    """
+    total_inventory_value = 0.0
+    products_without_price: list[tuple[str, int, float]] = []
+
+    for name, data in products.items():
+        if data["price"] > 0 and data["stock"] > 0:
+            total_inventory_value += data["price"] * data["stock"]
+        elif data["stock"] > 0 and data["price"] <= 0:
+            products_without_price.append((name, data["stock"], data["price"]))
+
+    return total_inventory_value, products_without_price
+
+
+def display_inventory_value() -> None:
+    """
+    Display the total inventory value and warn about products that have
+    stock but no valid price.
+
+    Returns:
+        None: This function only prints output to the console.
+    """
+    if not products:
+        print(
+            "\nNo products available..!, add products first to calculate inventory value.\n"
+        )
+        return
+
+    total_value, products_without_price = calculate_inventory_value()
+
+    print(f"\nTotal inventory value: {total_value:.2f}.")
+    print("=" * 10)
+
+    if products_without_price:
+        print("Note ⚠️ : The following products have stock but no price:\n")
+        for idx, (name, stock, price) in enumerate(products_without_price, 1):
+            print(
+                f"\t{idx}. {name.title()}: has stock ({stock}) but its price is {price:.2f}.\n"
+            )
+
+
 def handle_product() -> None:
     """
     Handle the workflow for adding a new product or updating an existing one.
@@ -533,6 +584,7 @@ def inventory_menu() -> None:
         "Add Or Update Product",
         "Update Quantity",
         "Update Price",
+        "Inventory Valuation",
         "Back",
     ]
 
@@ -555,7 +607,8 @@ def inventory_menu() -> None:
                 product_name = select_product()
                 if product_name:
                     update_price(product_name)
-
+            case "Inventory Valuation":
+                display_inventory_value()
             case "Back":
                 print("Going back to main menu...")
                 break
