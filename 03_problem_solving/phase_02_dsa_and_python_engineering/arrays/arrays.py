@@ -1,3 +1,5 @@
+from typing import List
+
 # 1 Source: https://neetcode.io/problems/duplicate-integer/question?list=neetcode150
 
 
@@ -71,3 +73,36 @@ def two_sum(arr: list[int], target: int) -> list[int]:
 
         # Store the current number and its index for future lookups
         seen_dict[n] = i
+
+
+# 4 Source: https://neetcode.io/problems/anagram-groups/question?list=neetcode150
+
+
+def groupAnagrams(strs: List[str]) -> List[List[str]]:
+    """Groups a list of strings into anagrams using character frequency counts.
+
+    Args:
+        strs (List[str]): A list of input strings to be grouped.
+
+    Returns:
+        List[List[str]]: A list of lists, where each inner list
+        contains words that are anagrams of each other.
+    """
+    anagram_map = {}
+
+    for word in strs:
+        # Count frequency of each letter (26 lowercase English letters)
+        count = [0] * 26
+        for char in word:
+            # Calculate character index based on ASCII distance from 'a'
+            count[ord(char) - ord("a")] += 1
+
+        # Convert list to tuple because lists are mutable and cannot be dict keys
+        key = tuple(count)
+
+        if key in anagram_map:
+            anagram_map[key].append(word)
+        else:
+            anagram_map[key] = [word]
+
+    return list(anagram_map.values())
