@@ -2,11 +2,6 @@
 
 ## Development Rule
 
-```
-Is the problem clear and the fix small?
-    Yes → Fix it now
-    No  → Log it in its proper phase and move on
-```
 
 ## Feature Timing Test
 
@@ -16,7 +11,7 @@ Before adding a new feature, ask in order:
    Yes → build it now.
 2. **Does it require defining new domain entities, identities, relationships, or meaningful domain state?**
    Yes → defer to OOP.
-3. **Does it depend mainly on persistence, database querying, or relational data at scale?**
+3. **Does it depend mainly on SQL querying, relational data design, or performance at scale?**
    Yes → defer toward SQL.
 
 This complements the Development Rule above: that rule is about *effort*, this one is about whether the fix locks in an architectural decision we already know will change.
@@ -34,6 +29,7 @@ This complements the Development Rule above: that rule is about *effort*, this o
 - [x] Apply targeted exception handling where user input can fail.
 - [x] Confirm that normal user control flow does not require exceptions.
 - [x] Practice logging on the `learning/logging` branch.
+- [x] **Inventory Valuation** — Calculate total inventory value (`price × stock`) and warn about unpriced stock. *(Merged from `feature/inventory-valuation`)*
 
 ---
 
@@ -46,9 +42,9 @@ This complements the Development Rule above: that rule is about *effort*, this o
 | `get_positive_number()` mixes input, parsing, and validation | 🟡 When the function is next touched |
 | `converter` type hint should be `Callable[[str], int \| float]`, not `type` | 🟢 When the function is next touched |
 | Normalization (`.lower()`, `.title()`, `.strip()`) scattered across the code | 🟡 When repeated again |
-| Menu strings coupled to `match`/`case` | 🟡 When an Enum is introduced |
+| Menu strings coupled to control flow logic (`match/case`) | 🟡 When an Enum is introduced |
 | No explicit product identity in the schema | 🟡 When product identity / SKU / barcode is introduced |
-| `main.py` is 580+ lines — the issue is mixed responsibilities, not raw length | 🟡 Watch — will split with the JSON refactor |
+| `main.py` has grown substantially — the issue is mixed responsibilities, not raw length | 🟡 Watch — will split with the JSON refactor |
 | `global products` spread across every function | 🔵 OOP |
 | Product schema duplicated across functions | 🔵 OOP |
 | `is_active` stored — OOP will re-evaluate this as a computed property or explicit domain rule | 🔵 OOP |
@@ -66,6 +62,8 @@ This complements the Development Rule above: that rule is about *effort*, this o
 
 *(Planned focus for this project)*
 
+> **Important Note on Phases:** The phases in this TODO represent the **Learning & Architectural Execution Path** (how and when we build things). The phases in the SRS document represent **Functional Capability Groups** (what the system will eventually do). They do not need to have identical numbering.
+
 ### Code Quality & Refactoring
 
 - [ ] Review existing code using the concepts learned in Phase 2.
@@ -81,14 +79,16 @@ This complements the Development Rule above: that rule is about *effort*, this o
 
 ### Near-Term Feature Work
 
-*(These pass the Feature Timing Test: pure behavior on top of the existing structure, no new domain model required.)*
+*(These pass the Feature Timing Test: features that can be built before the OOP redesign without introducing a new domain model.)*
 
-- [ ] **Inventory Valuation** — calculate total inventory value (`price × stock`) across all products. Practices looping over a dict with simple aggregation; a standard calculation in any real warehouse system.
-- [ ] **Low Stock Alert** — surface products that have hit a minimum threshold. Practices conditionals and threshold logic; a core feature in any WMS/ERP.
+- [x] **Inventory Valuation** — calculate total inventory value (`price × stock`) across all products. *(Note: Uses selling price, not cost).*
+- [ ] **Low Stock Alert (Next)** — surface products that have hit a minimum threshold.
+  *Note: Use a global hardcoded threshold for this phase. Per-product thresholds or dynamic configurations are deferred to OOP (see Backlog).*
 - [ ] **Filtering / Sorting** — sort products using `sorted()` and `lambda`, and filter by status (active/inactive). Reinforces DSA concepts directly.
 - [ ] **JSON Persistence on `main`** — learn `json.load()` / `json.dump()`, serialization, `FileNotFoundError`, and when to read vs. write. Intentionally simple: no repository pattern, service layer, storage abstraction, or other architecture patterns yet.
-- [ ] **Refactor alongside JSON** — split `main.py` into simple modules (`helpers`, `inventory`, `sales`, `menus`) only if the file structure benefits from it.
-- [ ] **Transaction Log** — a list recording each operation with a timestamp (`datetime`). Comes after JSON persistence so the log actually survives between sessions. Keep the schema flexible per operation type; this is a simple event log, not a full audit system — the final schema will be decided at implementation time.
+  *Safety Note: Do not overwrite the data file before confirming the new data is fully prepared. Handle missing or invalid files gracefully. Test that products persist after closing and reopening the program.*
+- [ ] **Refactor alongside JSON** — split `main.py` into simple modules (`helpers`, `inventory`, `sales`, `menus`) only if the file structure benefits from it. *(Aligns with NFR-07 in SRS).*
+- [ ] **Basic Operation Log** — a simple list recording each high-level operation (e.g., "Product Added", "Sale Completed") with a timestamp (`datetime`). Comes after JSON persistence so the log can be saved to a file and survives between sessions. This is **not** a full Audit Trail (SRS FR-12 remains Planned); it is a basic event log for user-facing feedback and simple debugging. Schema will be decided at implementation time.
 
 ### Preparation for OOP
 
@@ -148,10 +148,10 @@ This complements the Development Rule above: that rule is about *effort*, this o
 |---|---|
 | Product Categories / Item Groups | Revisit when the product domain model is designed |
 | Product Identity (SKU) / Barcode | Revisit when the Product model is redesigned |
-| Units of Measure | Revisit when the Product model is redesigned (e.g., buy by carton, sell by piece) |
-| Stock Adjustment | Revisit when the inventory domain model is designed |
+| Units of Measure | Revisit when the Product model is redesigned |
+| Stock Adjustment | Current `FR-10` allows simple manual numeric changes. A full workflow (recording reason, user, and date) is deferred to OOP/Architecture. |
 | Stocktaking / Physical Inventory | Revisit when the inventory domain model is designed |
-| Reorder Point / Minimum Stock Level | Revisit once the Product/inventory domain model exists |
+| Reorder Point / Minimum Stock Level | Revisit once the Product/inventory domain model exists (replaces the hardcoded threshold). |
 | Multiple Warehouses | Requires a revised inventory architecture |
 | Warehouse Locations / Bins | Requires multi-warehouse support first |
 
@@ -195,6 +195,6 @@ This complements the Development Rule above: that rule is about *effort*, this o
 | HR / Payroll / Recruitment | A separate ERP domain, unrelated to warehouse/sales |
 | Fleet & Logistics | A separate ERP domain |
 | Maintenance / CMMS | A separate ERP domain |
-| Full General Ledger / AP / AR Accounting | A separate ERP domain; only the sales/purchasing edges (invoices, credit limits) are relevant here |
+| Full General Ledger / AP / AR Accounting | A separate ERP domain; only the sales/purchasing edges are relevant here |
 
 These are kept as a domain reference in case the project's scope ever genuinely expands — not as a plan to build a full ERP.

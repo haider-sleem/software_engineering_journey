@@ -1,8 +1,8 @@
 # Warehouse Sales System
 ## Software Requirements Specification (SRS)
 
-- **Version:** 0.1
-- **Status:** Draft
+- **Version:** 1.1
+- **Status:** Approved
 - **Document Type:** Vision & Requirements
 
 ---
@@ -21,66 +21,43 @@ The primary goal of this project is educational. It serves as a practical platfo
 
 ## 3. Stakeholders
 
-The following stakeholders represent the intended users and interested parties of the project. Some stakeholders are supported by the current implementation, while others are planned as the system evolves toward a complete ERP solution.
+*(Note: "Workflow Supported" means the system allows the user to perform their core tasks via the CLI. It does **not** mean the system has user identities, authentication, or role-based permissions yet. Those are Planned for Phase 3.)*
 
 ### 3.1 Business Owner / Manager
-
 - **Role:** Responsible for overseeing business operations and inventory
-- **Status:** ✅ Supported
-
-**Goals:**
-- Monitor inventory levels
-- Review business operations
-- Track stock movements and sales
-
----
+- **Workflow Status:** ✅ Supported (Can view current inventory data)
+**Goals:** Monitor current inventory levels, Review current business operations, Track historical stock movements and sales *(Note: Historical tracking, auditing, and sales reporting are Planned for later phases. Current support only provides a snapshot of the present state.)*
 
 ### 3.2 Warehouse Employee
-
 - **Role:** Responsible for managing products and inventory
-- **Status:** ✅ Supported
-
-**Goals:**
-- Add new products
-- Update product information
-- Manage stock quantities
-
----
+- **Workflow Status:** ✅ Supported (Can add and update products)
+**Goals:** Add new products, Update product information, Manage stock quantities
 
 ### 3.3 Cashier
-
 - **Role:** Responsible for processing sales transactions
-- **Status:** 🔲 Planned
-
-**Goals:**
-- Search for products
-- Process sales
-- Generate sales invoices
-
----
+- **Workflow Status:** ✅ Supported (Basic single-item sale)
+**Goals:** Search for products, Process sales, Generate sales invoices *(Note: Invoices are planned for a later phase)*
 
 ### 3.4 Accountant
-
 - **Role:** Responsible for reviewing financial and sales information
-- **Status:** 🔲 Planned
+- **Workflow Status:** 🔲 Planned
+**Goals:** Review sales reports, Monitor financial records, Analyze business performance
 
-**Goals:**
-- Review sales reports
-- Monitor financial records
-- Analyze business performance
+### 3.5 System Administrator
+- **Role:** Responsible for maintaining and managing the system
+- **Workflow Status:** 🔲 Planned
+**Goals:** Manage user accounts, Configure permissions, Perform backups, Maintain system reliability
 
 ---
 
-### 3.5 System Administrator
+### 3.6 Requirement Status Definitions
 
-- **Role:** Responsible for maintaining and managing the system
-- **Status:** 🔲 Planned
-
-**Goals:**
-- Manage user accounts
-- Configure permissions
-- Perform backups
-- Maintain system reliability
+To maintain accurate tracking, requirements will follow these mutually exclusive statuses:
+- **Planned**: Work has not started.
+- **Partially Implemented**: Only part of the requirement's scope is implemented (e.g., core logic exists, but UI, persistence, or edge cases are missing).
+- **Implemented**: The intended complete implementation exists in the code, but it has not yet been fully verified against acceptance criteria (e.g., no formal testing or performance measurement has been done).
+- **Verified**: The implementation has passed the required tests or measurements and is confirmed to meet the expected behavior.
+- **Deferred**: Postponed to a future phase.
 
 ---
 
@@ -90,14 +67,15 @@ The following stakeholders represent the intended users and interested parties o
 
 | ID | Description | Priority | Target Release | Status |
 |----|-------------|:--------:|:--------------:|:------:|
-| FR-01 | Allow user to add a new product with: name, description, price, quantity, and category | High | Phase 1 | ✅ Implemented |
-| FR-02 | Uniquely identify each product | High | Phase 1 | ✅ Implemented |
+| FR-01 | Allow user to add a new product with: name, price, and stock | High | Phase 1 | ✅ Implemented |
+| FR-02 | Use the product name as the product key in the current in-memory data structure | High | Phase 1 | ✅ Implemented |
 | FR-03 | Allow user to view a list of all products with their details | High | Phase 1 | ✅ Implemented |
-| FR-04 | Allow user to search for a product by name or identifier | High | Phase 1 | ✅ Implemented |
-| FR-05 | Allow user to update product information (name, description, price, quantity, category) | High | Phase 1 | ✅ Implemented |
+| FR-04 | Allow user to search for a product by name | High | Phase 1 | ✅ Implemented |
+| FR-05 | Allow user to update product price and stock | High | Phase 1 | ✅ Implemented |
+| FR-05b| Allow user to update product description and category | Medium | Phase 3 | 🔲 Planned |
 | FR-06 | Allow user to remove a product from the inventory | Medium | Phase 3 | 🔲 Planned |
 | FR-07 | Prevent removal of a product if it has associated sales records (soft delete or warning) | Medium | Phase 3 | 🔲 Planned |
-| FR-08 | Allow user to view products that are low in stock (below a configurable threshold) — See Q-03 | Medium | Phase 2 | 🔲 Planned |
+| FR-08 | Allow user to view products that are low in stock (below a configurable threshold) | Medium | Phase 2 | 🔲 Planned |
 
 ---
 
@@ -105,11 +83,17 @@ The following stakeholders represent the intended users and interested parties o
 
 | ID | Description | Priority | Target Release | Status |
 |----|-------------|:--------:|:--------------:|:------:|
-| FR-09 | Update product quantity automatically when a sale is processed | High | Phase 2 | 🔲 Planned |
-| FR-10 | Allow user to manually adjust inventory quantities (e.g., restocking or returns) | High | Phase 1 | ✅ Implemented |
-| FR-11 | Prevent processing a sale if requested quantity exceeds available stock | High | Phase 2 | 🔲 Planned |
+| FR-09 | Update product quantity automatically when a sale is processed | High | Phase 2 | 🟡 Partially Implemented |
+| FR-10 | Allow user to manually add positive quantities to inventory (e.g., restocking) | High | Phase 1 | ✅ Implemented |
+| FR-11 | Prevent processing a sale if requested quantity exceeds available stock | High | Phase 2 | 🟡 Partially Implemented |
 | FR-12 | Log all inventory changes (who, what, when, why) for traceability | Medium | Phase 4 | 🔲 Planned |
-| FR-13 | Allow user to generate an inventory report showing current stock levels | Medium | Phase 3 | 🔲 Planned |
+| FR-13 | Allow user to generate an inventory report showing current stock levels | Medium | Phase 3 | 🟡 Partially Implemented |
+| FR-13b| Calculate and display total inventory valuation (Price × Stock) | Medium | Phase 2 | ✅ Implemented |
+
+*(Note on FR-09 & FR-11: Current implementation supports a single-item sale. The requirement as written implies a complete sales cycle, which is not yet fully implemented.)*
+*(Note on FR-10: Current implementation allows adding a positive number to stock. A full Stock Adjustment workflow requiring a reason, user ID, and timestamp is deferred to OOP/Architecture.)*
+*(Note on FR-13: Current `view_products()` displays stock levels, but a dedicated, exportable independent inventory report remains Planned.)*
+*(Note on FR-13b: Inventory Valuation is currently calculated using the **selling price** × stock. It does not represent the accounting cost of goods. Cost-based valuation is out of scope for the current phase.)*
 
 ---
 
@@ -117,9 +101,9 @@ The following stakeholders represent the intended users and interested parties o
 
 | ID | Description | Priority | Target Release | Status |
 |----|-------------|:--------:|:--------------:|:------:|
-| FR-14 | Allow the Cashier to start a new sales transaction | High | Phase 2 | 🔲 Planned |
-| FR-15 | Allow user to add products to the current sale by product identifier | High | Phase 2 | 🔲 Planned |
-| FR-16 | Calculate the total price of the sale automatically as (Price × Quantity), excluding any tax — See Out of Scope | High | Phase 2 | 🔲 Planned |
+| FR-14 | Allow the Cashier to start a new sales transaction | High | Phase 2 | 🟡 Partially Implemented |
+| FR-15 | Allow user to add products to the current sale by product identifier | High | Phase 2 | 🟡 Partially Implemented |
+| FR-16 | Calculate the total price of the sale automatically as (Price × Quantity), excluding any tax | High | Phase 2 | ✅ Implemented |
 | FR-17 | Display a summary of the current sale before finalization | High | Phase 2 | 🔲 Planned |
 | FR-18 | Allow user to remove or adjust quantities of items in the current sale | Medium | Phase 2 | 🔲 Planned |
 | FR-19 | Generate a simple text invoice after the sale is finalized | Medium | Phase 2 | 🔲 Planned |
@@ -129,6 +113,8 @@ The following stakeholders represent the intended users and interested parties o
 | FR-23 | Calculate and display the change due when cash payment is used | Low | Phase 4 | 🔲 Planned |
 | FR-24 | Allow sales to be canceled or returned | Low | Phase 4 | 🔲 Planned |
 | FR-25 | Update quantity when the same product is added multiple times to the same sale | Medium | Phase 2 | 🔲 Planned |
+
+*(Note on Sales Processing: Current implementation supports a basic single-item sale workflow. A multi-item cart, transaction summary, finalization workflow, invoice generation, and persistent sales records are not implemented.)*
 
 ---
 
@@ -157,11 +143,11 @@ The following stakeholders represent the intended users and interested parties o
 
 | ID | Description | Priority | Target Release | Status |
 |----|-------------|:--------:|:--------------:|:------:|
-| FR-33 | Persist application data (products, sales, users) between sessions | High | Phase 2 | 🔲 Planned |
+| FR-33 | Persist application data between sessions (JSON first, then SQL) | High | Phase 2 | 🔲 Planned |
 | FR-34 | Load data from persistent storage upon startup | High | Phase 2 | 🔲 Planned |
-| FR-35 | Automatically save data after each significant operation (add, edit, sale) | High | Phase 2 | 🔲 Planned |
+| FR-35 | Automatically save data after each significant operation | High | Phase 2 | 🔲 Planned |
 
-> **Note:** Implementation technology (SQLite, PostgreSQL, JSON, etc.) will be selected during Phase 2.
+> **Note:** The project roadmap dictates using JSON for early persistence (Phase 2), and migrating to SQL in a later phase.
 
 ---
 
@@ -170,8 +156,9 @@ The following stakeholders represent the intended users and interested parties o
 | ID | Description | Priority | Target Release | Status |
 |----|-------------|:--------:|:--------------:|:------:|
 | FR-36 | Provide a text-based menu interface for navigation | High | Phase 1 | ✅ Implemented |
-| FR-37 | Display clear prompts and error messages for invalid input | High | Phase 1 | ✅ Implemented |
-| FR-38 | Support a command-prefix pattern (e.g., `/help`, `/add`, `/list`) for efficiency | Low | Phase 1 | ✅ Implemented |
+| FR-37 | Display clear prompts and error messages for invalid input | High | Phase 1 | 🟡 Partially Implemented |
+| FR-38 | Support a command-prefix pattern (e.g., `/help`, `/add`, `/list`) for efficiency | Low | Phase 5 | 🔲 Planned |
+| FR-39 | Search products by Barcode/QR Code | Low | Phase 5 | 🔲 Planned |
 
 ---
 
@@ -179,53 +166,59 @@ The following stakeholders represent the intended users and interested parties o
 
 ### 5.1 Performance
 
-| ID | Description | Target Release |
-|----|-------------|:--------------:|
-| NFR-01 | Load inventory data within 2 seconds for up to 10,000 products | Phase 3 |
-| NFR-02 | Process a sales transaction in under 1 second | Phase 3 |
+| ID | Description | Target Release | Status |
+|----|-------------|:--------------:|:------:|
+| NFR-01 | Load inventory data within 2 seconds for up to 10,000 products | Phase 3 | 🔲 Planned |
+| NFR-02 | Process a sales transaction in under 1 second | Phase 3 | 🔲 Planned |
 
 ### 5.2 Reliability
 
-| ID | Description | Target Release |
-|----|-------------|:--------------:|
-| NFR-03 | Handle invalid input gracefully without crashing | Phase 1 |
-| NFR-04 | Maintain data integrity during unexpected shutdowns | Phase 3 |
+| ID | Description | Target Release | Status |
+|----|-------------|:--------------:|:------:|
+| NFR-03 | Handle invalid input gracefully without crashing | Phase 1 | 🟡 Partially Implemented |
+| NFR-04 | Maintain data integrity during unexpected shutdowns | Phase 3 | 🔲 Planned |
 
 ### 5.3 Security
 
-| ID | Description | Target Release |
-|----|-------------|:--------------:|
-| NFR-05 | User passwords shall be hashed before storage | Phase 3 |
-| NFR-06 | Log all authentication attempts for audit purposes | Phase 4 |
+| ID | Description | Target Release | Status |
+|----|-------------|:--------------:|:------:|
+| NFR-05 | User passwords shall be hashed before storage | Phase 3 | 🔲 Planned |
+| NFR-06 | Log all authentication attempts for audit purposes | Phase 4 | 🔲 Planned |
 
 ### 5.4 Maintainability
 
-| ID | Description | Target Release |
-|----|-------------|:--------------:|
-| NFR-07 | Codebase shall be organized by module (e.g., product, sales, user) | Phase 1 |
-| NFR-08 | New features shall be added without modifying existing working code (Open/Closed Principle) | Phase 2 |
+| ID | Description | Target Release | Status |
+|----|-------------|:--------------:|:------:|
+| NFR-07 | Codebase shall be organized by module (e.g., product, sales, user) | Phase 2 | 🔲 Planned |
+| NFR-08 | The codebase should be structured to support maintainable extensions and minimize unnecessary changes to existing functionality | OOP / Architecture Redesign | 🟡 Partially Implemented |
 
 ### 5.5 Usability
 
-| ID | Description | Target Release |
-|----|-------------|:--------------:|
-| NFR-09 | The interface shall be intuitive for users with basic computer literacy | Phase 1 |
+| ID | Description | Target Release | Status |
+|----|-------------|:--------------:|:------:|
+| NFR-09 | The interface shall be intuitive for users with basic computer literacy | Phase 1 | 🔲 Planned |
 
 ---
 
-## 6. Out of Scope
+## 6. Scope Boundaries
 
-The following items are explicitly excluded from the current scope:
+### Outside the current implementation scope
+- Graphical User Interface (GUI)
+- Mobile Application
+- Multi-warehouse Management
+- Currency Exchange
+- Tax Calculation
+- E-commerce Integration
+- Third-party Accounting Integration
+- Real-time Concurrent Updates
+- Barcode/QR Code Scanning *(Note: Current implementation only supports searching by product name. The prompt mentions barcode, but no actual barcode logic exists yet).*
 
-- **Graphical User Interface (GUI):** The system is strictly command-line based
-- **Mobile Application:** No mobile version is planned
-- **Multi-warehouse Management:** The system assumes a single warehouse location
-- **Barcode / QR Code Scanning:** No hardware integration is supported
-- **Currency Exchange:** The system operates in a single currency
-- **Tax Calculation:** Tax handling is not included in the initial scope (total price = Price × Quantity only)
-- **E-commerce Integration:** No integration with online stores
-- **Third-party Accounting Integration:** No external software integration
-- **Real-time Inventory Updates:** No concurrent multi-user inventory updates
+### Long-term direction (Not permanently excluded)
+- GUI and Mobile applications.
+- Multi-warehouse operations.
+- External integrations and additional ERP modules.
+- Real-time capabilities and multi-user concurrency.
+- Barcode/QR Code Scanning.
 
 ---
 
@@ -233,23 +226,25 @@ The following items are explicitly excluded from the current scope:
 
 | ID | Question | Status | Target Resolution |
 |----|----------|:------:|:-----------------:|
-| Q-01 | What technology will be used for data persistence? (JSON, CSV, SQLite, etc.) | 🔲 Open | Phase 2 |
+| Q-01 | ~~What technology will be used for data persistence?~~ Resolved: JSON first, then SQL. | ✅ Resolved | Phase 2 |
 | Q-02 | Should the system support multiple languages? | 🔲 Open | Future |
-| Q-03 | What is the configurable threshold for low-stock alerts? (Referenced in FR-08) | 🔲 Open | Phase 2 |
-| Q-04 | Should product categories be predefined or user-defined? | 🔲 Open | Phase 2 |
+| Q-03 | What is the configurable threshold for low-stock alerts, and does the rule use `<` (strictly below) or `<=` (at or below)? | 🔲 Open | Phase 2 |
+| Q-04 | Should product categories be predefined or user-defined? | 🔲 Open | Phase 3 |
 | Q-05 | How will sales tax be handled if required in the future? | 🔲 Open | Future |
 
 ---
 
 ## 8. Implementation Phases
 
-| Phase | Focus | Requirements | Time Estimate |
-|-------|-------|--------------|:-------------:|
-| **Phase 1** | Product Management + Inventory Core | FR-01 to FR-05, FR-10, FR-36 to FR-38 | ~2 weeks |
-| **Phase 2** | Data Persistence + Basic Sales | FR-08, FR-09, FR-11, FR-14 to FR-20, FR-25, FR-33 to FR-35 | ~3 weeks |
-| **Phase 3** | User Management + Low Stock Alerts | FR-06, FR-07, FR-13, FR-21, FR-26 to FR-29 | ~2 weeks |
-| **Phase 4** | Advanced Sales + Reports | FR-12, FR-22 to FR-24, FR-30, FR-32 | ~2 weeks |
-| **Phase 5** | Full ERP Foundation | FR-31 + remaining backlog | ~1 week |
+| Phase | Focus | Requirements |
+|-------|-------|--------------|
+| **Phase 1** | Product Management + Inventory Core | FR-01 to FR-05, FR-10, FR-36 to FR-37 |
+| **Phase 2** | Data Persistence + Basic Sales + Low Stock | FR-08, FR-09, FR-11, FR-13b, FR-14 to FR-20, FR-25, FR-33 to FR-35 |
+| **Phase 3** | User Management | FR-05b, FR-06, FR-07, FR-13, FR-21, FR-26 to FR-29 |
+| **Phase 4** | Advanced Sales + Reports | FR-12, FR-22 to FR-24, FR-30, FR-32 |
+| **Phase 5** | Future ERP Expansion | FR-31, FR-38, FR-39 + remaining backlog |
+
+**Roadmap Note:** These phases describe the intended functional goals and scope. Listing a requirement in a phase does not mean it is fully implemented; it may be partially implemented or still planned. The implementation sequence may be revised as the project evolves.
 
 ---
 
@@ -257,16 +252,10 @@ The following items are explicitly excluded from the current scope:
 
 | Version | Date | Author | Description |
 |---------|------|--------|-------------|
-| 0.1 | 2025-01-XX | Project Owner | Initial draft of SRS |
+| 0.1 - 0.8 | 2025-2026 | Project Owner | Iterative drafts and refinements based on code reviews. |
+| 1.0 | 2026-10-24 | Project Owner | **Approved**. Aligned Q-04 and FR-39 with phases, clarified barcode scope, added selling-price note to Inventory Valuation, and clarified phase scope. |
+| 1.1 | 2026-10-24 | Project Owner | Corrected FR-09, FR-11, FR-16, FR-24 statuses. Updated FR-02 wording. Added Sales Processing implementation note. |
 
 ---
 
-## 10. Revision Log
-
-| Revision | Date | Description |
-|----------|------|-------------|
-| v0.1 | 2025-01-XX | Initial creation with stakeholder definitions, functional requirements, non-functional requirements, out-of-scope items, open questions, and phase planning |
-
----
-
-> **Document Status:** Draft. This document serves as the authoritative reference for the Warehouse Sales System project. All implementation decisions shall be validated against the requirements and open questions documented herein.
+> **Document Status:** Approved. This document serves as the authoritative reference for the Warehouse Sales System project. All implementation decisions shall be validated against the requirements and open questions documented herein.
