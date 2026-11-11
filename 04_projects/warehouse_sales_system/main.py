@@ -1,3 +1,5 @@
+import math
+
 products = {}
 
 
@@ -44,13 +46,40 @@ def get_yes_no(prompt: str) -> bool:
         print("❌ Invalid input! Please enter 'Yes' or 'No' only.")
 
 
-# دالة التأكد من إدخال أرقام صالحة
+def parse_positive_number(
+    value: str,
+    converter: type[int] | type[float] = int,
+) -> int | float:
+    """
+    Converts a string into a positive, finite number.
+
+    Args:
+        value (str): The string value to be parsed and converted.
+        converter (type[int] | type[float]): Conversion function used to
+            transform the input into int or float. Defaults to int.
+
+    Returns:
+        int | float: The successfully converted positive and finite number greater than zero.
+
+    Raises:
+        ValueError: If the value is invalid, not finite (e.g., inf, nan), or not greater than zero.
+    """
+
+    try:
+        number = converter(value.strip())
+    except ValueError:
+        raise ValueError("Invalid input! Please enter valid numbers only.")
+
+    if isinstance(number, float) and not math.isfinite(number):
+        raise ValueError("Number must be finite.")
+    if number <= 0:
+        raise ValueError("Number must be greater than 0.")
+
+    return number
+
+
 # TODO 1: Refactor converter type hint to use Callable[[str], int | float]
 # Why: In this context, int and float act as callable conversion functions rather than just strict types.
-# TODO 2:
-# Should this function be split into:
-# - parse_positive_number() for validation/conversion
-# - get_positive_number() for input/retry handling?
 def get_positive_number(
     prompt: str,
     converter: type[int] | type[float] = int,
@@ -67,18 +96,18 @@ def get_positive_number(
         int | float: The converted positive number greater than zero.
     """
 
-    # TODO: Later, check if 'converter' is strictly int or float, and raise a TypeError if it's not.
     while True:
         user_input = input(prompt).strip()
 
         try:
-            value = converter(user_input)
-            if value <= 0:
-                print("❌ Number must be greater than 0 ..!")
-                continue
-            return value
+            value = parse_positive_number(user_input, converter)
+
         except ValueError:
             print("❌ Invalid input! Please enter valid numbers only.")
+            continue
+
+        else:
+            return value
 
 
 def get_menu_choice(options: list[str]) -> str:
@@ -117,25 +146,26 @@ def get_menu_choice(options: list[str]) -> str:
 # Support barcode search to find a product and display all its information.
 def select_product(search: str = "") -> str | None:
     """
-    Filters products by a search term and handles user selection from the matches.
+    Filters products by name and handles user selection from the matches.
 
-    If a single direct match is found, it returns it immediately. If multiple
-    matches are found, it loops indefinitely until the user enters a valid list number.
+    If a single match is found, it returns it immediately. If multiple
+    matches are found, it repeatedly prompts the user until a valid
+    product number is entered.
 
     Args:
-        search (str): The product name or barcode substring to filter by. Defaults to "".
+        search (str): The product name substring used for filtering.
+            Defaults to an empty string.
 
     Returns:
-        str | None: The selected product name, or None ONLY if no matching products exist.
+        str | None: The selected product name, or None if no products
+            are available or no matching products are found.
     """
     if not products:
         print("❌ No products available.")
         return None
 
-    # فلترة المنتجات بناءً على البحث
     filtered_names = [name for name in products if search.lower() in name.lower()]
 
-    # لو مفيش نتائج
     if not filtered_names:
         print(f"❌ No products found matching '{search}'")
         return None
@@ -143,14 +173,10 @@ def select_product(search: str = "") -> str | None:
     if len(filtered_names) == 1:
         return filtered_names[0]
 
-    # عرض المنتجات للمستخدم
     for idx, name in enumerate(filtered_names, 1):
         print(f"{idx}. {name}")
-    # اختيار المنتج برقم
     while True:
-        choice = get_positive_number(
-            "Enter product number: "
-        )  # طيب لو المستخدم مش هيكتب والإختيار تاتش؟؟
+        choice = get_positive_number("Enter product number: ")
         if 1 <= choice <= len(filtered_names):
             selected_product = filtered_names[choice - 1]
             return selected_product
@@ -158,7 +184,6 @@ def select_product(search: str = "") -> str | None:
             print("Invalid choice, try again")
 
 
-# دالة لتحديث السعر فقط
 def update_price(product_name: str, is_new: bool = False) -> bool:
     """
     Manages the pricing lifecycle of a product by setting or modifying it.
@@ -202,19 +227,24 @@ def update_price(product_name: str, is_new: bool = False) -> bool:
         print("🔁 Ok, please enter the correct Price.")
 
 
-# دالة لتحديث الكمية (إضافة كمية جديدة)
-# هل محتاجين تفريعة لتحديد وحدة الكمية قطعة كرتونة كونتنر مثلا ؟
-def update_quantity(product_name: str, is_new: bool = False) -> bool:  # المشتراة
-    """Manages the inventory stock of a product by initializing or incrementing its quantity.
+# TODO: Consider supporting product-specific units of measurement
+# (e.g., pieces, cartons, and containers) during domain modeling.
+def update_quantity(product_name: str, is_new: bool = False) -> bool:
+    """
+    Initializes or increases a product's stock quantity.
+
+    For existing products, asks for confirmation before adding stock.
+    After a successful stock update, refreshes the product's active
+    status and checks for low-stock alerts.
 
     Args:
         product_name (str): The identifier key of the product in inventory.
-        is_new (bool): If True, initializes a new stock level directly.
+        is_new (bool): If True, sets the initial stock quantity directly.
             Defaults to False.
 
     Returns:
-        bool: True if the stock quantity is successfully updated or initialized,
-            False if the process is declined.
+        bool: True if the stock is successfully initialized or updated;
+            False if the operation is declined.
     """
 
     if not is_new:
@@ -226,44 +256,42 @@ def update_quantity(product_name: str, is_new: bool = False) -> bool:  # الم�
 
     while True:
         prompt = (
-            f"Set quantity for the new added item '{product_name}': "
+            f"Enter initial stock quantity for '{product_name}': "
             if is_new
             else f"Enter additional quantity for '{product_name}': "
         )
-        new_quantity = get_positive_number(prompt)
+        quantity = get_positive_number(prompt)
 
-        # التحقق إن المدخل رقم
-        quantity_confirmation = (
-            f"Are you sure you want to add '{new_quantity}' to stock ?"
-        )
+        quantity_confirmation = f"Confirm stock quantity: {quantity}?"
 
         if get_yes_no(quantity_confirmation):
             if is_new:
-                products[product_name]["stock"] = new_quantity
+                products[product_name]["stock"] = quantity
             else:
-                products[product_name]["stock"] += new_quantity
-            print(f"Quantity for '{product_name}' updated successfully")
+                products[product_name]["stock"] += quantity
+            print(f"Stock quantity for '{product_name}' updated successfully.")
+            update_product_status(product_name)
+            display_low_stock_alert(product_name)
             return True
 
         print("🔁 Please enter the correct quantity again.")
 
 
-# دالة لتحديث حالة المنتج
 # TODO: Refactor later to follow Single Responsibility Principle (SRP).
 # Current issue: Function checks conditions and updates global state at the same time.
 def update_product_status(
     product_name: str,
 ) -> tuple[bool, list[str]]:
     """
-    Checks and updates if a product is active based on its price and stock.
+    Checks and updates a product's active status based on its price and stock.
 
     Args:
         product_name (str): The identifier key of the product in inventory.
 
     Returns:
         tuple[bool, list[str]]: A tuple containing:
-            - bool: True if the product satisfies all conditions to be ACTIVE, False otherwise.
-            - list[str]: A list of missing requirements ("Price", "Stock") causing inactivity.
+            - bool: True if the product is active, otherwise False.
+            - list[str]: Reasons preventing activation ("Price", "Stock").
     """
     reasons = []
 
@@ -273,19 +301,11 @@ def update_product_status(
     if products[product_name]["stock"] <= 0:
         reasons.append("Stock")
 
-    is_active = len(reasons) == 0
-    products[product_name]["is_active"] = is_active
-    # السطر السابق بطريقة أوضح
-    """
-    # لو قائمة الأسباب فاضية (يعني مفيش مشاكل)
     if len(reasons) == 0:
         is_active = True
     else:
         is_active = False
-
-    # بعدين نخزن النتيجة في بيانات المنتج
     products[product_name]["is_active"] = is_active
-    """
 
     return is_active, reasons
 
@@ -306,6 +326,91 @@ def display_product_status(product_name: str) -> None:
         print(f"\n✅ Product '{product_name}' is ACTIVE")
     else:
         print(f"⚠️ Product '{product_name}' is INACTIVE. Missing: {', '.join(reasons)}")
+
+
+def set_low_stock_threshold(
+    product_name: str,
+) -> None:
+    """
+    Prompts the user to set a positive integer threshold for low-stock alerts
+    or skip the configuration.
+
+    The threshold is stored in the product's inventory record.
+    If skipped, the threshold is set to None.
+
+    Args:
+        product_name (str): The identifier key of the product in inventory.
+
+    Returns:
+        None
+    """
+
+    while True:
+        prompt = (
+            f"Enter the minimum quantity you would like to have available for the product: '{product_name}'.\n"
+            "Note: You will be notified once the stock reaches or falls below the limit.\n"
+            "Type 'Skip' or press Enter to leave the threshold unset: "
+        )
+
+        user_input = input(prompt).strip().lower()
+        if not user_input or user_input == "skip":
+            products[product_name]["low_stock_threshold"] = None
+            return
+        try:
+            threshold = parse_positive_number(user_input)
+        except ValueError:
+            print("❌ Invalid input! Please enter a valid positive integer.")
+            continue
+        # Confirm the threshold value with the user before saving
+        if get_yes_no(f"Set low stock threshold to {threshold}?"):
+            products[product_name]["low_stock_threshold"] = threshold
+            return
+        else:
+            print(
+                "Let's try again. Enter a new threshold, or type 'Skip' or press Enter to leave it unset.\n"
+            )
+
+
+def check_low_stock_alert(product_name: str) -> bool:
+    """
+    Determines whether a product's stock is at or below its configured
+    low-stock threshold.
+
+    Args:
+        product_name (str): The identifier key of the product in inventory.
+
+    Returns:
+        bool: True if a threshold is configured and stock is at or below it;
+            otherwise, False.
+    """
+    product = products[product_name]
+    threshold = product["low_stock_threshold"]
+    # Return True only if a threshold exists and stock is less than or equal to it
+    return threshold is not None and product["stock"] <= threshold
+
+
+def display_low_stock_alert(product_name: str) -> None:
+    """
+    Displays a low-stock warning for an active product when its stock
+    reaches or falls below the configured threshold.
+
+    Args:
+        product_name (str): The identifier key of the product in inventory.
+
+    Returns:
+        None
+    """
+    product = products[product_name]
+    # Skip alerts for inactive products
+    if not product["is_active"]:
+        return
+
+    if check_low_stock_alert(product_name):
+        print(
+            f"⚠️ LOW STOCK ALERT: {product_name} "
+            f"stock is {product['stock']} units "
+            f"(Threshold: {product['low_stock_threshold']})."
+        )
 
 
 # دالة أساسية لتحديث منتج موجود
@@ -332,7 +437,7 @@ def add_new_product(
     product_name: str,
 ) -> None:
     """
-    Creates a new product in inventory and sets its price and stock.
+    Creates a new product in inventory and initializes its price, stock, and low stock threshold.
 
     Args:
         product_name (str): The identifier key of the product in inventory.
@@ -345,11 +450,15 @@ def add_new_product(
         "price": 0,
         "stock": 0,
         "is_active": False,
+        "low_stock_threshold": None,
     }
 
     update_price(product_name, is_new=True)
     update_quantity(product_name, is_new=True)
     display_product_status(product_name)
+    set_low_stock_threshold(
+        product_name
+    )  # Prompt user to set an optional low stock alert threshold for the new product
 
 
 def sell_product() -> bool | None:
@@ -363,7 +472,7 @@ def sell_product() -> bool | None:
             - None: If the user explicitly exits the process (Not a failure).
     """
     while True:
-        raw_input = "\nEnter product name or barcode (or 'exit' to stop): "
+        raw_input = "\nEnter product name (or 'exit' to stop): "
 
         user_input = get_non_empty_text(raw_input).lower()
 
@@ -394,6 +503,7 @@ def sell_product() -> bool | None:
             print(f"✅ Sale completed,Total: {total_price:.2f} EGP")
             update_product_status(product_name)
             print(f"📦 Remaining stock: {product['stock']}")
+            display_low_stock_alert(product_name)
             return True  # Exit after single sale (Single Responsibility)
             # NOTE: later we may add dual mode (Cashier Mode: loop / Admin Mode: single action)
 
@@ -418,7 +528,7 @@ def sell_product() -> bool | None:
 # دالة عرض المنتجات
 def view_products() -> None:
     """
-    Displays all items in the inventory with their price, stock level, and status.
+    Displays all items in the inventory with their price, stock level, status, and threshold.
 
     Returns:
         None: This function only prints the inventory data to the terminal.
@@ -434,10 +544,13 @@ def view_products() -> None:
     for idx, (name, data) in enumerate(products.items(), 1):
         status = "ACTIVE" if data.get("is_active", False) else "INACTIVE"
         print(f"{idx}- {name}:")
-        print(f"\tPrice:  {data['price']:<10.2f} EGP")
-        print(f"\tStock:  {data['stock']:<10} Units")
-        print(f"\tStatus: {status:<10}")
-        print("-" * 20)
+        print(f"\t{'Price':<10}: {data['price']:<10.2f} EGP")
+        print(f"\t{'Stock':<10}: {data['stock']:<10} Units")
+        print(f"\t{'Status':<10}: {status:<10}")
+        threshold = data["low_stock_threshold"]
+        threshold_display = "Not set" if threshold is None else threshold
+        print(f"\t{'Threshold':<10}: {threshold_display:<10} Units")
+        print("-" * 30)
 
 
 def calculate_inventory_value() -> tuple[float, list[tuple[str, int, float]]]:
@@ -503,8 +616,7 @@ def handle_product() -> None:
         returning a value.
     """
     while True:
-        # 1. اسأل عن الاسم مباشرة (ده قلب التطوير)
-        prompt = "Enter product name or barcode (or 'exit' to stop): "  # (or press Enter for all)
+        prompt = "Enter product name (or 'exit' to stop): "  # (or press Enter for all)
 
         user_input = get_non_empty_text(prompt)
 
@@ -513,8 +625,7 @@ def handle_product() -> None:
 
         if search_name == "exit":
             return
-        # 2. البرنامج هو اللي بيشيك (مش اليوزر اللي بيقرر)
-        # HACK: Searching via next() is fine for small inventory,
+        # TODO: Searching via next() is fine for small inventory,
         # but needs optimization (O(1) lookup) as the database grows.
         existing_name = next(
             (name for name in products if name.lower() == search_name),
@@ -530,7 +641,7 @@ def handle_product() -> None:
             )
 
             name_confirmation = (
-                f"Are you sure you want to creat a new product named '{user_input}'?"
+                f"Are you sure you want to create a new product named '{user_input}'?"
             )
             if get_yes_no(name_confirmation):
                 add_new_product(display_name)
@@ -538,7 +649,6 @@ def handle_product() -> None:
             else:
                 continue
 
-        # 3.سؤال الاستمرار
         # TODO:
         # Should the "manage another product" workflow be moved to a dedicated
         # handle_product_flow() function when separating workflow from business logic?
@@ -547,11 +657,6 @@ def handle_product() -> None:
             continue
 
         return
-
-        # كود تعليمي
-        # if not get_yes_no("Do you want to manage another product?"):
-        #     print("Exiting system...")
-        #     return
 
 
 def cashier_menu() -> None:

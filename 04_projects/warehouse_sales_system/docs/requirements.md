@@ -1,7 +1,7 @@
 # Warehouse Sales System
 ## Software Requirements Specification (SRS)
 
-- **Version:** 1.1
+- **Version:** 1.2
 - **Status:** Approved
 - **Document Type:** Vision & Requirements
 
@@ -75,7 +75,9 @@ To maintain accurate tracking, requirements will follow these mutually exclusive
 | FR-05b| Allow user to update product description and category | Medium | Phase 3 | 🔲 Planned |
 | FR-06 | Allow user to remove a product from the inventory | Medium | Phase 3 | 🔲 Planned |
 | FR-07 | Prevent removal of a product if it has associated sales records (soft delete or warning) | Medium | Phase 3 | 🔲 Planned |
-| FR-08 | Allow user to view products that are low in stock (below a configurable threshold) | Medium | Phase 2 | 🔲 Planned |
+| FR-08 | Notify the user when an active product's stock reaches or falls below its configured per-product low-stock threshold | Medium | Phase 2 | ✅ Implemented |
+
+*(Note on FR-08: The low-stock threshold is configured per product during creation as a positive integer, or left unset (`None`). An alert is displayed after every successful stock-changing operation when the product is active and its stock is at or below the configured threshold. No alert is displayed when the threshold is unset or the product is inactive.)*
 
 ---
 
@@ -228,7 +230,7 @@ To maintain accurate tracking, requirements will follow these mutually exclusive
 |----|----------|:------:|:-----------------:|
 | Q-01 | ~~What technology will be used for data persistence?~~ Resolved: JSON first, then SQL. | ✅ Resolved | Phase 2 |
 | Q-02 | Should the system support multiple languages? | 🔲 Open | Future |
-| Q-03 | What is the configurable threshold for low-stock alerts, and does the rule use `<` (strictly below) or `<=` (at or below)? | 🔲 Open | Phase 2 |
+| Q-03 | ~~What is the configurable threshold for low-stock alerts, and does the rule use `<` or `<=`?~~ Resolved: Implemented per-product threshold set during creation (default: None). Alert rule is `stock <= threshold`. | ✅ Resolved | Phase 2 |
 | Q-04 | Should product categories be predefined or user-defined? | 🔲 Open | Phase 3 |
 | Q-05 | How will sales tax be handled if required in the future? | 🔲 Open | Future |
 
@@ -255,6 +257,7 @@ To maintain accurate tracking, requirements will follow these mutually exclusive
 | 0.1 - 0.8 | 2025-2026 | Project Owner | Iterative drafts and refinements based on code reviews. |
 | 1.0 | 2026-10-24 | Project Owner | **Approved**. Aligned Q-04 and FR-39 with phases, clarified barcode scope, added selling-price note to Inventory Valuation, and clarified phase scope. |
 | 1.1 | 2026-10-24 | Project Owner | Corrected FR-09, FR-11, FR-16, FR-24 statuses. Updated FR-02 wording. Added Sales Processing implementation note. |
+| 1.2 | 2026-11-11 | Project Owner | Marked FR-08 as Implemented with accurate scope (notification on stock change). Resolved Q-03 (per-product threshold, `<=` rule). |
 
 ---
 

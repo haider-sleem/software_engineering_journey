@@ -2,6 +2,11 @@
 
 ## Development Rule
 
+```
+Is the problem clear and the fix small?
+    Yes → Fix it now
+    No  → Log it in its proper phase and move on
+```
 
 ## Feature Timing Test
 
@@ -30,6 +35,7 @@ This complements the Development Rule above: that rule is about *effort*, this o
 - [x] Confirm that normal user control flow does not require exceptions.
 - [x] Practice logging on the `learning/logging` branch.
 - [x] **Inventory Valuation** — Calculate total inventory value (`price × stock`) and warn about unpriced stock. *(Merged from `feature/inventory-valuation`)*
+- [x] **Low Stock Alert** — Configure per-product threshold during creation (or `None`). Alert triggered when active product's `stock <= threshold`. *(Merged from feature branch)*
 
 ---
 
@@ -39,7 +45,6 @@ This complements the Development Rule above: that rule is about *effort*, this o
 |---|---|
 | Linear O(n) search when looking up products | 🟡 Phase 2 DSA |
 | Case-insensitive lookup with no index | 🟡 Phase 2 DSA |
-| `get_positive_number()` mixes input, parsing, and validation | 🟡 When the function is next touched |
 | `converter` type hint should be `Callable[[str], int \| float]`, not `type` | 🟢 When the function is next touched |
 | Normalization (`.lower()`, `.title()`, `.strip()`) scattered across the code | 🟡 When repeated again |
 | Menu strings coupled to control flow logic (`match/case`) | 🟡 When an Enum is introduced |
@@ -82,8 +87,7 @@ This complements the Development Rule above: that rule is about *effort*, this o
 *(These pass the Feature Timing Test: features that can be built before the OOP redesign without introducing a new domain model.)*
 
 - [x] **Inventory Valuation** — calculate total inventory value (`price × stock`) across all products. *(Note: Uses selling price, not cost).*
-- [ ] **Low Stock Alert (Next)** — surface products that have hit a minimum threshold.
-  *Note: Use a global hardcoded threshold for this phase. Per-product thresholds or dynamic configurations are deferred to OOP (see Backlog).*
+- [x] **Low Stock Alert** — Notify the user when an active product's stock reaches or falls below its configured per-product threshold. *(Threshold is set during product creation or left unset (`None`). Alerts appear after every successful stock-changing operation.)*
 - [ ] **Filtering / Sorting** — sort products using `sorted()` and `lambda`, and filter by status (active/inactive). Reinforces DSA concepts directly.
 - [ ] **JSON Persistence on `main`** — learn `json.load()` / `json.dump()`, serialization, `FileNotFoundError`, and when to read vs. write. Intentionally simple: no repository pattern, service layer, storage abstraction, or other architecture patterns yet.
   *Safety Note: Do not overwrite the data file before confirming the new data is fully prepared. Handle missing or invalid files gracefully. Test that products persist after closing and reopening the program.*
@@ -151,7 +155,7 @@ This complements the Development Rule above: that rule is about *effort*, this o
 | Units of Measure | Revisit when the Product model is redesigned |
 | Stock Adjustment | Current `FR-10` allows simple manual numeric changes. A full workflow (recording reason, user, and date) is deferred to OOP/Architecture. |
 | Stocktaking / Physical Inventory | Revisit when the inventory domain model is designed |
-| Reorder Point / Minimum Stock Level | Revisit once the Product/inventory domain model exists (replaces the hardcoded threshold). |
+| Low Stock Threshold Management | Allow editing an existing product's threshold and review whether additional reorder-planning rules are needed during domain modeling. |
 | Multiple Warehouses | Requires a revised inventory architecture |
 | Warehouse Locations / Bins | Requires multi-warehouse support first |
 
